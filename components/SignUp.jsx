@@ -1,0 +1,136 @@
+"use client"
+
+import { useState } from "react"
+import "./AuthPages.css"
+
+export default function SignUp({ onSignUp, onBack, onSignIn }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  })
+  const [error, setError] = useState("")
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setError("")
+
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("Please fill in all required fields")
+      return
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters")
+      return
+    }
+
+    onSignUp(formData)
+  }
+
+  return (
+    <div className="auth-page">
+      <button className="auth-page__back" onClick={onBack} aria-label="Go back">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to Home
+      </button>
+
+      <div className="auth-card">
+        <div className="auth-card__header">
+          <div className="auth-card__logo">
+            <svg width="60" height="70" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="57" y="20" width="6" height="60" rx="1" fill="var(--color-primary)" />
+              <rect x="45" y="40" width="30" height="6" rx="1" fill="var(--color-primary)" />
+            </svg>
+          </div>
+          <h1 className="auth-card__title">Join HCF</h1>
+          <p className="auth-card__subtitle">Create your account to get started</p>
+        </div>
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          {error && <div className="auth-form__error">{error}</div>}
+
+          <div className="auth-form__field">
+            <label htmlFor="name">
+              Full Name <span className="required">*</span>
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your full name"
+              autoComplete="name"
+            />
+          </div>
+
+          <div className="auth-form__field">
+            <label htmlFor="email">
+              Email <span className="required">*</span>
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email"
+              autoComplete="email"
+            />
+          </div>
+
+          <div className="auth-form__field">
+            <label htmlFor="password">
+              Password <span className="required">*</span>
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Create a password (min 6 characters)"
+              autoComplete="new-password"
+            />
+          </div>
+
+          <div className="auth-form__field">
+            <label htmlFor="phone">Phone Number (Optional)</label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+              autoComplete="tel"
+            />
+          </div>
+
+          <button type="submit" className="auth-form__submit">
+            Sign Up
+          </button>
+
+          <div className="auth-form__divider">
+            <span>Already have an account?</span>
+          </div>
+
+          <button type="button" className="auth-form__link" onClick={onSignIn}>
+            Sign in instead
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}

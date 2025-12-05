@@ -1,0 +1,202 @@
+.vision-section {
+  padding: 8rem 2rem;
+  background: linear-gradient(180deg, var(--background) 0%, rgba(13, 71, 161, 0.03) 100%);
+  position: relative;
+}
+
+.dark-mode .vision-section {
+  background: linear-gradient(180deg, var(--background) 0%, rgba(13, 71, 161, 0.08) 100%);
+}
+
+/* Add animated background gradient */
+.vision-section__bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(26, 54, 93, 0.02) 25%,
+    rgba(255, 153, 51, 0.02) 50%,
+    rgba(45, 122, 77, 0.02) 75%,
+    transparent 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Add word-by-word reveal animation for title */
+.text-reveal-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: reveal-word 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes reveal-word {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vision-section__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative; /* Added */
+  z-index: 1; /* Added */
+}
+
+.vision-section__header {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.vision-section__header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vision-section__title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+}
+
+.vision-section__intro {
+  font-size: 1.25rem;
+  color: var(--foreground);
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.vision-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.vision-card {
+  background: var(--card-background);
+  padding: 3rem;
+  border-radius: 25px;
+  text-align: center;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(30px);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add 3D card styles */
+.vision-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+/* Added modern hover effect with gradient border */
+.vision-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vision-card:hover::before {
+  opacity: 1;
+}
+
+/* Add card glow effect */
+.vision-card__glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-growth));
+  border-radius: 25px;
+  opacity: 0;
+  filter: blur(20px);
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.vision-card:hover .vision-card__glow {
+  opacity: 0.4;
+}
+
+.vision-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vision-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .vision-card:hover {
+  /* Fix: Removed :global pseudo-class */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.vision-card__icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.vision-card:hover .vision-card__icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.vision-card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+}
+
+.vision-card__description {
+  font-size: 1rem;
+  color: var(--foreground);
+  opacity: 0.85;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .vision-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .vision-section__grid {
+    grid-template-columns: 1fr;
+  }
+}

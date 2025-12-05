@@ -1,0 +1,243 @@
+.meetings-section {
+  padding: 6rem 2rem;
+  background: var(--section-alt-background);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add decorative background elements */
+.meetings-section::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 153, 51, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.meetings-section::after {
+  content: "";
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(45, 122, 77, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.meetings-section__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.meeting-section__header {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.meetings-section__header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.meetings-section__title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem;
+}
+
+.meetings-section__subtitle {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.meetings-section__intro {
+  font-size: 1.25rem;
+  color: var(--foreground);
+  opacity: 0.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.meetings-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.activity-card {
+  background: var(--card-background);
+  padding: 2rem 1.5rem;
+  border-radius: 15px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.9);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add gradient border reveal on hover */
+.activity-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.activity-card--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.activity-card:hover {
+  border-color: transparent;
+  transform: scale(1.08);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.activity-card:hover::before {
+  opacity: 1;
+}
+
+/* Fix: Removed :global pseudo-class */
+.dark-mode .activity-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.activity-card__icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  /* Add bounce animation on hover */
+  transition: transform 0.3s ease;
+}
+
+.activity-card:hover .activity-card__icon {
+  transform: scale(1.2);
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: scale(1.2) translateY(0);
+  }
+  50% {
+    transform: scale(1.2) translateY(-10px);
+  }
+}
+
+.activity-card__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem;
+}
+
+.activity-card__description {
+  font-size: 0.95rem;
+  color: var(--foreground);
+  opacity: 0.85;
+  margin: 0;
+}
+
+.meetings-section__cta {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(26, 54, 93, 0.1), rgba(255, 153, 51, 0.1));
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease 0.6s;
+}
+
+.meetings-section__cta--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.meetings-section__pitch {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--foreground);
+  margin: 0 0 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.meetings-section__button {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 1.5rem 3rem;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(26, 54, 93, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add ripple effect on button */
+.meetings-section__button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.meetings-section__button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.meetings-section__button:hover {
+  background: #1a365f;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(26, 54, 93, 0.5);
+}
+
+@media (max-width: 768px) {
+  .meetings-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .meetings-section__grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+}

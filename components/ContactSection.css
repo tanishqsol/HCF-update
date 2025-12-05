@@ -1,0 +1,281 @@
+.contact-section {
+  padding: 6rem 2rem;
+  background: var(--section-alt-background);
+}
+
+.contact-section__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-section__header {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.contact-section__header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-section__title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+}
+
+.contact-section__intro {
+  font-size: 1.25rem;
+  color: var(--foreground);
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-section__content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact-section__info {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s ease 0.2s;
+}
+
+.contact-section__info--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.contact-section__subtitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 2rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.contact-info__item {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+}
+
+.contact-info__icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contact-info__details strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.contact-info__details p {
+  font-size: 1rem;
+  color: var(--foreground);
+  opacity: 0.85;
+  margin: 0;
+}
+
+.contact-section__social {
+  padding: 2rem;
+  background: var(--card-background);
+  border-radius: 15px;
+}
+
+.contact-section__social-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+}
+
+.contact-section__social-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.social-link {
+  padding: 0.5rem 1.5rem;
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.contact-section__social-note {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  opacity: 0.7;
+  font-style: italic;
+  margin: 0;
+}
+
+.contact-section__form {
+  background: var(--card-background);
+  padding: 2.5rem;
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s ease 0.4s;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add modern accent border */
+.contact-section__form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-growth));
+}
+
+.contact-section__form--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Fix: Removed :global() as it's not standard CSS. */
+/* Assumes .dark-mode is a global class applied to a parent element. */
+.dark-mode .contact-section__form {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--background);
+  color: var(--foreground);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+  /* Add subtle scale on focus */
+  transform: scale(1.02);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-section__button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add shine effect on button hover */
+.contact-section__button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.contact-section__button:hover::after {
+  transform: rotate(45deg) translateX(100%);
+}
+
+.contact-section__button:hover {
+  background: #e67e22;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 153, 51, 0.5);
+}
+
+@media (max-width: 968px) {
+  .contact-section__content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .contact-section__info {
+    transform: translateY(-30px);
+  }
+
+  .contact-section__info--visible {
+    transform: translateY(0);
+  }
+
+  .contact-section__form {
+    transform: translateY(30px);
+  }
+
+  .contact-section__form--visible {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 4rem 1.5rem;
+  }
+}

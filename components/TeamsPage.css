@@ -1,0 +1,493 @@
+.teams-page {
+  min-height: 100vh;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.teams-page__back {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.teams-page__back:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-5px);
+}
+
+.teams-page__back svg {
+  width: 20px;
+  height: 20px;
+}
+
+.teams-page__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.teams-page__header {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.teams-page__header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teams-page__title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.teams-page__subtitle {
+  font-size: 1.25rem;
+  color: var(--muted-foreground);
+}
+
+.teams-page__section {
+  margin-bottom: 5rem;
+}
+
+.teams-page__section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.team-profile {
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  cursor: pointer;
+}
+
+.team-profile--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.team-profile:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-accent);
+}
+
+.team-profile__avatar {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1.5rem;
+}
+
+.team-profile__initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-accent), #ff7722);
+  border-radius: 50%;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.team-profile__ring {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 3px solid var(--color-accent);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.1;
+  }
+}
+
+.team-profile__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.team-profile__name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.team-profile__role {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.team-profile__description {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+.team-profile__email {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 153, 51, 0.1);
+  border-radius: 8px;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.team-profile__email:hover {
+  background: var(--color-accent);
+  color: white;
+}
+
+.volunteers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.volunteer-profile {
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateX(-30px);
+  cursor: pointer;
+}
+
+.volunteer-profile--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.volunteer-profile:hover {
+  transform: translateX(10px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-growth);
+}
+
+.volunteer-profile__avatar {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--color-growth), var(--color-primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volunteer-profile__initial {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.volunteer-profile__content {
+  flex: 1;
+}
+
+.volunteer-profile__name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.volunteer-profile__role {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-growth);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.volunteer-profile__areas {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+}
+
+/* Added modal styles for team member details popup */
+.team-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 2rem;
+  animation: modal-fade-in 0.3s ease;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.team-modal__content {
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 24px;
+  padding: 3rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modal-slide-up 0.4s ease;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes modal-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.team-modal__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--color-primary);
+}
+
+.team-modal__close:hover {
+  background: var(--color-accent);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.team-modal__avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, var(--color-accent), #ff7722);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(255, 153, 51, 0.3);
+}
+
+.team-modal__initial {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.team-modal__name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.team-modal__role {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.team-modal__areas {
+  font-size: 0.95rem;
+  color: var(--color-growth);
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.team-modal__divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-growth));
+  margin: 2rem auto;
+  border-radius: 10px;
+}
+
+.team-modal__about {
+  margin-bottom: 2rem;
+}
+
+.team-modal__about-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.team-modal__about-text {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  text-align: justify;
+}
+
+.team-modal__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, var(--color-accent), #ff7722);
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.team-modal__email:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 153, 51, 0.4);
+}
+
+@media (max-width: 768px) {
+  .teams-page {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .teams-page__back {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .teams-page__title {
+    font-size: 2.5rem;
+  }
+
+  .teams-page__subtitle {
+    font-size: 1.1rem;
+  }
+
+  .teams-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .volunteers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .volunteer-profile {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .team-modal {
+    padding: 1rem;
+  }
+
+  .team-modal__content {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .team-modal__name {
+    font-size: 1.6rem;
+  }
+
+  .team-modal__about-text {
+    text-align: left;
+  }
+}

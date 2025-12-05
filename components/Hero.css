@@ -1,0 +1,216 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero__background {
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  right: -5%;
+  bottom: -10%;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.8s ease;
+  will-change: transform;
+}
+
+.hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode .hero__overlay {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  max-width: 1000px;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.hero__content--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero__title {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 800;
+  margin: 0 0 1rem;
+  text-shadow: 3px 3px 6px rgba(175, 175, 136, 0.7), 0 0 30px rgba(255, 153, 51, 0.3);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.hero__subtitle {
+  display: block;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  font-weight: 600;
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #ff9933, #ffd699, #138808, #3a9d5d);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* animation: gradient-flow 5s ease infinite; */
+}
+
+@keyframes gradient-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.hero__tagline {
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  margin: 0 0 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  line-height: 1.6;
+  font-weight: 500;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero__button {
+  padding: 1.2rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero__button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.hero__button:active::after {
+  width: 400px;
+  height: 400px;
+  transition: width 0s, height 0s;
+}
+
+.hero__button--primary {
+  background: linear-gradient(135deg, var(--color-accent), #e67e22);
+  color: white;
+  box-shadow: 0 6px 25px rgba(255, 153, 51, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.hero__button--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 35px rgba(255, 153, 51, 0.7);
+}
+
+.hero__button--secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.hero__button--secondary:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-primary);
+  border-color: white;
+  transform: translateY(-3px);
+}
+
+/* Added scroll indicator styling */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: bounce 2s infinite;
+  z-index: 2;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero__scroll-indicator svg {
+  color: white;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero__scroll-indicator {
+    bottom: 2rem;
+    font-size: 0.8rem;
+  }
+}

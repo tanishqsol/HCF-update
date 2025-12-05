@@ -1,0 +1,157 @@
+.creative-section {
+  padding: 6rem 2rem;
+  background: var(--background);
+}
+
+.creative-section__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.creative-section__header {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.creative-section__header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.creative-section__title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem;
+}
+
+.creative-section__subtitle {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.creative-section__intro {
+  font-size: 1.25rem;
+  color: var(--foreground);
+  opacity: 0.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.creative-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.festival-card {
+  background: var(--card-background);
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(30px);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.festival-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 153, 51, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+/* Add glowing border effect on hover */
+.festival-card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-growth));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.festival-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.festival-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  border-color: transparent;
+}
+
+.festival-card:hover::before {
+  left: 100%;
+}
+
+.festival-card:hover::after {
+  opacity: 1;
+}
+
+.dark-mode .festival-card:hover {
+  /* Fix: Removed :global() pseudo-class */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.festival-card__icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  /* Add pulse animation on hover */
+  transition: transform 0.3s ease;
+}
+
+.festival-card:hover .festival-card__icon {
+  transform: scale(1.2);
+  animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+.festival-card__name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+}
+
+.festival-card__description {
+  font-size: 1rem;
+  color: var(--foreground);
+  opacity: 0.85;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .creative-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .creative-section__grid {
+    grid-template-columns: 1fr;
+  }
+}
