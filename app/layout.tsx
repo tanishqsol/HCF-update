@@ -9,23 +9,23 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Hindi Christian Fellowship of Greater Boston',
   description: 'Hindi Christian Fellowship of Greater Boston website',
-  generator: 'v0.app',
+  generator: 'HCF',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/images/hcf-logo.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/images/hcf-logo.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/images/hcf-logo.png',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/apple-icon.png',
+    apple: '/images/hcf-logo.png',
   },
 }
 
