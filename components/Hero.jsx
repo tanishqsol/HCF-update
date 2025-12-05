@@ -33,7 +33,7 @@ export default function Hero({ isDarkMode }) {
         style={{ transform: `translateY(${-scrollY * 0.3}px)` }}
       >
         <h1 className="hero__title">
-          Hindu Christian Fellowship
+          Hindi Christian Fellowship
           <span className="hero__subtitle">of Greater Boston</span>
         </h1>
         <p className="hero__tagline">Speaking the truth about Jesus to North Indians in Greater Boston</p>
