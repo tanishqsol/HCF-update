@@ -8,13 +8,13 @@ export default function MusicVideosPage({ onBack, isDarkMode }) {
       id: "6zq-pDlAwbg",
       title: "First Hindi Song - November 2017",
       description:
-        "This was my first song way back in November 2017. In Hindi. The female lead is Asavari (my wife) and the male lead is me. We did all the recordings and hired live musicians in Mumbai.",
+        "."
     },
     {
       id: "96pB-BK7YRk",
       title: "Urdu Song",
       description:
-        "This is an Urdu song I wrote and composed but did not sing. Asavari is the female lead. My nephew did the video edits. Live musicians were hired in Chennai. Vocals were recorded in NYC and Philadelphia. Editing, mixing, mastering in NYC.",
+        "."
     },
   ]
 
