@@ -71,13 +71,13 @@ export default function Navbar({
           {isAuthenticated && (
             <>
               <li className="navbar__menu-item--auth">
-                <button class="authButtons" onClick={onTeamsClick}>Team</button>
+                <button className="authButtons" onClick={onTeamsClick}>Team</button>
               </li>
               <li className="navbar__menu-item--auth">
-                <button class="authButtons" onClick={onResourcesClick}>Volunteer</button>
+                <button className="authButtons" onClick={onResourcesClick}>Volunteer</button>
               </li>
               <li className="navbar__menu-item--auth">
-                <button class="authButtons" onClick={onMusicClick}>Music Videos</button>
+                <button className="authButtons" onClick={onMusicClick}>Music Videos</button>
               </li>
             </>
           )}

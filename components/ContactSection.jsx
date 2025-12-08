@@ -65,14 +65,14 @@ export default function ContactSection() {
                 <span className="contact-info__icon">📧</span>
                 <div className="contact-info__details">
                   <strong>Email</strong>
-                  <p>info@hcfboston.org</p>
+                  <p>sjatiani@gmail.com</p>
                 </div>
               </div>
               <div className="contact-info__item">
                 <span className="contact-info__icon">📱</span>
                 <div className="contact-info__details">
                   <strong>Phone</strong>
-                  <p>+1 (617) 555-0123</p>
+                  <p> Shashi Jatiani (215-360-6673)</p>
                 </div>
               </div>
               <div className="contact-info__item">
