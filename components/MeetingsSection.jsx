@@ -6,10 +6,10 @@ import "./MeetingsSection.css"
 const activities = [
   { name: "Worship", icon: "🎵", description: "Heartfelt praise and adoration" },
   { name: "Prayer", icon: "🙏", description: "Communal intercession and thanksgiving" },
-  { name: "Word", icon: "📖", description: "Biblical teaching and reflection" },
-  { name: "Songs", icon: "🎶", description: "Hindi, Urdu, and English worship" },
-  { name: "Giving", icon: "💝", description: "Generous stewardship and offerings" },
-  { name: "Fellowship", icon: "☕", description: "Building authentic relationships" },
+  { name: "Word", icon: "📖", description: "Thematic training, visiting local and global speakers" },
+  { name: "Songs", icon: "🎶", description: "Hindi/Urdu, English, bhajans, geet, songs, ghazals" },
+  { name: "Giving", icon: "💝", description: "Time, treasure and talent" },
+  { name: "Fellowship", icon: "☕", description: "Doing life together" },
 ]
 
 export default function MeetingsSection() {

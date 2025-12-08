@@ -7,24 +7,24 @@ const visionItems = [
   {
     title: "Evangelism & Discipleship",
     description:
-      "Proclaim Jesus Christ as the only way of salvation, make disciples, and see individuals transformed by the renewing of their minds.",
+      "To share the good news of Jesus Christ with North Indians in Boston, and to equip them to become faithful followers and leaders.",
     icon: "📖",
   },
   {
     title: "Community & Fellowship",
-    description: "Build a close-knit spiritual family that supports one another in living out the gospel daily.",
+    description: "To create a vibrant, multi-generational community where North Indians can experience genuine fellowship,grow in their faith, and find support as they navigate life in Boston.",
     icon: "🤝",
   },
   {
     title: "Service & Outreach",
     description:
-      "Reach out to the lost with compassion, particularly focusing on North Indians in the Greater Boston area.",
+      "To serve the local North Indian community through acts of love and service, helping newcomers adjust to life in a new country and building bridges through cultural connection.",
     icon: "❤️",
   },
   {
     title: "Holistic Growth",
     description:
-      "Foster spiritual, emotional, and relational growth through biblical teaching and authentic relationships.",
+      "To provide opportunities for spiritual growth, biblical development, and a deeper understanding of how to integrate faith with their cultural identity.",
     icon: "🌱",
   },
 ]

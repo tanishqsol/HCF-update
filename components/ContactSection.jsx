@@ -10,6 +10,8 @@ export default function ContactSection() {
     email: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
   const sectionRef = useRef(null)
 
   useEffect(() => {
@@ -42,10 +44,33 @@ export default function ContactSection() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    alert("Thank you for your message! We will get back to you soon.")
-    setFormData({ name: "", email: "", message: "" })
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSubmitStatus({ type: "success", message: "Thank you! Your message has been sent successfully." })
+        setFormData({ name: "", email: "", message: "" })
+      } else {
+        setSubmitStatus({ type: "error", message: data.error || "Failed to send message. Please try again." })
+      }
+    } catch (error) {
+      setSubmitStatus({ type: "error", message: "Network error. Please check your connection and try again." })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -65,14 +90,14 @@ export default function ContactSection() {
                 <span className="contact-info__icon">📧</span>
                 <div className="contact-info__details">
                   <strong>Email</strong>
-                  <p>info@hcfboston.org</p>
+                  <p>sjatiani@gmail.com</p>
                 </div>
               </div>
               <div className="contact-info__item">
                 <span className="contact-info__icon">📱</span>
                 <div className="contact-info__details">
                   <strong>Phone</strong>
-                  <p>+1 (617) 555-0123</p>
+                  <p>215-360-6673 - Shashi Jatiani</p>
                 </div>
               </div>
               <div className="contact-info__item">
@@ -103,6 +128,9 @@ export default function ContactSection() {
             className={`contact-section__form ${isVisible ? "contact-section__form--visible" : ""}`}
             onSubmit={handleSubmit}
           >
+            {submitStatus && (
+              <div className={`form-status form-status--${submitStatus.type}`}>{submitStatus.message}</div>
+            )}
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
@@ -113,6 +141,7 @@ export default function ContactSection() {
                 onChange={handleChange}
                 required
                 placeholder="Your name"
+                disabled={isSubmitting}
               />
             </div>
             <div className="form-group">
@@ -125,6 +154,7 @@ export default function ContactSection() {
                 onChange={handleChange}
                 required
                 placeholder="your.email@example.com"
+                disabled={isSubmitting}
               />
             </div>
             <div className="form-group">
@@ -137,10 +167,11 @@ export default function ContactSection() {
                 required
                 rows="5"
                 placeholder="How can we help you?"
+                disabled={isSubmitting}
               />
             </div>
-            <button type="submit" className="contact-section__button">
-              Send Message
+            <button type="submit" className="contact-section__button" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

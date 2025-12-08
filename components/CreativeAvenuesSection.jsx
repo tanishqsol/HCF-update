@@ -6,35 +6,70 @@ import "./CreativeAvenuesSection.css"
 const festivals = [
   {
     name: "Roshni (Diwali)",
-    description: "Celebrating Jesus as the true Light of the World during the festival of lights",
+    description: "Diwali-themed gathering celebrating the light of Christ in our homes and community.",
     icon: "🪔",
   },
   {
-    name: "Raksha Bandhan",
-    description: "Honoring the bond of protection and love in Christ",
+    name: "Bhai-Behen Diwas (Raksha Bandhan)",
+    description: "Raksha Bandhan / Rakhi–style celebration honoring the bond of brothers and sisters in Christ.",
     icon: "🎀",
   },
   {
     name: "Holi",
-    description: "Rejoicing in the triumph of good over evil through Christ's victory",
+    description: "Colorful Holi-inspired gathering rejoicing in the joy and grace of God.",
     icon: "🎨",
   },
   {
-    name: "Harvest Festival",
-    description: "Giving thanks for God's provision and blessings",
+    name: "(Baisaakhi (Spring Festival)",
+    description: "Spring festival alternative drawing from Baisaakhi, Onam, and Chet Chand to celebrate new beginnings.",
+    icon: "🌸",
+  },
+  {
+    name: "Naya Saal (New Year)",
+    description: "New Year gathering to pray, worship, and dedicate the year to God.",
+    icon: "🎉",
+  },
+  {
+    name: "Sewa (Feet Washing)",
+    description: "Service-focused gathering centered on Jesus’ example of humility and serving others.",
+    icon: "🦶",
+  },
+  {
+    name: "Balidaan (Good Friday)",
+    description: "Reflective service remembering the sacrifice of Jesus on Good Friday.",
+    icon: "✝️",
+  },
+  {
+    name: "Punahrithaan (Resurrection Sunday)",
+    description: "Resurrection Sunday celebration of Christ’s victory over death.",
+    icon: "🌅",
+  },
+  {
+    name: "Phasal (Harvest Festival - Halloween)",
+    description: "Harvest-themed alternative to Halloween, thanking God for His provision.",
     icon: "🌾",
   },
   {
-    name: "Christmas",
-    description: "Celebrating the birth of our Savior, Jesus Christ",
+    name: "Bada Din (Christmas)",
+    description: "Christmas celebration focusing on the birth of Jesus, our Savior.",
     icon: "🎄",
   },
   {
-    name: "Easter",
-    description: "Commemorating the resurrection and new life in Christ",
-    icon: "✨",
+    name: "Cricket World Cups",
+    description: "Watch parties and gatherings around major Cricket World Cup matches.",
+    icon: "🏏",
   },
-]
+  {
+    name: "Career Counseling - Christian Professionals Day",
+    description: "Events supporting students and professionals in their career journeys.",
+    icon: "💼",
+  },
+  {
+    name: "Jagran (All night prayer)",
+    description: "All-night prayer gathering seeking God together as a community.",
+    icon: "🌙",
+  },
+];
 
 export default function CreativeAvenuesSection() {
   const [isVisible, setIsVisible] = useState(false)
