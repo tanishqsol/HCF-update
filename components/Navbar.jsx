@@ -32,8 +32,14 @@ export default function Navbar({
     }
   }
 
+  const navButtonStyle = isDarkMode ? { color: "#ffffff" } : {}
+
   return (
-    <nav className={`navbar ${isScrolled ? "navbar--scrolled" : ""}`}>
+    <nav
+      className={`navbar ${isScrolled ? "navbar--scrolled" : ""} ${
+        isDarkMode ? "navbar--dark" : "navbar--light"
+      }`}
+    >
       <div className="navbar__container">
         <div className="navbar__logo" onClick={() => scrollToSection("hero")}>
           <div className="navbar__logo-icon-wrapper">
@@ -60,13 +66,13 @@ export default function Navbar({
 
         <ul className={`navbar__menu ${isMobileMenuOpen ? "navbar__menu--open" : ""}`}>
           <li>
-            <button onClick={() => scrollToSection("hero")}>Home</button>
+            <button style={navButtonStyle} onClick={() => scrollToSection("hero")}>Home</button>
           </li>
           <li>
-            <button onClick={() => scrollToSection("vision")}>Vision</button>
+            <button style={navButtonStyle} onClick={() => scrollToSection("vision")}>Vision</button>
           </li>
           <li>
-            <button onClick={() => scrollToSection("values")}>Core Values</button>
+            <button style={navButtonStyle} onClick={() => scrollToSection("values")}>Core Values</button>
           </li>
           {isAuthenticated && (
             <>
@@ -82,13 +88,13 @@ export default function Navbar({
             </>
           )}
           <li>
-            <button onClick={() => scrollToSection("meetings")}>Meetings</button>
+            <button style={navButtonStyle} onClick={() => scrollToSection("meetings")}>Meetings</button>
           </li>
           <li>
-            <button onClick={() => scrollToSection("festivals")}>Festivals</button>
+            <button style={navButtonStyle} onClick={() => scrollToSection("festivals")}>Festivals</button>
           </li>
           <li>
-            <button onClick={() => scrollToSection("contact")}>Contact</button>
+            <button style={navButtonStyle} onClick={() => scrollToSection("contact")}>Contact</button>
           </li>
         </ul>
 
