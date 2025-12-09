@@ -20,7 +20,7 @@ const festivals = [
     icon: "🎨",
   },
   {
-    name: "(Baisaakhi (Spring Festival)",
+    name: "Baisaakhi (Spring Festival)",
     description: "Spring festival alternative drawing from Baisaakhi, Onam, and Chet Chand to celebrate new beginnings.",
     icon: "🌸",
   },

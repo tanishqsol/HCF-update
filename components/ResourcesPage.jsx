@@ -2,7 +2,7 @@
 
 import "./ResourcesPage.css"
 
-export default function ResourcesPage({ onBack, isDarkMode }) {
+export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect }) {
   const neededRoles = [
     {
       title: "Pianist",
@@ -45,7 +45,15 @@ export default function ResourcesPage({ onBack, isDarkMode }) {
       icon: "📅",
     }
   ]
-
+  const handleExpressInterest = () => {
+    onBack()
+    setTimeout(() => {
+      const contactSection = document.getElementById("contact")
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    }, 100)
+  }
   return (
     <div className="resources-page">
       <button className="resources-page__back" onClick={onBack} aria-label="Go back">
@@ -67,16 +75,17 @@ export default function ResourcesPage({ onBack, isDarkMode }) {
               <div className="resource-card__icon">{role.icon}</div>
               <h3 className="resource-card__title">{role.title}</h3>
               <p className="resource-card__description">{role.description}</p>
-              <button className="resource-card__button">Express Interest</button>
+              <button className="resource-card__button" onClick={handleExpressInterest}>
+                Express Interest
+              </button>
             </div>
           ))}
         </div>
 
         <div className="resources-page__footer">
           <p>Interested in any of these roles?</p>
-          <a href="#contact" className="resources-page__contact-link">
-            Contact Us
-          </a>
+          <button onClick={handleExpressInterest} className="resources-page__contact-link">            Contact Us
+          </button>
         </div>
       </div>
     </div>
