@@ -19,7 +19,7 @@ export default function Footer() {
               <span className="footer__logo-icon">✝</span>
               <span className="footer__logo-text">HCF of Greater Boston</span>
             </div>
-            <p className="footer__tagline">Speaking the truth about Jesus to North Indians in Greater Boston</p>
+            <p className="footer__tagline">Speaking the truth about Jesus to Hindi speakers in Greater Boston</p>
           </div>
           <div className="footer__links">
             <div className="footer__column">

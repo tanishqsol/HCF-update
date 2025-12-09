@@ -38,7 +38,7 @@ export default function Navbar({
         <div className="navbar__logo" onClick={() => scrollToSection("hero")}>
           <div className="navbar__logo-icon-wrapper">
             <img
-              src="/images/hcf-logo.png"
+              src="/images/HCF_logo_.png"
               alt="Hindi Christian Fellowship of Greater Boston logo"
               className="navbar__logo-image"
             />

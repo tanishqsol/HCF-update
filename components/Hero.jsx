@@ -36,7 +36,7 @@ export default function Hero({ isDarkMode }) {
           Hindi Christian Fellowship
           <span className="hero__subtitle">of Greater Boston</span>
         </h1>
-        <p className="hero__tagline">Speaking the truth about Jesus to North Indians in Greater Boston</p>
+        <p className="hero__tagline">Speaking the truth about Jesus to Hindi speakers in Greater Boston</p>
         <div className="hero__buttons">
           <button
             className="hero__button hero__button--primary"

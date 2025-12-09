@@ -7,18 +7,18 @@ const visionItems = [
   {
     title: "Evangelism & Discipleship",
     description:
-      "To share the good news of Jesus Christ with North Indians in Boston, and to equip them to become faithful followers and leaders.",
+      "To share the good news of Jesus Christ with Hindi-speaking Indians in Boston, and to equip them to become faithful followers and leaders.",
     icon: "📖",
   },
   {
     title: "Community & Fellowship",
-    description: "To create a vibrant, multi-generational community where North Indians can experience genuine fellowship,grow in their faith, and find support as they navigate life in Boston.",
+    description: "To create a vibrant, multi-generational community where North Indians can experience genuine fellowship, grow in their faith, and find support as they navigate life in Boston.",
     icon: "🤝",
   },
   {
     title: "Service & Outreach",
     description:
-      "To serve the local North Indian community through acts of love and service, helping newcomers adjust to life in a new country and building bridges through cultural connection.",
+      "To serve the local Hindi-speaking Indian community through acts of love and service, helping newcomers adjust to life in a new country and building bridges through cultural connection.",
     icon: "❤️",
   },
   {

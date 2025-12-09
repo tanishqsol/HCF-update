@@ -4,12 +4,20 @@ import { useEffect, useRef, useState } from "react"
 import "./MeetingsSection.css"
 
 const activities = [
-  { name: "Worship", icon: "🎵", description: "Heartfelt praise and adoration" },
-  { name: "Prayer", icon: "🙏", description: "Communal intercession and thanksgiving" },
+  { name: "Worship", icon: "🎵", description: "lifestyle of adoration, surrender, obedient action and kingdom-orienting existence" },
+  { name: "Prayer", icon: "🙏", description: "Seeking God in all aspects; outreach tool" },
   { name: "Word", icon: "📖", description: "Thematic training, visiting local and global speakers" },
-  { name: "Songs", icon: "🎶", description: "Hindi/Urdu, English, bhajans, geet, songs, ghazals" },
-  { name: "Giving", icon: "💝", description: "Time, treasure and talent" },
-  { name: "Fellowship", icon: "☕", description: "Doing life together" },
+  {
+    name: "Songs",
+    icon: "🎶",
+    description: (
+      <>
+        Hindi/Urdu, English: songs, hymns, <em>bhajan/zaboor</em>, <em>geet</em>, <em>ghazals</em>
+      </>
+    ),
+  },
+  { name: "Giving", icon: "💝", description: "Using time, treasure and talent for the kingdom of Jesus Christ" },
+  { name: "Fellowship", icon: "☕", description: "Doing life together: food, games, retreats, hanging out, concerts, conferences" },
 ]
 
 export default function MeetingsSection() {

@@ -15,13 +15,13 @@ const festivals = [
     icon: "🎀",
   },
   {
-    name: "Holi",
+    name: "Rangoli (Holi)",
     description: "Colorful Holi-inspired gathering rejoicing in the joy and grace of God.",
     icon: "🎨",
   },
   {
-    name: "Baisaakhi (Spring Festival)",
-    description: "Spring festival alternative drawing from Baisaakhi, Onam, and Chet Chand to celebrate new beginnings.",
+    name: "Vasant (Spring Festival)",
+    description: "Spring festival alternative drawing from Baisaakhi, and Cheti Chand to celebrate new beginnings.",
     icon: "🌸",
   },
   {
@@ -102,7 +102,7 @@ export default function CreativeAvenuesSection() {
     <section id="festivals" className="creative-section" ref={sectionRef}>
       <div className="creative-section__container">
         <div className={`creative-section__header ${isVisible ? "creative-section__header--visible" : ""}`}>
-          <h2 className="creative-section__title">Creative Avenues</h2>
+          <h2 className="creative-section__title">Cultural Activities</h2>
           <p className="creative-section__subtitle">Festivals & Gatherings</p>
           <p className="creative-section__intro">
             Celebrating our faith through culture, bringing together Indian traditions and Christian values

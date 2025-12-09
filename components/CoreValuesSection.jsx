@@ -6,31 +6,31 @@ import "./CoreValuesSection.css"
 const coreValues = [
   {
     hindi: "Shishyata",
-    english: "Discipleship",
+    english: "Christ-Centered Discipleship",
     description: "We prioritize a deep, growing relationship with Jesus Christ as the foundation for all life and ministry. Our commitment is to teaching the Bible faithfully and equipping believers to become leaders and lifelong followers of Jesus (shishya).",
     icon: "✝️",
   },
   {
     hindi: "Samudaay",
-    english: "Community",
-    description: "We commit to creating a vibrant, multi-generational, biblical and inclusive family where every North Indian in Boston finds genuine love, support, and belonging. We value transparency, mutual encouragement, and spiritual authenticity.",
+    english: "Authentic Fellowship",
+    description: "We commit to creating a vibrant, multi-generational, biblical and inclusive family where every Hindi-speaking Indian in Boston finds genuine love, support, and belonging. We value transparency, mutual encouragement, and spiritual authenticity.",
     icon: "🧑‍🤝‍🧑",
   },
   {
     hindi: "Sanskriti",
-    english: "Culture",
+    english: "Cultural Integration",
     description: "We honor and celebrate the rich North Indian cultural identity while intentionally exploring how faith in Christ fully integrates with and transforms it. We believe faith should enrich, not erase, our cultural heritage.",
     icon: "🪔",
   },
   {
     hindi: "Sewa",
-    english: "Service",
-    description: "We demonstrate God's love through practical acts of Christlike service (Sewa) within the local North Indian community, actively helping newcomers adjust to life in a new country and building bridges of friendship and connection.",
+    english: "Selfless Service",
+    description: "We demonstrate God's love through practical acts of Christlike service (Sewa) within the local Hindi-speaking Indian community, actively helping newcomers adjust to life in a new country and building bridges of friendship and connection.",
     icon: "🙏",
   },
   {
     hindi: "Sampurnata",
-    english: "Wholeness",
+    english: "Holistic Growth",
     description: "We are dedicated to the total (Sampurna) development (Vikas) of every individual—spiritually, intellectually, emotionally, and physically—understanding that true faith in Jesus impacts every part of our lives.",
     icon: "💫",
   },

@@ -5,19 +5,9 @@ import "./ResourcesPage.css"
 export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect }) {
   const neededRoles = [
     {
-      title: "Pianist",
-      description: "We're looking for a talented pianist to accompany worship sessions and special events.",
-      icon: "🎹",
-    },
-    {
       title: "Guitarist",
       description: "Join our music team as a guitarist to lead worship and enhance our musical ministry.",
       icon: "🎸",
-    },
-    {
-      title: "Video Editor",
-      description: "Help us create compelling visual content for our ministry and social media presence.",
-      icon: "🎬",
     },
     {
       title: "Keyboardist",
@@ -43,7 +33,17 @@ export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect })
       title: "Event Manager",
       description: "Assist in maintaining financial records and managing the fellowship's accounts.",
       icon: "📅",
-    }
+    },
+    {
+      title: "Graphic Designer",
+      description: "Use your creativity to design slides, posters, and digital media that communicate our message clearly and beautifully.",
+      icon: "🎨",
+    },
+    {
+      title: "Internal Auditor",
+      description: "Support transparency and good stewardship by helping review our financial practices and internal processes.",
+      icon: "🧾",
+    },
   ]
   const handleExpressInterest = () => {
     onBack()

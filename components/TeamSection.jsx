@@ -7,7 +7,7 @@ const coreTeam = [
   {
     name: "Dr. Shashi Jatiani",
     role: "Founder",
-    description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
+    description: "Leading HCF with vision and passion for reaching Hindi Speakers with the gospel.",
   },
   {
     name: "Asavari Jatiani",
@@ -55,6 +55,8 @@ const volunteersNeeded = [
   "Bookkeeper",
   "Facilitators",
   "Kitchen/food team",
+  "Internal Auditor",
+  "Graphic designer",
   "Event manager",
 ]
 
