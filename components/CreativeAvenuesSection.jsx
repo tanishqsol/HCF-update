@@ -55,6 +55,11 @@ const festivals = [
     icon: "🎄",
   },
   {
+    name: "Swantratra (India Independence Day)",
+    description: "All-night prayer gathering seeking God together as a community.",
+    icon: "🇮🇳",
+  },
+  {
     name: "Cricket World Cups",
     description: "Watch parties and gatherings around major Cricket World Cup matches.",
     icon: "🏏",

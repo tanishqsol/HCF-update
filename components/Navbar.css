@@ -12,6 +12,20 @@
 button.authButtons{
   color: rgb(46, 188, 143);
 }
+
+/* Auth menu item colors: Team, Volunteer, Music Videos */
+.navbar__menu li:nth-child(3) button {
+  color: #ffb242; /* orange */
+}
+
+.navbar__menu li:nth-child(4) button {
+  color: #1d5dde; /* blue */
+}
+
+.navbar__menu li:nth-child(5) button {
+  color: #2a9976; /* green */
+}
+
 .dark-mode .navbar {
   background: rgba(15, 23, 42, 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -304,7 +318,4 @@ button.authButtons{
     width: 40px;
     height: 40px;
   }
-}
-.navbar__menu-item--auth{
-  color: yellow;
 }

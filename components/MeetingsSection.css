@@ -74,7 +74,7 @@
 
 .meetings-section__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on desktop */
   gap: 2rem;
   margin-bottom: 4rem;
 }
@@ -237,7 +237,7 @@
   }
 
   .meetings-section__grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns on tablet */
     gap: 1.5rem;
   }
 }

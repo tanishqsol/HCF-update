@@ -72,6 +72,7 @@ export default function CoreValuesSection() {
           <p className="core-values-section__intro">The foundational principles that guide our fellowship</p>
         </div>
         <div className="core-values-section__grid">
+          {/* //make grid changes */}
           {coreValues.map((value, index) => (
             <div
               key={index}

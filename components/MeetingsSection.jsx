@@ -56,6 +56,7 @@ export default function MeetingsSection() {
         </div>
         <div className="meetings-section__grid">
           {activities.map((activity, index) => (
+            //3x3 grid
             <div
               key={index}
               className={`activity-card ${isVisible ? "activity-card--visible" : ""}`}
