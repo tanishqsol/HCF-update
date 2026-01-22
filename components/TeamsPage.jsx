@@ -39,7 +39,7 @@ const coreTeam = [
     role: "Partner",
     description: "Contributing partnership and support to the HCF mission.",
     about:
-      "Mike Frost contributes invaluable partnership and support to HCF's mission. His dedication to the ministry and his collaborative spirit strengthen the fellowship's foundation. Mike's involvement ensures that HCF has the resources and support needed to thrive and grow in its outreach efforts.",
+      "Mike is passionate about helping people from every nation learn what it means to be a disciple of Jesus. In 2022, Mike and his family moved to Boston to serve as one of the team leaders with Bridges International, helping international students in the Boston area find a home away from home and thrive spiritually. Mike would love to see the North Indian students he meets in Boston get connected to HCF so they can grow spiritually and experience fellowship with North Indian families in the Boston area.",
   },
   {
     name: "Gary McCann",
@@ -67,7 +67,7 @@ const keyVolunteers = [
   },
 ]
 
-export default function TeamsPage({ onBack, isDarkMode }) {
+export default function TeamsPage({ onBack }) {
   const [isVisible, setIsVisible] = useState(false)
   const [selectedMember, setSelectedMember] = useState(null)
   const pageRef = useRef(null)
@@ -76,13 +76,8 @@ export default function TeamsPage({ onBack, isDarkMode }) {
     setIsVisible(true)
   }, [])
 
-  const handleCardClick = (member) => {
-    setSelectedMember(member)
-  }
-
-  const handleCloseModal = () => {
-    setSelectedMember(null)
-  }
+  const handleCardClick = (member) => setSelectedMember(member)
+  const handleCloseModal = () => setSelectedMember(null)
 
   return (
     <div className="teams-page" ref={pageRef}>
@@ -104,7 +99,7 @@ export default function TeamsPage({ onBack, isDarkMode }) {
           <div className="teams-grid">
             {coreTeam.map((member, index) => (
               <div
-                key={index}
+                key={`${member.name}-${index}`}
                 className={`team-profile ${isVisible ? "team-profile--visible" : ""}`}
                 style={{ transitionDelay: `${index * 0.1}s` }}
                 onClick={() => handleCardClick(member)}
@@ -133,7 +128,7 @@ export default function TeamsPage({ onBack, isDarkMode }) {
           <div className="volunteers-grid">
             {keyVolunteers.map((volunteer, index) => (
               <div
-                key={index}
+                key={`${volunteer.name}-${index}`}
                 className={`volunteer-profile ${isVisible ? "volunteer-profile--visible" : ""}`}
                 style={{ transitionDelay: `${(coreTeam.length + index) * 0.1}s` }}
                 onClick={() => handleCardClick(volunteer)}

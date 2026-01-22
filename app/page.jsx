@@ -16,6 +16,16 @@ import ResourcesPage from "@/components/ResourcesPage"
 import MusicVideosPage from "@/components/MusicVideosPage"
 import CongratsModal from "@/components/CongratsModal"
 
+const ADMIN_EMAILS = new Set([
+  "mike@admin.com",
+  "tom@admin.com",
+  "shashi@admin.com",
+  "tanishq@admin.com",
+  "kundan@admin.com",
+])
+
+const ADMIN_PASSWORD = "1234"
+
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -53,17 +63,29 @@ export default function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const saved = localStorage.getItem("isAuthenticated")
+    if (saved === "true") {
+      setIsAuthenticated(true)
+    }
+  }, [])
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode)
   }
 
   const handleSignIn = (email, password) => {
-    if (email === "admin@admin.com" && password === "12345") {
+    const normalizedEmail = (email || "").trim().toLowerCase()
+
+    if (ADMIN_EMAILS.has(normalizedEmail) && password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
+      localStorage.setItem("isAuthenticated", "true")
+      localStorage.setItem("adminEmail", normalizedEmail)
       setCurrentPage("home")
       setShowCongratsModal(true)
       return true
     }
+
     return false
   }
 
@@ -76,6 +98,8 @@ export default function App() {
 
   const handleSignOut = () => {
     setIsAuthenticated(false)
+    localStorage.removeItem("isAuthenticated")
+    localStorage.removeItem("adminEmail")
     setCurrentPage("home")
   }
 
