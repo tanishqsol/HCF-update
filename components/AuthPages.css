@@ -10,6 +10,43 @@
   z-index: 1;
 }
 
+/* Back to home button (top-right) */
+.auth-page__back {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--border-color);
+  background: var(--card-background);
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.auth-page__back:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.auth-page__back:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.12);
+}
+
+@media (max-width: 600px) {
+  .auth-page__back {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.65rem 0.9rem;
+  }
+}
+
 .auth-card {
   width: 100%;
   max-width: 480px;
