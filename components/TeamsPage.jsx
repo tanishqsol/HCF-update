@@ -3,10 +3,37 @@
 import { useEffect, useRef, useState } from "react"
 import "./TeamsPage.css"
 
+const Silhouette = ({ gender = "male" }) => {
+  // Simple inline SVG placeholder (no external image files needed)
+  const isFemale = gender === "female"
+
+  return (
+    <svg viewBox="0 0 64 64" width="100%" height="100%" aria-hidden="true">
+      {/* head */}
+      <circle cx="32" cy="22" r="12" fill="#b0b0b0" />
+
+      {/* shoulders/body */}
+      <path
+        d="M10 58c0-14.5 10.5-22 22-22s22 7.5 22 22"
+        fill="#b0b0b0"
+      />
+
+      {/* small hair hint for female */}
+      {isFemale && (
+        <path
+          d="M20 20c3-10 21-10 24 0 0 0-4-6-12-6s-12 6-12 6z"
+          fill="#9f9f9f"
+        />
+      )}
+    </svg>
+  )
+}
+
 const coreTeam = [
   {
     name: "Dr. Shashi Jatiani",
     role: "Founder",
+    photo: "/images/team/shashi_prof.jpeg",
     description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
     email: "shashi@hcfboston.org",
     about:
@@ -15,6 +42,8 @@ const coreTeam = [
   {
     name: "Asavari Jatiani",
     role: "Co-founder",
+    gender: "female",
+    photo: "",
     description: "Co-leading the ministry with dedication to building community and discipleship.",
     email: "asavari@hcfboston.org",
     about:
@@ -23,20 +52,21 @@ const coreTeam = [
   {
     name: "Tom Kane",
     role: "Partner",
+    photo: "images/team/top_prof.png",
     description: "Supporting the ministry with strategic partnership and guidance.",
-    about:
-      "Tom Kane brings valuable strategic partnership and guidance to HCF. His wisdom and experience in ministry leadership help shape the direction and effectiveness of the fellowship. Tom's commitment to the mission ensures that HCF remains focused on its core values while adapting to meet the evolving needs of the community.",
+    about: "I grew up on Long Island, New York in a suburban community with my four brothersand my parents. I attended Stony Brook University where I graduated with a degree ineconomics and did some graduate work at Purdue University. I became a born-again Christian at the age of 19. I moved up to Boston in 2006, where I am a member of Park Street Church, attending there since 2007. I work in the financial services industry for a large life insurance company that is headquartered in Boston. My ministry interests are in the areas of evangelism, discipleship and corporate prayer. I am a lifelong bachelor and currently live in Everett, MA",
   },
   {
     name: "Swaroop Pidakala",
     role: "Partner",
+    photo: "/images/team/swaroop_prof.png",
     description: "Partnering in ministry to expand the reach and impact of HCF.",
-    about:
-      "Swaroop Pidakala is a dedicated partner in HCF's ministry, working tirelessly to expand the fellowship's reach and impact. His passion for outreach and community building helps connect more people with the message of hope and faith. Swaroop's enthusiasm and commitment inspire others to get involved in the mission.",
+    about: "Swaroop is deeply committed to discipling students from every nation and equipping them to follow Jesus faithfully. Based in the Boston area, he serves among international students, helping them find spiritual family, grow as disciples, and develop a missional vision for their lives. Swaroop carries a particular calling for the Indian student community and desires to see students come to faith, mature spiritually, and be formed into leaders who will strengthen and multiply Christ-centered fellowships, contributing to the planting and growth of healthy churches among Indian communities in the U.S. and beyond. He currently provides leadership to the Boston Indian Christian Friends fellowship, while also serving with New Life International, a Christian nonprofit based in Southern Indiana."
   },
   {
     name: "Mike Frost",
     role: "Partner",
+    photo: "/images/team/mike_prof.png",
     description: "Contributing partnership and support to the HCF mission.",
     about:
       "Mike is passionate about helping people from every nation learn what it means to be a disciple of Jesus. In 2022, Mike and his family moved to Boston to serve as one of the team leaders with Bridges International, helping international students in the Boston area find a home away from home and thrive spiritually. Mike would love to see the North Indian students he meets in Boston get connected to HCF so they can grow spiritually and experience fellowship with North Indian families in the Boston area.",
@@ -44,6 +74,8 @@ const coreTeam = [
   {
     name: "Gary McCann",
     role: "Networker, Prayer Partner",
+    gender: "male",
+    photo: "",
     description: "Building connections and leading prayer ministry for HCF.",
     about:
       "Gary McCann serves as a vital networker and prayer partner for HCF. His gift for building connections brings together believers from various backgrounds to support the ministry. Gary's dedication to prayer creates a spiritual foundation that undergirds all of HCF's activities, ensuring that the work is rooted in faith and dependence on God.",
@@ -54,6 +86,8 @@ const keyVolunteers = [
   {
     name: "Kundan Srivastava",
     role: "Key Volunteer Leader",
+    gender: "male",
+    photo: "",
     areas: "Prayer laborer, Outreach, Strategy",
     about:
       "Kundan Srivastava is a key volunteer leader who serves with excellence in multiple areas of ministry. As a dedicated prayer laborer, he intercedes for the fellowship and its members. His strategic thinking and passion for outreach help HCF reach new people and communities with the gospel message.",
@@ -61,6 +95,8 @@ const keyVolunteers = [
   {
     name: "Tanishq Solanki",
     role: "Key Volunteer Leader",
+    gender: "male",
+    photo: "",
     areas: "Prayer laborer, Website designer & developer, Social Media",
     about:
       "Tanishq Solanki brings a unique blend of technical skills and spiritual dedication to HCF. As a talented website designer and developer, he ensures that HCF has a strong online presence. His expertise in social media helps spread the message far and wide, while his commitment to prayer keeps the ministry grounded in faith.",
@@ -105,7 +141,15 @@ export default function TeamsPage({ onBack }) {
                 onClick={() => handleCardClick(member)}
               >
                 <div className="team-profile__avatar">
-                  <span className="team-profile__initial">{member.name.charAt(0)}</span>
+                  {member.photo ? (
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }}
+                    />
+                  ) : (
+                    <Silhouette gender={member.gender} />
+                  )}
                   <div className="team-profile__ring"></div>
                 </div>
                 <div className="team-profile__content">
@@ -134,7 +178,15 @@ export default function TeamsPage({ onBack }) {
                 onClick={() => handleCardClick(volunteer)}
               >
                 <div className="volunteer-profile__avatar">
-                  <span className="volunteer-profile__initial">{volunteer.name.charAt(0)}</span>
+                  {volunteer.photo ? (
+                    <img
+                      src={volunteer.photo}
+                      alt={volunteer.name}
+                      style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }}
+                    />
+                  ) : (
+                    <Silhouette gender={volunteer.gender} />
+                  )}
                 </div>
                 <div className="volunteer-profile__content">
                   <h3 className="volunteer-profile__name">{volunteer.name}</h3>
@@ -157,7 +209,15 @@ export default function TeamsPage({ onBack }) {
             </button>
 
             <div className="team-modal__avatar">
-              <span className="team-modal__initial">{selectedMember.name.charAt(0)}</span>
+              {selectedMember.photo ? (
+                <img
+                  src={selectedMember.photo}
+                  alt={selectedMember.name}
+                  style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }}
+                />
+              ) : (
+                <Silhouette gender={selectedMember.gender} />
+              )}
             </div>
 
             <h2 className="team-modal__name">{selectedMember.name}</h2>

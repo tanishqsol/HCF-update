@@ -22,6 +22,7 @@ const ADMIN_EMAILS = new Set([
   "shashi@admin.com",
   "tanishq@admin.com",
   "kundan@admin.com",
+  "swaroop@admin.com"
 ])
 
 const ADMIN_PASSWORD = "1234"
