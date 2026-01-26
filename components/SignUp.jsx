@@ -11,16 +11,19 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
     phone: "",
   })
   const [error, setError] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    })
+    }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    if (isSubmitting) return
+
     setError("")
 
     if (!formData.name || !formData.email || !formData.password) {
@@ -33,12 +36,22 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
       return
     }
 
-    onSignUp(formData)
+    setIsSubmitting(true)
+    try {
+      // IMPORTANT: wait for Firebase signup + parent dialog to trigger
+      const ok = await onSignUp(formData)
+      // if ok is false, parent showed dialog; we just stay here
+      if (!ok) return
+    } catch (err) {
+      setError(err?.message || "Sign up failed")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <div className="auth-page">
-      <button className="auth-page__back" onClick={onBack} aria-label="Go back">
+      <button className="auth-page__back" onClick={onBack} aria-label="Go back" type="button" disabled={isSubmitting}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
@@ -72,6 +85,7 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
               onChange={handleChange}
               placeholder="Enter your full name"
               autoComplete="name"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -87,6 +101,7 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
               onChange={handleChange}
               placeholder="Enter your email"
               autoComplete="email"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -102,6 +117,7 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
               onChange={handleChange}
               placeholder="Create a password (min 6 characters)"
               autoComplete="new-password"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -115,18 +131,19 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
               onChange={handleChange}
               placeholder="Enter your phone number"
               autoComplete="tel"
+              disabled={isSubmitting}
             />
           </div>
 
-          <button type="submit" className="auth-form__submit">
-            Sign Up
+          <button type="submit" className="auth-form__submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating account..." : "Sign Up"}
           </button>
 
           <div className="auth-form__divider">
             <span>Already have an account?</span>
           </div>
 
-          <button type="button" className="auth-form__link" onClick={onSignIn}>
+          <button type="button" className="auth-form__link" onClick={onSignIn} disabled={isSubmitting}>
             Sign in instead
           </button>
         </form>

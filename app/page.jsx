@@ -9,6 +9,7 @@ import {
   signOut as firebaseSignOut,
 } from "firebase/auth"
 import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore"
+
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
 import VisionSection from "@/components/VisionSection"
@@ -22,7 +23,6 @@ import SignUp from "@/components/SignUp"
 import TeamsPage from "@/components/TeamsPage"
 import ResourcesPage from "@/components/ResourcesPage"
 import MusicVideosPage from "@/components/MusicVideosPage"
-import CongratsModal from "@/components/CongratsModal"
 
 const ADMIN_EMAILS = new Set([
   "mike@admin.com",
@@ -30,7 +30,7 @@ const ADMIN_EMAILS = new Set([
   "shashi@admin.com",
   "tanishq@admin.com",
   "kundan@admin.com",
-  "swaroop@admin.com"
+  "swaroop@admin.com",
 ])
 
 const ADMIN_PASSWORD = "1234"
@@ -49,13 +49,140 @@ const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig)
 const auth = getAuth(firebaseApp)
 const db = getFirestore(firebaseApp)
 
+// Simple reusable dialog
+function StatusDialog({
+  open,
+  variant = "info",
+  title,
+  message,
+  primaryLabel = "OK",
+  onPrimary,
+  secondaryLabel,
+  onSecondary,
+}) {
+  if (!open) return null
+
+  const accent =
+    variant === "success"
+      ? "#16a34a"
+      : variant === "error"
+      ? "#dc2626"
+      : variant === "warning"
+      ? "#d97706"
+      : "#2563eb"
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.45)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 9999,
+        padding: 16,
+      }}
+    >
+      <div
+        style={{
+          width: "min(520px, 100%)",
+          background: "white",
+          borderRadius: 14,
+          boxShadow: "0 20px 60px rgba(0,0,0,0.25)",
+          overflow: "hidden",
+        }}
+      >
+        <div style={{ padding: 16, borderTop: `6px solid ${accent}` }}>
+          <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{title}</div>
+          <div style={{ fontSize: 14, lineHeight: 1.5, color: "#444" }}>{message}</div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: 10,
+            padding: 16,
+            background: "#fafafa",
+            borderTop: "1px solid #eee",
+          }}
+        >
+          {secondaryLabel && (
+            <button
+              type="button"
+              onClick={onSecondary}
+              style={{
+                padding: "10px 14px",
+                borderRadius: 10,
+                border: "1px solid #ddd",
+                background: "white",
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              {secondaryLabel}
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onPrimary}
+            style={{
+              padding: "10px 14px",
+              borderRadius: 10,
+              border: "none",
+              background: accent,
+              color: "white",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            {primaryLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [currentPage, setCurrentPage] = useState("home") // home, signin, signup, teams, resources, music
-  const [showCongratsModal, setShowCongratsModal] = useState(false)
+
+  const [dialog, setDialog] = useState({
+    open: false,
+    variant: "info",
+    title: "",
+    message: "",
+    primaryLabel: "OK",
+    onPrimary: null,
+    secondaryLabel: null,
+    onSecondary: null,
+  })
+
+  const closeDialog = () =>
+    setDialog((d) => ({
+      ...d,
+      open: false,
+    }))
+
+  const openDialog = (cfg) =>
+    setDialog({
+      open: true,
+      variant: cfg.variant || "info",
+      title: cfg.title || "",
+      message: cfg.message || "",
+      primaryLabel: cfg.primaryLabel || "OK",
+      onPrimary: cfg.onPrimary || closeDialog,
+      secondaryLabel: cfg.secondaryLabel || null,
+      onSecondary: cfg.onSecondary || null,
+    })
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark-mode", isDarkMode)
@@ -97,32 +224,72 @@ export default function App() {
     setIsDarkMode(!isDarkMode)
   }
 
+  const navigateTo = (page) => {
+    setCurrentPage(page)
+    window.scrollTo(0, 0)
+  }
+
   const handleSignIn = async (email, password) => {
     const normalizedEmail = (email || "").trim().toLowerCase()
 
-    // Admin bypass (your existing behavior)
+    // Admin bypass
     if (ADMIN_EMAILS.has(normalizedEmail) && password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("adminEmail", normalizedEmail)
-      setCurrentPage("home")
-      setShowCongratsModal(true)
+
+      openDialog({
+        variant: "success",
+        title: "Signed in ✅",
+        message: "Welcome back!",
+        primaryLabel: "Continue",
+        onPrimary: () => {
+          closeDialog()
+          setCurrentPage("home")
+        },
+      })
       return true
     }
 
     // Firebase sign-in
     try {
       const cred = await signInWithEmailAndPassword(auth, normalizedEmail, password)
+
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("userUid", cred.user.uid)
       localStorage.setItem("userEmail", normalizedEmail)
-      setCurrentPage("home")
-      setShowCongratsModal(true)
+
+      openDialog({
+        variant: "success",
+        title: "Signed in ✅",
+        message: "You’re signed in successfully.",
+        primaryLabel: "Continue",
+        onPrimary: () => {
+          closeDialog()
+          setCurrentPage("home")
+        },
+      })
       return true
     } catch (err) {
       console.error("Firebase sign-in failed:", err)
-      alert(err?.message || "Sign in failed")
+
+      const friendly =
+        err?.code === "auth/user-not-found"
+          ? "No account found with this email."
+          : err?.code === "auth/wrong-password"
+          ? "Incorrect password."
+          : err?.code === "auth/invalid-email"
+          ? "That email looks invalid. Please check it."
+          : err?.message || "Sign in failed."
+
+      openDialog({
+        variant: "error",
+        title: "Sign in failed",
+        message: friendly,
+        primaryLabel: "Close",
+        onPrimary: () => closeDialog(),
+      })
       return false
     }
   }
@@ -133,27 +300,75 @@ export default function App() {
       const email = (formData?.email || "").trim().toLowerCase()
       const password = formData?.password || ""
       const phone = (formData?.phone || "").trim()
-
+  
+      // 1) Create auth user first (this is the main thing)
       const cred = await createUserWithEmailAndPassword(auth, email, password)
-
-      await setDoc(doc(db, "users", cred.user.uid), {
-        name,
-        email,
-        phone: phone || null,
-        createdAt: serverTimestamp(),
-      })
-
+  
+      // 2) Mark user as logged in right away
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("userUid", cred.user.uid)
       localStorage.setItem("userEmail", email)
-
-      setCurrentPage("home")
-      setShowCongratsModal(true)
+  
+      // 3) Show success immediately
+      openDialog({
+        variant: "success",
+        title: "Signup successful ✅",
+        message: "Welcome to HCF! Your account has been created.",
+        primaryLabel: "Continue",
+        onPrimary: () => {
+          closeDialog()
+          setCurrentPage("home")
+        },
+      })
+  
+      // 4) Save profile in Firestore in background (don’t block UI)
+      setDoc(doc(db, "users", cred.user.uid), {
+        name,
+        email,
+        phone: phone || null,
+        createdAt: serverTimestamp(),
+      }).catch((e) => {
+        console.error("Firestore write failed:", e)
+        // optional: you can show a warning dialog if you want
+        // openDialog({ variant: "warning", title: "Saved account, but profile not saved", message: "Account created, but we couldn't save profile details. Try again later." })
+      })
+  
       return true
     } catch (err) {
       console.error("Firebase sign-up failed:", err)
-      alert(err?.message || "Sign up failed")
+  
+      if (err?.code === "auth/email-already-in-use") {
+        openDialog({
+          variant: "warning",
+          title: "Email already in use",
+          message: "This email already has an account. Please sign in instead (or use a different email).",
+          primaryLabel: "Sign in",
+          onPrimary: () => {
+            closeDialog()
+            setCurrentPage("signin")
+          },
+          secondaryLabel: "Close",
+          onSecondary: () => closeDialog(),
+        })
+        return false
+      }
+  
+      const friendly =
+        err?.code === "auth/invalid-email"
+          ? "That email looks invalid. Please check it."
+          : err?.code === "auth/weak-password"
+          ? "Password is too weak. Use at least 6 characters."
+          : err?.message || "Sign up failed."
+  
+      openDialog({
+        variant: "error",
+        title: "Signup failed",
+        message: friendly,
+        primaryLabel: "Close",
+        onPrimary: () => closeDialog(),
+      })
+  
       return false
     }
   }
@@ -164,22 +379,29 @@ export default function App() {
     } catch (e) {
       // ignore
     }
+
     setIsAuthenticated(false)
     localStorage.removeItem("isAuthenticated")
     localStorage.removeItem("adminEmail")
     localStorage.removeItem("userUid")
     localStorage.removeItem("userEmail")
+
+    openDialog({
+      variant: "success",
+      title: "Signed out",
+      message: "You’ve been signed out successfully.",
+      primaryLabel: "OK",
+      onPrimary: () => closeDialog(),
+    })
+
     setCurrentPage("home")
   }
 
-  const navigateTo = (page) => {
-    setCurrentPage(page)
-    window.scrollTo(0, 0)
-  }
-
+  // ----- Pages -----
   if (currentPage === "signin") {
     return (
       <div className="app-container">
+        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
         <div className="floating-shapes">
           <div className="shape shape-1" />
@@ -194,6 +416,7 @@ export default function App() {
   if (currentPage === "signup") {
     return (
       <div className="app-container">
+        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
         <div className="floating-shapes">
           <div className="shape shape-1" />
@@ -208,6 +431,7 @@ export default function App() {
   if (currentPage === "teams") {
     return (
       <div className="app-container">
+        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
         <div className="floating-shapes">
           <div className="shape shape-1" />
@@ -222,6 +446,7 @@ export default function App() {
   if (currentPage === "resources") {
     return (
       <div className="app-container">
+        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
         <div className="floating-shapes">
           <div className="shape shape-1" />
@@ -236,6 +461,7 @@ export default function App() {
   if (currentPage === "music") {
     return (
       <div className="app-container">
+        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
         <div className="floating-shapes">
           <div className="shape shape-1" />
@@ -247,8 +473,10 @@ export default function App() {
     )
   }
 
+  // Home
   return (
     <div className="app-container">
+      <StatusDialog {...dialog} />
       <div className="animated-mesh-bg" />
 
       <div className="floating-shapes">
@@ -277,8 +505,6 @@ export default function App() {
         </svg>
       </div>
 
-      {showCongratsModal && <CongratsModal onClose={() => setShowCongratsModal(false)} />}
-
       <Navbar
         isDarkMode={isDarkMode}
         toggleTheme={toggleTheme}
@@ -289,6 +515,7 @@ export default function App() {
         onResourcesClick={() => navigateTo("resources")}
         onMusicClick={() => navigateTo("music")}
       />
+
       <Hero isDarkMode={isDarkMode} />
       <VisionSection />
       <CoreValuesSection />

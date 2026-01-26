@@ -35,7 +35,7 @@ const coreTeam = [
     role: "Founder",
     photo: "/images/team/shashi_prof.jpeg",
     description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
-    email: "shashi@hcfboston.org",
+    email: "sjatiani@gmail.com",
     about:
       "Dr. Shashi Jatiani is the visionary founder of Hindu Christian Fellowship (HCF) of Greater Boston. With a deep passion for reaching North Indians with the transformative message of the gospel, he has dedicated his life to building bridges between cultures and faith communities. His leadership has been instrumental in establishing HCF as a welcoming community for spiritual seekers and believers alike.",
   },
@@ -54,6 +54,7 @@ const coreTeam = [
     role: "Partner",
     photo: "images/team/tom_profile-2.jpeg",
     description: "Supporting the ministry with strategic partnership and guidance.",
+    email: "t_kane_123@yahoo.com", 
     about: "I grew up on Long Island, New York in a suburban community with my four brothersand my parents. I attended Stony Brook University where I graduated with a degree ineconomics and did some graduate work at Purdue University. I became a born-again Christian at the age of 19. I moved up to Boston in 2006, where I am a member of Park Street Church, attending there since 2007. I work in the financial services industry for a large life insurance company that is headquartered in Boston. My ministry interests are in the areas of evangelism, discipleship and corporate prayer. I am a lifelong bachelor and currently live in Everett, MA",
   },
   {
@@ -61,6 +62,7 @@ const coreTeam = [
     role: "Partner",
     photo: "/images/team/swaroop_prof.png",
     description: "Partnering in ministry to expand the reach and impact of HCF.",
+    email: "shashi@hcfboston.org",
     about: "Swaroop is deeply committed to discipling students from every nation and equipping them to follow Jesus faithfully. Based in the Boston area, he serves among international students, walking alongside them as they grow as disciples and develop a clear, missional vision for their lives. He carries a particular burden for the Indian student community, especially Hindi-speaking students, and longs to see them come to faith in Christ, mature spiritually, and be formed into servant leaders. Swaroop’s desire is that the Hindi Christian Fellowship of Boston would be used as an instrument to lead North Indian students in Boston to the light of Jesus, strengthening and multiplying Christ-centered fellowships and contributing to the planting and growth of healthy churches among Indian communities in the U.S. and beyond."
   },
   {
@@ -68,6 +70,7 @@ const coreTeam = [
     role: "Partner",
     photo: "/images/team/mike_prof.png",
     description: "Contributing partnership and support to the HCF mission.",
+    email: "Mike.frost@bridgesinternational.com",
     about:
       "Mike is passionate about helping people from every nation learn what it means to be a disciple of Jesus. In 2022, Mike and his family moved to Boston to serve as one of the team leaders with Bridges International, helping international students in the Boston area find a home away from home and thrive spiritually. Mike would love to see the North Indian students he meets in Boston get connected to HCF so they can grow spiritually and experience fellowship with North Indian families in the Boston area.",
   },
@@ -75,8 +78,9 @@ const coreTeam = [
     name: "Gary McCann",
     role: "Networker, Prayer Partner",
     gender: "male",
-    photo: "",
+    photo: "/images/team/gary_profile.png",
     description: "Building connections and leading prayer ministry for HCF.",
+    email: "garyrmccann@outlook.com",
     about:
       "Gary McCann serves as a vital networker and prayer partner for HCF. His gift for building connections brings together believers from various backgrounds to support the ministry. Gary's dedication to prayer creates a spiritual foundation that undergirds all of HCF's activities, ensuring that the work is rooted in faith and dependence on God.",
   },
