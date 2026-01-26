@@ -52,7 +52,7 @@ const coreTeam = [
   {
     name: "Tom Kane",
     role: "Partner",
-    photo: "images/team/top_prof.png",
+    photo: "images/team/tom_profile-2.jpeg",
     description: "Supporting the ministry with strategic partnership and guidance.",
     about: "I grew up on Long Island, New York in a suburban community with my four brothersand my parents. I attended Stony Brook University where I graduated with a degree ineconomics and did some graduate work at Purdue University. I became a born-again Christian at the age of 19. I moved up to Boston in 2006, where I am a member of Park Street Church, attending there since 2007. I work in the financial services industry for a large life insurance company that is headquartered in Boston. My ministry interests are in the areas of evangelism, discipleship and corporate prayer. I am a lifelong bachelor and currently live in Everett, MA",
   },

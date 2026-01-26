@@ -1,6 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { initializeApp, getApps, getApp } from "firebase/app"
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
+} from "firebase/auth"
+import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore"
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
 import VisionSection from "@/components/VisionSection"
@@ -26,6 +34,20 @@ const ADMIN_EMAILS = new Set([
 ])
 
 const ADMIN_PASSWORD = "1234"
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyACe9qO583jAkoQrJsvX_Dp0tYdPtlgTsQ",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "hcfprod.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "hcfprod",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "hcfprod.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "158540586016",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:158540586016:web:3070f5ac072c372f20f045",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-Z68X6R3RTQ",
+}
+
+const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig)
+const auth = getAuth(firebaseApp)
+const db = getFirestore(firebaseApp)
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false)
@@ -75,9 +97,10 @@ export default function App() {
     setIsDarkMode(!isDarkMode)
   }
 
-  const handleSignIn = (email, password) => {
+  const handleSignIn = async (email, password) => {
     const normalizedEmail = (email || "").trim().toLowerCase()
 
+    // Admin bypass (your existing behavior)
     if (ADMIN_EMAILS.has(normalizedEmail) && password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
@@ -87,20 +110,65 @@ export default function App() {
       return true
     }
 
-    return false
+    // Firebase sign-in
+    try {
+      const cred = await signInWithEmailAndPassword(auth, normalizedEmail, password)
+      setIsAuthenticated(true)
+      localStorage.setItem("isAuthenticated", "true")
+      localStorage.setItem("userUid", cred.user.uid)
+      localStorage.setItem("userEmail", normalizedEmail)
+      setCurrentPage("home")
+      setShowCongratsModal(true)
+      return true
+    } catch (err) {
+      console.error("Firebase sign-in failed:", err)
+      alert(err?.message || "Sign in failed")
+      return false
+    }
   }
 
-  const handleSignUp = (formData) => {
-    setIsAuthenticated(true)
-    setCurrentPage("home")
-    setShowCongratsModal(true)
-    return true
+  const handleSignUp = async (formData) => {
+    try {
+      const name = (formData?.name || "").trim()
+      const email = (formData?.email || "").trim().toLowerCase()
+      const password = formData?.password || ""
+      const phone = (formData?.phone || "").trim()
+
+      const cred = await createUserWithEmailAndPassword(auth, email, password)
+
+      await setDoc(doc(db, "users", cred.user.uid), {
+        name,
+        email,
+        phone: phone || null,
+        createdAt: serverTimestamp(),
+      })
+
+      setIsAuthenticated(true)
+      localStorage.setItem("isAuthenticated", "true")
+      localStorage.setItem("userUid", cred.user.uid)
+      localStorage.setItem("userEmail", email)
+
+      setCurrentPage("home")
+      setShowCongratsModal(true)
+      return true
+    } catch (err) {
+      console.error("Firebase sign-up failed:", err)
+      alert(err?.message || "Sign up failed")
+      return false
+    }
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    try {
+      await firebaseSignOut(auth)
+    } catch (e) {
+      // ignore
+    }
     setIsAuthenticated(false)
     localStorage.removeItem("isAuthenticated")
     localStorage.removeItem("adminEmail")
+    localStorage.removeItem("userUid")
+    localStorage.removeItem("userEmail")
     setCurrentPage("home")
   }
 
