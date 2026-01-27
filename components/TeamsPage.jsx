@@ -112,7 +112,7 @@ const keyVolunteers = [
     gender: "male",
     photo: "/images/team/dale_profile.png",
     areas: "Prayer laborer",
-    about:"She is currently studying at Northeastern University. Srishti seek to walk in Lord’s will and serve him by loving people and sharing his truth. Her desire is to grow in faith and be a witness of God’s love at HCF."
+    about:"Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good."
    },
    {
     name: "Srishti Michael",
