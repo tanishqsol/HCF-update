@@ -37,7 +37,7 @@ const coreTeam = [
     description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
     email: "sjatiani@gmail.com",
     about:
-      "Dr. Shashi Jatiani is the visionary founder of Hindi Christian Fellowship (HCF) of Greater Boston. With a deep passion for reaching North Indians with the transformative message of the gospel, he has dedicated his life to building bridges between cultures and faith communities. His leadership has been instrumental in establishing HCF as a welcoming community for spiritual seekers and believers alike.",
+      "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani leverages his multilingual expertise to reach North Indians with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF as a premier, welcoming community for both spiritual seekers and seasoned believers.",
   },
   {
     name: "Asavari Jatiani",
@@ -88,6 +88,16 @@ const coreTeam = [
 
 const keyVolunteers = [
   {
+    name: "Tanishq Solanki",
+    role: "Key Volunteer Leader",
+    gender: "male",
+    photo: "/images/team/tanishq_profile.png",
+    areas: "Prayer laborer, Website designer & developer, Social Media",
+    // email:"srishtu03@gmail.com",
+    about:
+      "Tanishq Solanki brings a unique blend of technical skills and spiritual dedication to HCF. As a talented website designer and developer, he ensures that HCF has a strong online presence. His expertise in social media helps spread the message far and wide, while his commitment to prayer keeps the ministry grounded in faith.",
+  },
+  {
     name: "Kundan Srivastava",
     role: "Key Volunteer Leader",
     gender: "male",
@@ -96,14 +106,22 @@ const keyVolunteers = [
     about:
       "Kundan Srivastava is a key volunteer leader who serves with excellence in multiple areas of ministry. As a dedicated prayer laborer, he intercedes for the fellowship and its members. His strategic thinking and passion for outreach help HCF reach new people and communities with the gospel message.",
   },
-  {
-    name: "Tanishq Solanki",
+   {
+    name: "Dale Alphonso",
     role: "Key Volunteer Leader",
     gender: "male",
-    photo: "",
-    areas: "Prayer laborer, Website designer & developer, Social Media",
+    photo: "/images/team/dale_profile.png",
+    areas: "Prayer laborer",
+    about:"She is currently studying at Northeastern University. Srishti seek to walk in Lord’s will and serve him by loving people and sharing his truth. Her desire is to grow in faith and be a witness of God’s love at HCF."
+   },
+   {
+    name: "Srishti Michael",
+    role: "Key Volunteer Leader",
+    gender: "male",
+    photo: "/images/team/srishti_profile.png",
+    areas: "Prayer laborer",
     about:
-      "Tanishq Solanki brings a unique blend of technical skills and spiritual dedication to HCF. As a talented website designer and developer, he ensures that HCF has a strong online presence. His expertise in social media helps spread the message far and wide, while his commitment to prayer keeps the ministry grounded in faith.",
+      "She is currently studying at Northeastern University. Srishti seek to walk in Lord’s will and serve him by loving people and sharing his truth. Her desire is to grow in faith and be a witness of God’s love at HCF.",
   },
 ]
 
@@ -172,7 +190,7 @@ export default function TeamsPage({ onBack }) {
         </section>
 
         <section className="teams-page__section">
-          <h2 className="teams-page__section-title">Key Volunteer Leaders</h2>
+          <h2 className="teams-page__section-title">Key Volunteers</h2>
           <div className="volunteers-grid">
             {keyVolunteers.map((volunteer, index) => (
               <div
