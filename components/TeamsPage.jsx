@@ -39,16 +39,16 @@ const coreTeam = [
     about:
       "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani leverages his multilingual expertise to reach North Indians with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF as a premier, welcoming community for both spiritual seekers and seasoned believers.",
   },
-  {
-    name: "Asavari Jatiani",
-    role: "Co-founder",
-    gender: "female",
-    photo: "",
-    description: "Co-leading the ministry with dedication to building community and discipleship.",
-    email: "ajatiani@gmail.com",
-    about:
-      "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for hospitality and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
-  },
+  // {
+  //   name: "Asavari Jatiani",
+  //   role: "Co-founder",
+  //   gender: "female",
+  //   photo: "",
+  //   description: "Co-leading the ministry with dedication to building community and discipleship.",
+  //   email: "ajatiani@gmail.com",
+  //   about:
+  //     "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for hospitality and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
+  // },
   {
     name: "Tom Kane",
     role: "Partner",
