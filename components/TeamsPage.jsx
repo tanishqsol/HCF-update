@@ -95,7 +95,7 @@ const keyVolunteers = [
     areas: "Prayer laborer, Website designer & developer, Social Media",
     // email:"srishtu03@gmail.com",
     about:
-      "Tanishq Solanki brings a unique blend of technical skills and spiritual dedication to HCF. As a talented website designer and developer, he ensures that HCF has a strong online presence. His expertise in social media helps spread the message far and wide, while his commitment to prayer keeps the ministry grounded in faith.",
+      "Tanishq Solanki brings a strong blend of software engineering skill and a sincere commitment to Jesus to HCF. As a software developer, he builds and maintains key parts of HCF’s digital presence, making sure the website is reliable, clear, and easy for people to connect with. He also supports outreach through thoughtful content and social media, helping the message reach more Hindi-speaking friends and families. Above all, his faith and prayerful dependence on Jesus keep his work centered on serving God and strengthening the fellowship.",
   },
   {
     name: "Kundan Srivastava",
