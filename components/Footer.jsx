@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
         <div className="footer__bottom">
           <p className="footer__copyright">
-            © {new Date().getFullYear()} Hindu Christian Fellowship of Greater Boston. All rights reserved.
+            © {new Date().getFullYear()} Hindi Christian Fellowship of Greater Boston. All rights reserved.
           </p>
           <p className="footer__verse">"For God so loved the world that he gave his one and only Son" - John 3:16</p>
         </div>

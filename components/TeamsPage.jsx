@@ -37,7 +37,7 @@ const coreTeam = [
     description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
     email: "sjatiani@gmail.com",
     about:
-      "Dr. Shashi Jatiani is the visionary founder of Hindu Christian Fellowship (HCF) of Greater Boston. With a deep passion for reaching North Indians with the transformative message of the gospel, he has dedicated his life to building bridges between cultures and faith communities. His leadership has been instrumental in establishing HCF as a welcoming community for spiritual seekers and believers alike.",
+      "Dr. Shashi Jatiani is the visionary founder of Hindi Christian Fellowship (HCF) of Greater Boston. With a deep passion for reaching North Indians with the transformative message of the gospel, he has dedicated his life to building bridges between cultures and faith communities. His leadership has been instrumental in establishing HCF as a welcoming community for spiritual seekers and believers alike.",
   },
   {
     name: "Asavari Jatiani",
@@ -45,7 +45,7 @@ const coreTeam = [
     gender: "female",
     photo: "",
     description: "Co-leading the ministry with dedication to building community and discipleship.",
-    email: "asavari@hcfboston.org",
+    email: "ajatiani@gmail.com",
     about:
       "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for hospitality and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
   },
@@ -62,7 +62,7 @@ const coreTeam = [
     role: "Partner",
     photo: "/images/team/swaroop_prof.png",
     description: "Partnering in ministry to expand the reach and impact of HCF.",
-    email: "shashi@hcfboston.org",
+    email: "swaroopk2@gmail.com",
     about: "Swaroop is deeply committed to discipling students from every nation and equipping them to follow Jesus faithfully. Based in the Boston area, he serves among international students, walking alongside them as they grow as disciples and develop a clear, missional vision for their lives. He carries a particular burden for the Indian student community, especially Hindi-speaking students, and longs to see them come to faith in Christ, mature spiritually, and be formed into servant leaders. Swaroop’s desire is that the Hindi Christian Fellowship of Boston would be used as an instrument to lead North Indian students in Boston to the light of Jesus, strengthening and multiplying Christ-centered fellowships and contributing to the planting and growth of healthy churches among Indian communities in the U.S. and beyond."
   },
   {

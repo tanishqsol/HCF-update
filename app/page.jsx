@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
 } from "firebase/auth"
-import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore"
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore"
 
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
@@ -34,6 +34,8 @@ const ADMIN_EMAILS = new Set([
 ])
 
 const ADMIN_PASSWORD = "1234"
+const USER_NAME_STORAGE_KEY = "hcf_user_name"
+const USER_EVENT = "hcf:user"
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyACe9qO583jAkoQrJsvX_Dp0tYdPtlgTsQ",
@@ -217,6 +219,11 @@ export default function App() {
     const saved = localStorage.getItem("isAuthenticated")
     if (saved === "true") {
       setIsAuthenticated(true)
+
+      const existingName = (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
+      if (existingName) {
+        window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: existingName } }))
+      }
     }
   }, [])
 
@@ -237,6 +244,11 @@ export default function App() {
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("adminEmail", normalizedEmail)
+      const adminName = (normalizedEmail.split("@")[0] || "").trim()
+      if (adminName) {
+        localStorage.setItem(USER_NAME_STORAGE_KEY, adminName)
+        window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: adminName } }))
+      }
 
       openDialog({
         variant: "success",
@@ -259,6 +271,20 @@ export default function App() {
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("userUid", cred.user.uid)
       localStorage.setItem("userEmail", normalizedEmail)
+
+      // Hydrate name for Hero
+      try {
+        const snap = await getDoc(doc(db, "users", cred.user.uid))
+        if (snap.exists()) {
+          const fetchedName = (snap.data()?.name || "").trim()
+          if (fetchedName) {
+            localStorage.setItem(USER_NAME_STORAGE_KEY, fetchedName)
+            window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: fetchedName } }))
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch user name on sign-in:", e)
+      }
 
       openDialog({
         variant: "success",
@@ -300,16 +326,20 @@ export default function App() {
       const email = (formData?.email || "").trim().toLowerCase()
       const password = formData?.password || ""
       const phone = (formData?.phone || "").trim()
-  
+
       // 1) Create auth user first (this is the main thing)
       const cred = await createUserWithEmailAndPassword(auth, email, password)
-  
+
       // 2) Mark user as logged in right away
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("userUid", cred.user.uid)
       localStorage.setItem("userEmail", email)
-  
+      if (name) {
+        localStorage.setItem(USER_NAME_STORAGE_KEY, name)
+        window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name } }))
+      }
+
       // 3) Show success immediately
       openDialog({
         variant: "success",
@@ -321,7 +351,7 @@ export default function App() {
           setCurrentPage("home")
         },
       })
-  
+
       // 4) Save profile in Firestore in background (don’t block UI)
       setDoc(doc(db, "users", cred.user.uid), {
         name,
@@ -333,11 +363,11 @@ export default function App() {
         // optional: you can show a warning dialog if you want
         // openDialog({ variant: "warning", title: "Saved account, but profile not saved", message: "Account created, but we couldn't save profile details. Try again later." })
       })
-  
+
       return true
     } catch (err) {
       console.error("Firebase sign-up failed:", err)
-  
+
       if (err?.code === "auth/email-already-in-use") {
         openDialog({
           variant: "warning",
@@ -353,14 +383,14 @@ export default function App() {
         })
         return false
       }
-  
+
       const friendly =
         err?.code === "auth/invalid-email"
           ? "That email looks invalid. Please check it."
           : err?.code === "auth/weak-password"
           ? "Password is too weak. Use at least 6 characters."
           : err?.message || "Sign up failed."
-  
+
       openDialog({
         variant: "error",
         title: "Signup failed",
@@ -368,7 +398,7 @@ export default function App() {
         primaryLabel: "Close",
         onPrimary: () => closeDialog(),
       })
-  
+
       return false
     }
   }
@@ -385,6 +415,8 @@ export default function App() {
     localStorage.removeItem("adminEmail")
     localStorage.removeItem("userUid")
     localStorage.removeItem("userEmail")
+    localStorage.removeItem(USER_NAME_STORAGE_KEY)
+    window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: "" } }))
 
     openDialog({
       variant: "success",

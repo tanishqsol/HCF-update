@@ -38,9 +38,16 @@ export default function SignUp({ onSignUp, onBack, onSignIn }) {
 
     setIsSubmitting(true)
     try {
-      // IMPORTANT: wait for Firebase signup + parent dialog to trigger
-      const ok = await onSignUp(formData)
-      // if ok is false, parent showed dialog; we just stay here
+      // Make sure we always await a Promise (even if onSignUp is not async)
+      // Also add a timeout so UI never gets stuck forever.
+      const ok = await Promise.race([
+        Promise.resolve(onSignUp(formData)),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Signup is taking too long. Please try again.")), 15000)
+        ),
+      ])
+
+      // if ok is false, parent likely showed dialog; we just stay here
       if (!ok) return
     } catch (err) {
       setError(err?.message || "Sign up failed")

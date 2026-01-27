@@ -3,33 +3,107 @@
 import { useEffect, useState } from "react"
 import "./Hero.css"
 
+import { initializeApp, getApps, getApp } from "firebase/app"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { getFirestore, doc, getDoc } from "firebase/firestore"
+
 export default function Hero({ isDarkMode }) {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollY, setScrollY] = useState(0)
 
-  // ----- Language sync (reads Navbar's toggle) -----
+  // ----- Language + user sync -----
   const LANG_STORAGE_KEY = "hcf_lang"
   const LANG_EVENT = "hcf:lang"
+  const USER_NAME_STORAGE_KEY = "hcf_user_name"
+  const USER_EVENT = "hcf:user"
 
   const [lang, setLang] = useState(() => {
     if (typeof window === "undefined") return "en"
     return window.localStorage.getItem(LANG_STORAGE_KEY) || "en"
   })
 
+  const [userName, setUserName] = useState(() => {
+    if (typeof window === "undefined") return ""
+    return window.localStorage.getItem(USER_NAME_STORAGE_KEY) || ""
+  })
+
+  // Firebase (used only as a fallback to fetch name if it's missing in localStorage)
+  const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyACe9qO583jAkoQrJsvX_Dp0tYdPtlgTsQ",
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "hcfprod.firebaseapp.com",
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "hcfprod",
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "hcfprod.firebasestorage.app",
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "158540586016",
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:158540586016:web:3070f5ac072c372f20f045",
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-Z68X6R3RTQ",
+  }
+
   useEffect(() => {
     if (typeof window === "undefined") return
 
     // init from storage
     setLang(window.localStorage.getItem(LANG_STORAGE_KEY) || "en")
+    const storedName = (window.localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
+    setUserName(storedName)
 
     // listen to Navbar events
-    const handler = (e) => {
+    const langHandler = (e) => {
       const next = e?.detail?.lang
       if (next) setLang(next)
     }
 
-    window.addEventListener(LANG_EVENT, handler)
-    return () => window.removeEventListener(LANG_EVENT, handler)
+    // listen to auth/user events
+    const userHandler = (e) => {
+      const nextName = (e?.detail?.name || "").trim()
+      setUserName(nextName)
+      window.localStorage.setItem(USER_NAME_STORAGE_KEY, nextName)
+    }
+
+    window.addEventListener(LANG_EVENT, langHandler)
+    window.addEventListener(USER_EVENT, userHandler)
+
+    // Fallback: if name isn't in localStorage, try to fetch it from Firestore for the signed-in user
+    let unsubscribeAuth = null
+    if (!storedName) {
+      try {
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
+        const auth = getAuth(app)
+        const db = getFirestore(app)
+
+        unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+          try {
+            if (!user) return
+
+            // If we already got a name meanwhile, don't fetch again
+            const current = (window.localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
+            if (current) {
+              setUserName(current)
+              return
+            }
+
+            const snap = await getDoc(doc(db, "users", user.uid))
+            if (snap.exists()) {
+              const fetchedName = (snap.data()?.name || "").trim()
+              if (fetchedName) {
+                window.localStorage.setItem(USER_NAME_STORAGE_KEY, fetchedName)
+                setUserName(fetchedName)
+                window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: fetchedName } }))
+              }
+            }
+          } catch (err) {
+            console.error("Hero name hydration failed:", err)
+          }
+        })
+      } catch (err) {
+        console.error("Firebase init failed in Hero:", err)
+      }
+    }
+
+    return () => {
+      window.removeEventListener(LANG_EVENT, langHandler)
+      window.removeEventListener(USER_EVENT, userHandler)
+      if (typeof unsubscribeAuth === "function") unsubscribeAuth()
+    }
   }, [])
 
   const TEXT = {
@@ -39,7 +113,7 @@ export default function Hero({ isDarkMode }) {
       tagline: "Speaking the truth about Jesus to Hindi speakers in Greater Boston",
       join: "Join Our Fellowship",
       learn: "Learn More",
-      scroll: "Scroll to explore",
+      scroll: "Scroll to explore!!",
     },
     hi: {
       title: "हिंदी मसीही संगति",
@@ -79,7 +153,7 @@ export default function Hero({ isDarkMode }) {
         style={{ transform: `translateY(${-scrollY * 0.3}px)` }}
       >
         <h1 className="hero__title">
-          {t.title}
+          {userName ? (lang === "hi" ? `स्वागत है ${userName} • ${t.title}` : `Welcome ${userName} to ${t.title}`) : t.title}
           <span className="hero__subtitle">{t.subtitle}</span>
         </h1>
         <p className="hero__tagline">{t.tagline}</p>
