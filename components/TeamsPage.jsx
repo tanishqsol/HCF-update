@@ -84,6 +84,16 @@ const coreTeam = [
     about:
       "Gary McCann serves as a vital networker and prayer partner for HCF. His gift for building connections brings together believers from various backgrounds to support the ministry. Gary's dedication to prayer creates a spiritual foundation that undergirds all of HCF's activities, ensuring that the work is rooted in faith and dependence on God.",
   },
+  {
+  name: "Tanishq Solanki",
+  role: "Key Volunteer Leader",
+  gender: "male",
+  photo: "/images/team/tanishq_profile.png",
+  description: "Built and maintains HCF’s website and digital presence, supporting outreach through web and media.",
+  email: "tanishqsolanki7@gmail.com",
+  about:
+    "Tanishq Solanki brings a strong blend of software engineering skill and a sincere commitment to Jesus to HCF. As a software developer, he builds and maintains key parts of HCF’s digital presence, making sure the website is reliable, clear, and easy for people to connect with. He also supports outreach through thoughtful content and social media, helping the message reach more Hindi-speaking friends and families. Above all, his faith and prayerful dependence on Jesus keep his work centered on serving God and strengthening the fellowship.",
+},
 ]
 
 const keyVolunteers = [

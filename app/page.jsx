@@ -1,12 +1,17 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { initializeApp, getApps, getApp } from "firebase/app"
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged,
 } from "firebase/auth"
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore"
 
@@ -34,7 +39,19 @@ const ADMIN_EMAILS = new Set([
 ])
 
 const ADMIN_PASSWORD = "1234"
+
+// ⚠️ IMPORTANT: Make sure these files exist in /public/images/team/...
+// If your file is actually named "silloutte_male.png", change the path below to match exactly.
+const ADMIN_PHOTOS = {
+  "mike@admin.com": "/images/team/mike_prof.png",
+  "tom@admin.com": "images/team/tom_profile-2.jpeg",
+  "shashi@admin.com": "/images/team/shashi_prof.jpeg",
+  "swaroop@admin.com": "/images/team/swaroop_prof.png",
+  "tanishq@admin.com": "/images/team/tanishq_profile.png",
+  "kundan@admin.com": "",
+} 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
+const USER_PHOTO_STORAGE_KEY = "hcf_user_photo"
 const USER_EVENT = "hcf:user"
 
 const firebaseConfig = {
@@ -50,7 +67,14 @@ const firebaseConfig = {
 const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig)
 const auth = getAuth(firebaseApp)
 const db = getFirestore(firebaseApp)
-
+const toTitleCase = (str = "") =>
+  str
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ")
 // Simple reusable dialog
 function StatusDialog({
   open,
@@ -152,8 +176,8 @@ function StatusDialog({
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [scrollProgress, setScrollProgress] = useState(0)
+
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [currentPage, setCurrentPage] = useState("home") // home, signin, signup, teams, resources, music
 
@@ -168,11 +192,7 @@ export default function App() {
     onSecondary: null,
   })
 
-  const closeDialog = () =>
-    setDialog((d) => ({
-      ...d,
-      open: false,
-    }))
+  const closeDialog = () => setDialog((d) => ({ ...d, open: false }))
 
   const openDialog = (cfg) =>
     setDialog({
@@ -186,84 +206,198 @@ export default function App() {
       onSecondary: cfg.onSecondary || null,
     })
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark-mode", isDarkMode)
-  }, [isDarkMode])
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-
-      const xPercent = (e.clientX / window.innerWidth) * 100
-      const yPercent = (e.clientY / window.innerHeight) * 100
-      document.documentElement.style.setProperty("--mouse-x", `${xPercent}%`)
-      document.documentElement.style.setProperty("--mouse-y", `${yPercent}%`)
-    }
-
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
-      const progress = (window.scrollY / totalHeight) * 100
-      setScrollProgress(progress)
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
-
-  useEffect(() => {
-    const saved = localStorage.getItem("isAuthenticated")
-    if (saved === "true") {
-      setIsAuthenticated(true)
-
-      const existingName = (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
-      if (existingName) {
-        window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: existingName } }))
-      }
-    }
-  }, [])
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
-
   const navigateTo = (page) => {
     setCurrentPage(page)
     window.scrollTo(0, 0)
   }
 
+  // ✅ Persist user helper (email/pass + google)
+  const persistSignedInUser = async (user, providerName) => {
+    setIsAuthenticated(true)
+    localStorage.setItem("isAuthenticated", "true")
+    localStorage.setItem("userUid", user.uid)
+    localStorage.setItem("userEmail", (user.email || "").toLowerCase())
+const rawName = (user.displayName || "").trim()
+const name = toTitleCase(rawName)
+    const photoURL = (user.photoURL || "").trim()
+
+    if (name) localStorage.setItem(USER_NAME_STORAGE_KEY, name)
+    if (photoURL) localStorage.setItem(USER_PHOTO_STORAGE_KEY, photoURL)
+
+    window.dispatchEvent(
+      new CustomEvent(USER_EVENT, {
+        detail: { name: name || "", photoURL: photoURL || "" },
+      })
+    )
+
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
+        name: name || null,
+        email: (user.email || "").toLowerCase() || null,
+        photoURL: photoURL || null,
+        provider: providerName || null,
+        lastLoginAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
+      },
+      { merge: true }
+    )
+  }
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark-mode", isDarkMode)
+  }, [isDarkMode])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0
+      setScrollProgress(progress)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // ✅ Rehydrate auth on refresh
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      const saved = localStorage.getItem("isAuthenticated") === "true"
+
+      if (!user && !saved) {
+        setIsAuthenticated(false)
+        return
+      }
+
+      if (user) {
+        setIsAuthenticated(true)
+        localStorage.setItem("isAuthenticated", "true")
+        localStorage.setItem("userUid", user.uid)
+        localStorage.setItem("userEmail", (user.email || "").toLowerCase())
+
+        const existingName = (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
+        const existingPhoto = (localStorage.getItem(USER_PHOTO_STORAGE_KEY) || "").trim()
+
+        // If photo missing, try Firebase user.photoURL first
+        if (!existingPhoto && user.photoURL) {
+          localStorage.setItem(USER_PHOTO_STORAGE_KEY, user.photoURL)
+        }
+
+        // If still missing name/photo, fetch Firestore once
+        const afterPhoto = (localStorage.getItem(USER_PHOTO_STORAGE_KEY) || "").trim()
+        if (!existingName || !afterPhoto) {
+          try {
+            const snap = await getDoc(doc(db, "users", user.uid))
+            if (snap.exists()) {
+              const fetchedName = (snap.data()?.name || "").trim()
+              const fetchedPhoto = (snap.data()?.photoURL || "").trim()
+
+              if (fetchedName) localStorage.setItem(USER_NAME_STORAGE_KEY, fetchedName)
+              if (fetchedPhoto) localStorage.setItem(USER_PHOTO_STORAGE_KEY, fetchedPhoto)
+            }
+          } catch (e) {
+            console.error("Auth rehydrate Firestore fetch failed:", e)
+          }
+        }
+
+        window.dispatchEvent(
+          new CustomEvent(USER_EVENT, {
+            detail: {
+              name: (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim(),
+              photoURL: (localStorage.getItem(USER_PHOTO_STORAGE_KEY) || "").trim(),
+            },
+          })
+        )
+      } else if (saved) {
+        // Admin bypass session (no firebase user)
+        setIsAuthenticated(true)
+      }
+    })
+
+    return () => unsub()
+  }, [])
+
+  // ✅ Handle redirect result (Google fallback)
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const res = await getRedirectResult(auth)
+        if (!res?.user) return
+        await persistSignedInUser(res.user, "google")
+        setCurrentPage("home")
+      } catch (err) {
+        if (!err) return
+        console.error("Google redirect result failed:", err)
+        openDialog({
+          variant: "error",
+          title: "Google sign-in failed",
+          message: err?.message || "Please try again.",
+          primaryLabel: "Close",
+          onPrimary: closeDialog,
+        })
+      }
+    })()
+  }, [])
+
+  // ✅ If authenticated, never stay on auth pages
+  useEffect(() => {
+    if (isAuthenticated && (currentPage === "signin" || currentPage === "signup")) {
+      setCurrentPage("home")
+    }
+  }, [isAuthenticated, currentPage])
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({ prompt: "select_account" })
+
+      try {
+        const cred = await signInWithPopup(auth, provider)
+        await persistSignedInUser(cred.user, "google")
+        setCurrentPage("home")
+        return true
+      } catch (popupErr) {
+        const code = popupErr?.code
+        if (
+          code === "auth/popup-blocked" ||
+          code === "auth/popup-closed-by-user" ||
+          code === "auth/cancelled-popup-request" ||
+          code === "auth/operation-not-supported-in-this-environment"
+        ) {
+          await signInWithRedirect(auth, provider)
+          return true
+        }
+        throw popupErr
+      }
+    } catch (err) {
+      console.error("Google sign-in failed:", err)
+      return false
+    }
+  }
+
   const handleSignIn = async (email, password) => {
     const normalizedEmail = (email || "").trim().toLowerCase()
 
-    // Admin bypass
+    // ✅ Admin bypass
     if (ADMIN_EMAILS.has(normalizedEmail) && password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("adminEmail", normalizedEmail)
-      const adminName = (normalizedEmail.split("@")[0] || "").trim()
-      if (adminName) {
-        localStorage.setItem(USER_NAME_STORAGE_KEY, adminName)
-        window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: adminName } }))
-      }
 
-      openDialog({
-        variant: "success",
-        title: "Signed in ✅",
-        message: "Welcome back!",
-        primaryLabel: "Continue",
-        onPrimary: () => {
-          closeDialog()
-          setCurrentPage("home")
-        },
-      })
+const adminName = toTitleCase((normalizedEmail.split("@")[0] || "").trim())      
+const adminPhoto = (ADMIN_PHOTOS[normalizedEmail] || "").trim()
+
+      localStorage.setItem(USER_NAME_STORAGE_KEY, adminName)
+      localStorage.setItem(USER_PHOTO_STORAGE_KEY, adminPhoto)
+
+      window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: adminName, photoURL: adminPhoto } }))
+
+      setCurrentPage("home")
       return true
     }
 
-    // Firebase sign-in
+    // ✅ Firebase email/pass
     try {
       const cred = await signInWithEmailAndPassword(auth, normalizedEmail, password)
 
@@ -272,133 +406,68 @@ export default function App() {
       localStorage.setItem("userUid", cred.user.uid)
       localStorage.setItem("userEmail", normalizedEmail)
 
-      // Hydrate name for Hero
+      // hydrate name/photo
       try {
         const snap = await getDoc(doc(db, "users", cred.user.uid))
         if (snap.exists()) {
           const fetchedName = (snap.data()?.name || "").trim()
-          if (fetchedName) {
-            localStorage.setItem(USER_NAME_STORAGE_KEY, fetchedName)
-            window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: fetchedName } }))
-          }
+          const fetchedPhoto = (snap.data()?.photoURL || "").trim()
+
+          if (fetchedName) localStorage.setItem(USER_NAME_STORAGE_KEY, fetchedName)
+          if (fetchedPhoto) localStorage.setItem(USER_PHOTO_STORAGE_KEY, fetchedPhoto)
+
+          window.dispatchEvent(
+            new CustomEvent(USER_EVENT, { detail: { name: fetchedName || "", photoURL: fetchedPhoto || "" } })
+          )
         }
       } catch (e) {
-        console.error("Failed to fetch user name on sign-in:", e)
+        console.error("Failed to fetch user profile on sign-in:", e)
       }
 
-      openDialog({
-        variant: "success",
-        title: "Signed in ✅",
-        message: "You’re signed in successfully.",
-        primaryLabel: "Continue",
-        onPrimary: () => {
-          closeDialog()
-          setCurrentPage("home")
-        },
-      })
+      setCurrentPage("home")
       return true
     } catch (err) {
       console.error("Firebase sign-in failed:", err)
-
-      const friendly =
-        err?.code === "auth/user-not-found"
-          ? "No account found with this email."
-          : err?.code === "auth/wrong-password"
-          ? "Incorrect password."
-          : err?.code === "auth/invalid-email"
-          ? "That email looks invalid. Please check it."
-          : err?.message || "Sign in failed."
-
-      openDialog({
-        variant: "error",
-        title: "Sign in failed",
-        message: friendly,
-        primaryLabel: "Close",
-        onPrimary: () => closeDialog(),
-      })
       return false
     }
   }
 
   const handleSignUp = async (formData) => {
     try {
-      const name = (formData?.name || "").trim()
-      const email = (formData?.email || "").trim().toLowerCase()
+const name = toTitleCase((formData?.name || "").trim())      
+const email = (formData?.email || "").trim().toLowerCase()
       const password = formData?.password || ""
       const phone = (formData?.phone || "").trim()
 
-      // 1) Create auth user first (this is the main thing)
       const cred = await createUserWithEmailAndPassword(auth, email, password)
 
-      // 2) Mark user as logged in right away
       setIsAuthenticated(true)
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("userUid", cred.user.uid)
       localStorage.setItem("userEmail", email)
-      if (name) {
-        localStorage.setItem(USER_NAME_STORAGE_KEY, name)
-        window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name } }))
-      }
 
-      // 3) Show success immediately
-      openDialog({
-        variant: "success",
-        title: "Signup successful ✅",
-        message: "Welcome to HCF! Your account has been created.",
-        primaryLabel: "Continue",
-        onPrimary: () => {
-          closeDialog()
-          setCurrentPage("home")
+      if (name) localStorage.setItem(USER_NAME_STORAGE_KEY, name)
+      localStorage.removeItem(USER_PHOTO_STORAGE_KEY)
+
+      window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: name || "", photoURL: "" } }))
+
+      setCurrentPage("home")
+
+      setDoc(
+        doc(db, "users", cred.user.uid),
+        {
+          name,
+          email,
+          phone: phone || null,
+          photoURL: null,
+          createdAt: serverTimestamp(),
         },
-      })
-
-      // 4) Save profile in Firestore in background (don’t block UI)
-      setDoc(doc(db, "users", cred.user.uid), {
-        name,
-        email,
-        phone: phone || null,
-        createdAt: serverTimestamp(),
-      }).catch((e) => {
-        console.error("Firestore write failed:", e)
-        // optional: you can show a warning dialog if you want
-        // openDialog({ variant: "warning", title: "Saved account, but profile not saved", message: "Account created, but we couldn't save profile details. Try again later." })
-      })
+        { merge: true }
+      ).catch((e) => console.error("Firestore write failed:", e))
 
       return true
     } catch (err) {
       console.error("Firebase sign-up failed:", err)
-
-      if (err?.code === "auth/email-already-in-use") {
-        openDialog({
-          variant: "warning",
-          title: "Email already in use",
-          message: "This email already has an account. Please sign in instead (or use a different email).",
-          primaryLabel: "Sign in",
-          onPrimary: () => {
-            closeDialog()
-            setCurrentPage("signin")
-          },
-          secondaryLabel: "Close",
-          onSecondary: () => closeDialog(),
-        })
-        return false
-      }
-
-      const friendly =
-        err?.code === "auth/invalid-email"
-          ? "That email looks invalid. Please check it."
-          : err?.code === "auth/weak-password"
-          ? "Password is too weak. Use at least 6 characters."
-          : err?.message || "Sign up failed."
-
-      openDialog({
-        variant: "error",
-        title: "Signup failed",
-        message: friendly,
-        primaryLabel: "Close",
-        onPrimary: () => closeDialog(),
-      })
-
       return false
     }
   }
@@ -406,25 +475,18 @@ export default function App() {
   const handleSignOut = async () => {
     try {
       await firebaseSignOut(auth)
-    } catch (e) {
-      // ignore
-    }
+    } catch (e) {}
 
     setIsAuthenticated(false)
+
     localStorage.removeItem("isAuthenticated")
     localStorage.removeItem("adminEmail")
     localStorage.removeItem("userUid")
     localStorage.removeItem("userEmail")
     localStorage.removeItem(USER_NAME_STORAGE_KEY)
-    window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: "" } }))
+    localStorage.removeItem(USER_PHOTO_STORAGE_KEY)
 
-    openDialog({
-      variant: "success",
-      title: "Signed out",
-      message: "You’ve been signed out successfully.",
-      primaryLabel: "OK",
-      onPrimary: () => closeDialog(),
-    })
+    window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: "", photoURL: "" } }))
 
     setCurrentPage("home")
   }
@@ -440,7 +502,12 @@ export default function App() {
           <div className="shape shape-2" />
           <div className="shape shape-3" />
         </div>
-        <SignIn onSignIn={handleSignIn} onBack={() => navigateTo("home")} onSignUp={() => navigateTo("signup")} />
+        <SignIn
+          onSignIn={handleSignIn}
+          onGoogleSignIn={handleGoogleSignIn}
+          onBack={() => navigateTo("home")}
+          onSignUp={() => navigateTo("signup")}
+        />
       </div>
     )
   }
@@ -463,13 +530,7 @@ export default function App() {
   if (currentPage === "teams") {
     return (
       <div className="app-container">
-        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
-        <div className="floating-shapes">
-          <div className="shape shape-1" />
-          <div className="shape shape-2" />
-          <div className="shape shape-3" />
-        </div>
         <TeamsPage onBack={() => navigateTo("home")} isDarkMode={isDarkMode} />
       </div>
     )
@@ -478,13 +539,7 @@ export default function App() {
   if (currentPage === "resources") {
     return (
       <div className="app-container">
-        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
-        <div className="floating-shapes">
-          <div className="shape shape-1" />
-          <div className="shape shape-2" />
-          <div className="shape shape-3" />
-        </div>
         <ResourcesPage onBack={() => navigateTo("home")} isDarkMode={isDarkMode} />
       </div>
     )
@@ -493,13 +548,7 @@ export default function App() {
   if (currentPage === "music") {
     return (
       <div className="app-container">
-        <StatusDialog {...dialog} />
         <div className="animated-mesh-bg" />
-        <div className="floating-shapes">
-          <div className="shape shape-1" />
-          <div className="shape shape-2" />
-          <div className="shape shape-3" />
-        </div>
         <MusicVideosPage onBack={() => navigateTo("home")} isDarkMode={isDarkMode} />
       </div>
     )
@@ -508,7 +557,6 @@ export default function App() {
   // Home
   return (
     <div className="app-container">
-      <StatusDialog {...dialog} />
       <div className="animated-mesh-bg" />
 
       <div className="floating-shapes">
@@ -539,7 +587,7 @@ export default function App() {
 
       <Navbar
         isDarkMode={isDarkMode}
-        toggleTheme={toggleTheme}
+        toggleTheme={() => setIsDarkMode((v) => !v)}
         isAuthenticated={isAuthenticated}
         onSignIn={() => navigateTo("signin")}
         onSignOut={handleSignOut}

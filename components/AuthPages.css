@@ -79,7 +79,55 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+.google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.12);
+
+  font-weight: 800;
+  font-size: 16px;
+  color: #1f1f1f;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.google-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  background: #fcfcfc;
+}
+
+.google-btn:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+}
+
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-btn__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.google-btn__text {
+  line-height: 1;
+}
 .auth-form__error {
   padding: 1rem;
   background: rgba(239, 68, 68, 0.1);
@@ -131,4 +179,39 @@
 .auth-form__submit:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(255, 153, 51, 0.4);
+}
+/* “Create an account” link-style button */
+.auth-form__link {
+  width: 100%;
+  margin-top: 10px;
+cursor: pointer;
+  background: rgba(26, 54, 93, 0.08);
+  border: none;
+
+  color: var(--color-primary, #1a365d);
+  font-weight: 800;
+  font-size: 14px;
+  text-align: center;
+
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.auth-form__link:hover:not(:disabled) {
+  background: rgba(9, 255, 0, 0.583);
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+.auth-form__link:active:not(:disabled) {
+  transform: translateY(0);
+  background: rgba(26, 54, 93, 0.12);
+}
+
+.auth-form__link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
