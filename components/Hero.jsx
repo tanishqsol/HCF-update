@@ -19,6 +19,7 @@ export default function Hero({ isDarkMode }) {
 
   const [userName, setUserName] = useState("")
   const [userPhoto, setUserPhoto] = useState("")
+  const [centerProfile, setCenterProfile] = useState(false)
 
   const TEXT = useMemo(
     () => ({
@@ -43,14 +44,16 @@ export default function Hero({ isDarkMode }) {
   )
 
   const t = TEXT[lang] || TEXT.en
-const toTitleCase = (str = "") =>
-  str
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ")
+
+  const toTitleCase = (str = "") =>
+    str
+      .trim()
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ")
+
   useEffect(() => {
     setMounted(true)
 
@@ -58,18 +61,25 @@ const toTitleCase = (str = "") =>
     const storedLang = (window.localStorage.getItem(LANG_STORAGE_KEY) || "en").trim()
     setLang(storedLang)
 
-const storedName = toTitleCase(window.localStorage.getItem(USER_NAME_STORAGE_KEY) || "")
+    const storedName = toTitleCase(window.localStorage.getItem(USER_NAME_STORAGE_KEY) || "")
     const storedPhoto = (window.localStorage.getItem(USER_PHOTO_STORAGE_KEY) || "").trim()
     setUserName(storedName)
     setUserPhoto(storedPhoto)
 
     const langHandler = (e) => {
       const next = e?.detail?.lang
-      if (next) setLang(next)
+      if (!next) return
+
+      // Preserve scroll position to avoid jump when language/text reflows
+      const y = window.scrollY
+      setLang(next)
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: y, left: 0, behavior: "auto" })
+      })
     }
 
     const userHandler = (e) => {
-const nextName = toTitleCase(e?.detail?.name || "")
+      const nextName = toTitleCase(e?.detail?.name || "")
       const nextPhoto = (e?.detail?.photoURL || "").trim()
 
       setUserName(nextName)
@@ -89,6 +99,21 @@ const nextName = toTitleCase(e?.detail?.name || "")
   }, [])
 
   useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)")
+    const onChange = () => setCenterProfile(mq.matches)
+    onChange()
+
+    // Safari fallback
+    if (mq.addEventListener) mq.addEventListener("change", onChange)
+    else mq.addListener(onChange)
+
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange)
+      else mq.removeListener(onChange)
+    }
+  }, [])
+
+  useEffect(() => {
     setIsVisible(true)
     const handleScroll = () => setScrollY(window.scrollY)
     window.addEventListener("scroll", handleScroll)
@@ -97,9 +122,7 @@ const nextName = toTitleCase(e?.detail?.name || "")
 
   const fallbackAvatar = "/images/team/silhouette_male.png" // make sure this file exists
 
-  const heroTitle = userName
-    ? `Welcome ${userName} to Hindi Christian Fellowship`
-    : "Hindi Christian Fellowship"
+  const heroTitle = userName ? `Welcome ${userName} to Hindi Christian Fellowship` : "Hindi Christian Fellowship"
 
   // Don’t render the chip until mounted (avoids weird first paint)
   const showProfile = mounted && !!userName
@@ -117,7 +140,15 @@ const nextName = toTitleCase(e?.detail?.name || "")
       <div className="hero__overlay" style={{ opacity: 0.4 + scrollY * 0.0005 }} />
 
       {showProfile && (
-        <div className="hero__profile" aria-label="Signed in user">
+        <div
+          className="hero__profile"
+          aria-label="Signed in user"
+          style={
+            centerProfile
+              ? { left: "50%", right: "auto", transform: "translateX(-50%)", justifyContent: "center" }
+              : undefined
+          }
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="hero__profileImg"
@@ -137,7 +168,10 @@ const nextName = toTitleCase(e?.detail?.name || "")
 
       <div
         className={`hero__content ${isVisible ? "hero__content--visible" : ""}`}
-        style={{ transform: `translateY(${-scrollY * 0.3}px)` }}
+        style={{
+          transform: `translateY(${-scrollY * 0.3}px)`,
+          paddingBottom: "clamp(90px, 14vh, 160px)",
+        }}
       >
         <h1 className="hero__title">
           {heroTitle}
@@ -162,8 +196,19 @@ const nextName = toTitleCase(e?.detail?.name || "")
         </div>
       </div>
 
-      <div className="hero__scroll-indicator">
-        <span>{t.scroll}</span>
+      <div
+        className="hero__scroll-indicator"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "6px",
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        <span style={{ display: "block", width: "100%", textAlign: "center" }}>{t.scroll}</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
             d="M12 5L12 19M12 19L19 12M12 19L5 12"

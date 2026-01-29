@@ -41,6 +41,7 @@ export default function SignIn({ onSignIn, onGoogleSignIn, onBack, onSignUp }) {
       if (!ok) setError("Google sign-in failed. Please try again.")
     } catch (err) {
       setError(err?.message || "Google sign-in failed")
+      console.error("Google sign-in failed:", err?.code, err?.message)
     } finally {
       setIsSubmitting(false)
     }

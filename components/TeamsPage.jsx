@@ -55,7 +55,7 @@ const coreTeam = [
     photo: "images/team/tom_profile-2.jpeg",
     description: "Supporting the ministry with strategic partnership and guidance.",
     email: "t_kane_123@yahoo.com", 
-    about: "I grew up on Long Island, New York in a suburban community with my four brothersand my parents. I attended Stony Brook University where I graduated with a degree ineconomics and did some graduate work at Purdue University. I became a born-again Christian at the age of 19. I moved up to Boston in 2006, where I am a member of Park Street Church, attending there since 2007. I work in the financial services industry for a large life insurance company that is headquartered in Boston. My ministry interests are in the areas of evangelism, discipleship and corporate prayer. I am a lifelong bachelor and currently live in Everett, MA",
+    about: "Tom grew up on Long Island, New York, in a suburban community with his four brothers and his parents. He attended Stony Brook University, where he graduated with a degree in economics, and did some graduate work at Purdue University. He became a born-again Christian at the age of 19. He moved up to Boston in 2006, where he is a member of Park Street Church, attending there since 2007. He works in the financial services industry for a large life insurance company that is headquartered in Boston. His ministry interests are in the areas of evangelism, discipleship, and corporate prayer. He is a lifelong bachelor and currently lives in Everett, MA.",
   },
   {
     name: "Swaroop Pidakala",
@@ -98,16 +98,6 @@ const coreTeam = [
 
 const keyVolunteers = [
   {
-    name: "Tanishq Solanki",
-    role: "Key Volunteer Leader",
-    gender: "male",
-    photo: "/images/team/tanishq_profile.png",
-    areas: "Prayer laborer, Website designer & developer, Social Media",
-    // email:"srishtu03@gmail.com",
-    about:
-      "Tanishq Solanki brings a strong blend of software engineering skill and a sincere commitment to Jesus to HCF. As a software developer, he builds and maintains key parts of HCF’s digital presence, making sure the website is reliable, clear, and easy for people to connect with. He also supports outreach through thoughtful content and social media, helping the message reach more Hindi-speaking friends and families. Above all, his faith and prayerful dependence on Jesus keep his work centered on serving God and strengthening the fellowship.",
-  },
-  {
     name: "Kundan Srivastava",
     role: "Key Volunteer Leader",
     gender: "male",
@@ -116,18 +106,27 @@ const keyVolunteers = [
     about:
       "Kundan Srivastava is a key volunteer leader who serves with excellence in multiple areas of ministry. As a dedicated prayer laborer, he intercedes for the fellowship and its members. His strategic thinking and passion for outreach help HCF reach new people and communities with the gospel message.",
   },
+  {
+   name: "Praveen Arpudha",
+   role: "Key Volunteer ",
+   gender: "male",
+   photo: "",
+   areas: "Worship Minister",
+   about:
+     "Praveen is a dynamic worship leader, talented keyboardist, and songwriter. Known for his ability to lead worship in multiple languages, he brings a unique and diverse sound to the community. He actively contributes to the HCF and is passionate about using his musical gifts to serve the church and inspire others.",
+ },
    {
     name: "Dale Alphonso",
-    role: "Key Volunteer Leader",
-    gender: "male",
+    role: "Key Volunteer ",
+    gender: "female",
     photo: "/images/team/dale_profile.png",
     areas: "Prayer laborer",
     about:"Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good."
    },
    {
     name: "Srishti Michael",
-    role: "Key Volunteer Leader",
-    gender: "male",
+    role: "Key Volunteer ",
+    gender: "female",
     photo: "/images/team/srishti_profile.png",
     areas: "Prayer laborer",
     about:
