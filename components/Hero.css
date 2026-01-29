@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  /* Use dynamic viewport units to avoid browser UI issues */
+  /* Use dynamic viewport units to avoid mobile browser UI issues */
   min-height: 100svh;
 
   /* Fixed navbars can overlap the hero, so reserve space */
@@ -19,10 +19,14 @@
   left: -5%;
   right: -5%;
   bottom: -10%;
+
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+
   transition: background-image 0.8s ease;
   will-change: transform;
+  z-index: 0;
 }
 
 .hero__overlay {
@@ -30,32 +34,127 @@
   inset: 0;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
   transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
 .dark-mode .hero__overlay {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
 }
 
-/* ✅ Profile chip inside Hero (top-left floating) */
 .hero__profile {
+  /* defaults (good for 1024x640-ish) */
+  --profile-top: calc(var(--navbar-offset) + 4px);
+  --profile-left: 48px;
+  --profile-scale: 1;
+  --profile-top-extra: 0px;
+  --profile-master-top: 0px;   /* master offset for ALL non-phone screens */
+  --profile-master-left: 0px;  /* master offset for ALL non-phone screens */
+
   position: absolute;
-  top: calc(var(--navbar-offset) + 12px); /* adjusted for fixed navbar */
-  left: 60px;
   z-index: 5;
+
+  /* positioning driven by variables (overridden by your media queries) */
+  top: calc(var(--profile-top) + var(--profile-top-extra) + var(--profile-master-top));
+  left: calc(var(--profile-left) + var(--profile-master-left));
+  transform: scale(var(--profile-scale));
+  transform-origin: top left;
 
   display: inline-flex;
   align-items: center;
   gap: 12px;
 
   padding: 10px 12px;
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.16);
+  border-radius: 26px;
+width:10%;
+  /* background: rgba(255, 255, 255, 0.16); */
   border: 1px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Master offset for ALL non-phone screens ---------- */
+@media (min-width: 769px) {
+  .hero__profile {
+    /* Adjust ONLY these two values to move the profile on all non-phone resolutions */
+    --profile-master-top: 20px;
+    --profile-master-left: 80px;
+  }
+}
+
+/* ---------- Desktop / laptop common widths ---------- */
+
+/* 1920x1080, 1920x1200 */
+@media (min-width: 1920px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 72px;
+    --profile-scale: 1.02;
+  }
+}
+
+/* 1680x1050 */
+@media (min-width: 1680px) and (max-width: 1919px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 64px;
+    --profile-scale: 1.0;
+  }
+}
+
+/* 1440x900 (Mac default), 1536x864, 1600x900 */
+@media (min-width: 1440px) and (max-width: 1679px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 58px;
+    --profile-scale: 0.98;
+  }
+}
+
+/* 1366x768, 1400x900-ish */
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 52px;
+    --profile-scale: 0.96;
+  }
+}
+
+/* 1280x800, 1280x720 */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 46px;
+    --profile-scale: 0.94;
+  }
+}
+
+/* 1024x640 (your screenshot range) */
+@media (min-width: 900px) and (max-width: 1023px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 40px;
+    --profile-scale: 0.92;
+  }
+}
+
+/* ---------- Tablets / small laptops ---------- */
+@media (min-width: 769px) and (max-width: 899px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 6px);
+    --profile-left: 32px;
+    --profile-scale: 0.9;
+  }
+}
+
+/* ---------- Height safety (short screens) ----------
+   Helps when browser UI eats height (esp. 1366x768, 1024x640) */
+@media (max-height: 650px) {
+  .hero__profile {
+    --profile-top: calc(var(--navbar-offset) + 4px);
+    --profile-scale: 0.9;
+  }
 }
 
 .hero__profileImg {
@@ -65,6 +164,8 @@
   object-fit: cover;
   border: 2px solid rgba(255, 255, 255, 0.6);
   display: block;
+  mix-blend-mode: multiply;
+  background: transparent;
 }
 
 .hero__profileText {
@@ -99,24 +200,40 @@
   max-width: 1000px;
   padding: 2rem;
   padding-bottom: clamp(90px, 14vh, 160px);
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  transform: none;
+  transition: none;
   will-change: transform;
 }
 
 .hero__content--visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .hero__title {
   font-size: clamp(2.5rem, 7vw, 5rem);
   font-weight: 800;
+  opacity: 0;
   margin: 0 0 1rem;
   text-shadow: 3px 3px 6px rgba(175, 175, 136, 0.7), 0 0 30px rgba(255, 153, 51, 0.3);
   line-height: 1.1;
   letter-spacing: -1px;
+  width: 97%;
+  margin-left: 40px;
+}
+
+@keyframes heroTitleFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero__content--visible .hero__title {
+  animation: heroTitleFadeIn 0.9s ease forwards;
 }
 
 .hero__subtitle {
@@ -209,61 +326,77 @@
   transform: translateY(-3px);
 }
 
-.hero__scroll-indicator {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 3rem;
+/* Non-phone layout: avatar above name (desktop/tablet) */
+@media (min-width: 769px) {
+  .hero__profile {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 32px 14px;
+    text-align: center;
 
-  width: 100%;
-  padding-inline: 16px;
-  box-sizing: border-box;
+    /* Adjust vertical position for all non-phone screens */
+    --profile-top-extra: 70px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
-
-  animation: bounceY 2s infinite;
-  z-index: 6;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.hero__scroll-indicator svg {
-  color: white;
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
-}
-
-@keyframes bounceY {
-  0%,
-  100% {
-    transform: translateY(0);
+    /* Make the profile box background transparent on non-phone */
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* border: 1px solid rgba(255, 255, 255, 0.35); */
+    box-shadow: none;
   }
-  50% {
-    transform: translateY(10px);
+
+  .hero__profileText {
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Keep the desktop/tablet profile compact like the older design */
+  .hero__profileSub {
+    display: none;
+  }
+
+  .hero__profileImg {
+    width: 72px;
+    height: 72px;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
   .hero__profile {
-    top: calc(var(--navbar-offset) + 8px);
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    /* Force top-center on ALL phones */
+    top: calc(var(--navbar-offset) + 14px) !important;
+    margin-top: 8px;
+
+    left: 50% !important;
+    right: auto !important;
+
+    transform: translateX(-50%) !important;
+    transform-origin: top center;
 
     padding: 8px 10px;
     max-width: min(92vw, 520px);
     width: fit-content;
+    height: 65px;
+
     justify-content: center;
+  }
+
+  /* On phones, push the main hero content down so the profile chip is never covered */
+  .hero__content {
+    /* Reserve space for the centered profile chip (avatar + text) */
+    padding-top: clamp(64px, 10vh, 120px);
+    /* Extra breathing room under the fixed navbar */
+    margin-top: 18px;
+  }
+
+  .hero__title {
+    /* Prevent the first line from sitting too high on small screens */
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 0;
   }
 
   .hero__profileImg {
@@ -283,10 +416,5 @@
   .hero__button {
     width: 100%;
     max-width: 320px;
-  }
-
-  .hero__scroll-indicator {
-    bottom: 2rem;
-    font-size: 0.8rem;
   }
 }

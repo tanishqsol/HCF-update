@@ -356,8 +356,8 @@
 /* Add scroll progress indicator with cross */
 .scroll-progress {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 1rem;
+  right: 7rem;
   z-index: 1000;
   width: 60px;
   height: 60px;
@@ -379,8 +379,8 @@
 
 .scroll-progress__cross {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 52%;
+  left: 55%;
   transform: translate(-50%, -50%);
   color: var(--color-accent);
   opacity: 0.9;
@@ -388,10 +388,7 @@
 
 @media (max-width: 768px) {
   .scroll-progress {
-    bottom: 1rem;
-    right: 1rem;
-    width: 50px;
-    height: 50px;
+    display: none;
   }
 
   .scroll-progress__circle {

@@ -19,9 +19,6 @@ html {
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-button.authButtons{
-  color: rgb(46, 188, 143);
-}
 
 /* If you use an auth container class, prevent wrapping */
 .authButtons {
@@ -36,22 +33,39 @@ button.authButtons{
   white-space: nowrap;
 }
 
-/* Auth menu item colors: Team, Volunteer, Music Videos */
-.navbar__menu li:nth-child(3) button {
+/* Menu item colors (Day mode):
+   Keep Core Values black (no special color).
+   Shift Orange to Team, Blue to Volunteer, Green to Music Videos.
+   Assumes menu order: Home(1) Vision(2) Core Values(3) Team(4) Volunteer(5) Music Videos(6)
+*/
+.navbar__menu li:nth-child(4) button {
   color: #ffb242; /* orange */
 }
 
-.navbar__menu li:nth-child(4) button {
+.navbar__menu li:nth-child(5) button {
   color: #1d5dde; /* blue */
 }
 
-.navbar__menu li:nth-child(5) button {
+.navbar__menu li:nth-child(6) button {
   color: #2a9976; /* green */
 }
 
 .dark-mode .navbar {
   background: rgba(15, 23, 42, 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Night mode: make all navbar text/buttons white */
+.dark-mode .navbar__menu li button {
+  color: #ffffff !important;
+}
+
+.dark-mode .navbar__menu li button:hover {
+  color: #ffffff !important;
+}
+
+.dark-mode .navbar__menu li button::after {
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .navbar--scrolled {

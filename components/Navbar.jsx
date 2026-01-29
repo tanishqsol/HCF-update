@@ -27,7 +27,7 @@ export default function Navbar({
       en: {
         home: "Home",
         vision: "Vision",
-        coreValues: "Core Values",
+        coreValues: "Values",
         team: "Team",
         volunteer: "Volunteer",
         musicVideos: "Music Videos",

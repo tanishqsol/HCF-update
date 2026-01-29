@@ -28,7 +28,6 @@ export default function Hero({ isDarkMode }) {
         tagline: "Speaking the truth about Jesus to Hindi speakers in Greater Boston",
         join: "Join Our Fellowship",
         learn: "Learn More",
-        scroll: "Scroll to explore!!",
         welcomeSub: "Welcome",
       },
       hi: {
@@ -36,7 +35,6 @@ export default function Hero({ isDarkMode }) {
         tagline: "ग्रेटर बोस्टन में हिंदी भाषियों के बीच यीशु के सत्य को साझा करना",
         join: "हमारी संगति में जुड़ें",
         learn: "और जानें",
-        scroll: "स्क्रॉल करें",
         welcomeSub: "स्वागत",
       },
     }),
@@ -122,13 +120,19 @@ export default function Hero({ isDarkMode }) {
 
   const fallbackAvatar = "/images/team/silhouette_male.png" // make sure this file exists
 
-  const heroTitle = userName ? `Welcome ${userName} to Hindi Christian Fellowship` : "Hindi Christian Fellowship"
+  const heroTitle = userName ? `Welcome to Hindi Christian Fellowship` : "Hindi Christian Fellowship"
+  // const heroTitle = userName ? `Welcome ${userName} to Hindi Christian Fellowship` : "Hindi Christian Fellowship"
 
   // Don’t render the chip until mounted (avoids weird first paint)
   const showProfile = mounted && !!userName
 
   return (
-    <section id="hero" className="hero">
+    <section
+      id="hero"
+      className="hero"
+      // Push everything slightly lower to avoid mobile navbar overlap
+      style={{ paddingTop: "clamp(72px, 9vh, 140px)" }}
+    >
       <div
         className="hero__background"
         style={{
@@ -194,30 +198,6 @@ export default function Hero({ isDarkMode }) {
             {t.learn}
           </button>
         </div>
-      </div>
-
-      <div
-        className="hero__scroll-indicator"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "6px",
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
-        <span style={{ display: "block", width: "100%", textAlign: "center" }}>{t.scroll}</span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M12 5L12 19M12 19L19 12M12 19L5 12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
       </div>
     </section>
   )

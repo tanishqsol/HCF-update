@@ -130,7 +130,7 @@ const keyVolunteers = [
     photo: "/images/team/srishti_profile.png",
     areas: "Prayer laborer",
     about:
-      "She is currently studying at Northeastern University. Srishti seek to walk in Lord’s will and serve him by loving people and sharing his truth. Her desire is to grow in faith and be a witness of God’s love at HCF.",
+      "Srishti is is originally from Indore, India ,currently studying at Northeastern University. She seeks to walk in the Lord’s will and serve Him by loving people and sharing His truth with those around her. She has a deep heart for worship and enjoys singing as a way to glorify God and grow closer to Him. As a volunteer at HCF, she is grateful for the opportunity to serve the community, support fellowship activities, and help create a welcoming and spiritually uplifting environment for others. Through service, worship, and fellowship, she hopes to continue strengthening her faith and living out God’s love in everyday life. Her desire is to be a faithful witness of God’s grace and compassion within the HCF community and beyond.",
   },
 ]
 
