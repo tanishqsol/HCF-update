@@ -118,7 +118,7 @@ export default function Navbar({
         <div className="navbar__logo" onClick={() => scrollToSection("hero")}> 
           <div className="navbar__logo-icon-wrapper">
             <img
-              src="/images/HCF_logo_.png"
+              src="final_logo.png"
               alt="Hindi Christian Fellowship of Greater Boston logo"
               className="navbar__logo-image"
             />
@@ -207,6 +207,7 @@ export default function Navbar({
             onClick={toggleLang}
             aria-label={t("toggleLanguage")}
             type="button"
+            style={navButtonStyle}
           >
             {lang === "en" ? "हिंदी" : "English"}
           </button>
@@ -223,4 +224,4 @@ export default function Navbar({
       </div>
     </nav>
   )
-}
+} 
