@@ -13,19 +13,19 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/images/hcf-logo.png',
+        url: 'final_logo.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/images/hcf-logo.png',
+        url: 'final_logo.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/images/hcf-logo.png',
+        url: 'final_logo.png',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/images/hcf-logo.png',
+    apple: 'final_logo.png',
   },
 }
 
