@@ -37,7 +37,7 @@ const coreTeam = [
     description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
     email: "sjatiani@gmail.com",
     about:
-      "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani leverages his multilingual expertise to reach North Indians with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF as a premier, welcoming community for both spiritual seekers and seasoned believers.",
+      "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani utilizes his multilingual expertise to reach North Indians with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF, welcoming community for both spiritual seekers and seasoned believers.",
   },
   // {
   //   name: "Asavari Jatiani",

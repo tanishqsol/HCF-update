@@ -90,15 +90,12 @@ export default function ContactSection() {
                 <span className="contact-info__icon">📧</span>
                 <div className="contact-info__details">
                   <strong>Email</strong>
-                  <p>sjatiani@gmail.com</p>
+                  <p>hcfgreaterboston@gmail.com</p>
                 </div>
               </div>
               <div className="contact-info__item">
-                <span className="contact-info__icon">📱</span>
-                <div className="contact-info__details">
-                  <strong>Phone</strong>
-                  <p>215-360-6673 - Shashi Jatiani</p>
-                </div>
+                {/* <span className="contact-info__icon">📱</span> */}
+                
               </div>
               <div className="contact-info__item">
                 <span className="contact-info__icon">📍</span>
