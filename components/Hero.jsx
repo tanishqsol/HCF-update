@@ -29,6 +29,7 @@ export default function Hero({ isDarkMode }) {
         join: "Join Our Fellowship",
         learn: "Learn More",
         welcomeSub: "Welcome",
+        welcomeTitle: "Welcome to Hindi Christian Fellowship",
       },
       hi: {
         subtitle: "ग्रेटर बोस्टन",
@@ -36,6 +37,7 @@ export default function Hero({ isDarkMode }) {
         join: "हमारी संगति में जुड़ें",
         learn: "और जानें",
         welcomeSub: "स्वागत",
+        welcomeTitle: "हिंदी क्रिस्टियन फेलोशिप में स्वागत",
       },
     }),
     []
@@ -120,7 +122,12 @@ export default function Hero({ isDarkMode }) {
 
   const fallbackAvatar = "/images/team/silhouette_male.png" // make sure this file exists
 
-  const heroTitle = userName ? `Welcome to Hindi Christian Fellowship` : "Hindi Christian Fellowship"
+  const heroTitle = userName
+    ? // when signed in we use the localized welcome title
+      t.welcomeTitle
+    : lang === "hi"
+    ? "हिंदी क्रिस्टियन फेलोशिप में स्वागत है"
+    : "Hindi Christian Fellowship"
   // const heroTitle = userName ? `Welcome ${userName} to Hindi Christian Fellowship` : "Hindi Christian Fellowship"
 
   // Don’t render the chip until mounted (avoids weird first paint)

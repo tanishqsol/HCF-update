@@ -84,8 +84,18 @@ html {
   padding: 1.25rem 2.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  justify-content: flex-start;
+  gap: 3rem;
+}
+
+.navbar__content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.navbar__payment-btn--right {
+  margin-left: auto;
 }
 
 /* Enhanced logo styling with dove, flame, and bible cross */
@@ -103,20 +113,16 @@ html {
 
 .navbar__logo-icon-wrapper {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(26, 54, 93, 0.1), rgba(255, 153, 51, 0.1));
-  border-radius: 12px;
   transition: all 0.4s ease;
 }
 
 .navbar__logo:hover .navbar__logo-icon-wrapper {
-  background: linear-gradient(135deg, rgba(26, 54, 93, 0.2), rgba(255, 153, 51, 0.2));
-  border-color: var(--color-accent);
-  box-shadow: 0 6px 20px rgba(255, 153, 51, 0.3);
+  transform: scale(1.1);
 }
 
 .navbar__logo-icon {
@@ -224,7 +230,7 @@ html {
 .navbar__actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 
   /* Keep Sign Out / buttons on a single line on laptop widths */
   flex-wrap: nowrap;
@@ -244,6 +250,27 @@ html {
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(255, 153, 51, 0.3);
   white-space: nowrap;
+}
+
+.navbar__payment-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #C9922A, #E8B84B);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(201, 146, 42, 0.3);
+  white-space: nowrap;
+}
+
+.navbar__payment-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 146, 42, 0.4);
+  background: linear-gradient(135deg, #E8B84B, #f5e9cc);
+  color: #1a1a2e;
 }
 
 .navbar__signin-btn:hover,
@@ -303,7 +330,12 @@ html {
 
 @media (max-width: 768px) {
   .navbar__container {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 2rem;
+    gap: 2rem;
+  }
+
+  .navbar__content {
+    gap: 2rem;
   }
 
   .navbar__mobile-toggle {
@@ -317,13 +349,15 @@ html {
     right: 0;
     flex-direction: column;
     background: var(--background);
-    padding: 2rem;
-    gap: 1.5rem;
+    padding: 2.5rem;
+    gap: 2rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transform: translateY(-100%);
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   .navbar__menu--open {
@@ -338,13 +372,14 @@ html {
 
   /* Mobile responsive layout for actions */
   .navbar__actions {
-    gap: 0.75rem;
+    gap: 1rem;
     flex-wrap: nowrap;
     white-space: nowrap;
   }
 
   .navbar__signin-btn,
-  .navbar__signout-btn {
+  .navbar__signout-btn,
+  .navbar__payment-btn {
     padding: 0.6rem 1.2rem;
     font-size: 0.85rem;
   }
@@ -359,7 +394,14 @@ html {
   }
 
   .navbar__logo-icon-wrapper {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Mobile styling for right-positioned donate button */
+  .navbar__payment-btn--right {
+    margin-left: 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
   }
 }

@@ -17,6 +17,7 @@ import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/fir
 
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
+import AboutSection from "@/components/AboutSection"
 import VisionSection from "@/components/VisionSection"
 import CoreValuesSection from "@/components/CoreValuesSection"
 import MeetingsSection from "@/components/MeetingsSection"
@@ -179,7 +180,7 @@ export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0)
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [currentPage, setCurrentPage] = useState("home") // home, signin, signup, teams, resources, music
+  const [currentPage, setCurrentPage] = useState("home") // home, signin, signup, teams, resources, music, about
 
   const [dialog, setDialog] = useState({
     open: false,
@@ -465,6 +466,26 @@ const email = (formData?.email || "").trim().toLowerCase()
         { merge: true }
       ).catch((e) => console.error("Firestore write failed:", e))
 
+      // Send congratulatory email
+      try {
+        await fetch("/api/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            message: `Congratulations ${name}! Welcome to Hindi Christian Fellowship of Greater Boston!\n\nWe're thrilled to have you join our community. You've successfully created your account and are now part of our fellowship.\n\nHere's what you can do next:\n• Explore our website and learn more about our mission\n• Join us for meetings and events\n• Connect with other members\n• Access member-only features\n\nMay God bless you abundantly as you grow in your faith journey with us.\n\nWarm regards,\nThe HCF Team`,
+            subject: "Welcome to HCF - Congratulations on Joining!",
+            isWelcome: true
+          }),
+        })
+      } catch (emailError) {
+        console.error("Welcome email failed to send:", emailError)
+        // Don't fail signup if email fails
+      }
+
       return true
     } catch (err) {
       console.error("Firebase sign-up failed:", err)
@@ -523,6 +544,15 @@ const email = (formData?.email || "").trim().toLowerCase()
           <div className="shape shape-3" />
         </div>
         <SignUp onSignUp={handleSignUp} onBack={() => navigateTo("home")} onSignIn={() => navigateTo("signin")} />
+      </div>
+    )
+  }
+
+  if (currentPage === "about") {
+    return (
+      <div className="app-container">
+        <div className="animated-mesh-bg" />
+        <AboutSection onBack={() => navigateTo("home")} isDarkMode={isDarkMode} />
       </div>
     )
   }
@@ -592,6 +622,7 @@ const email = (formData?.email || "").trim().toLowerCase()
         onSignIn={() => navigateTo("signin")}
         onSignOut={handleSignOut}
         onTeamsClick={() => navigateTo("teams")}
+        onAboutClick={() => navigateTo("about")}
         onResourcesClick={() => navigateTo("resources")}
         onMusicClick={() => navigateTo("music")}
       />

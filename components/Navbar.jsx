@@ -12,6 +12,7 @@ export default function Navbar({
   onTeamsClick,
   onResourcesClick,
   onMusicClick,
+  onAboutClick,
 }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -26,6 +27,7 @@ export default function Navbar({
     () => ({
       en: {
         home: "Home",
+        about: "About Us",
         vision: "Vision",
         coreValues: "Values",
         team: "Team",
@@ -39,9 +41,11 @@ export default function Navbar({
         toggleMenu: "Toggle menu",
         toggleTheme: "Toggle theme",
         toggleLanguage: "Toggle language",
+        payment: "Donate"
       },
       hi: {
         home: "होम",
+        about: "हमारे बारे में",
         vision: "दृष्टि",
         coreValues: "मूल्य",
         team: "टीम",
@@ -55,6 +59,7 @@ export default function Navbar({
         toggleMenu: "मेनू",
         toggleTheme: "थीम",
         toggleLanguage: "भाषा बदलें",
+        payment: "भुगतान"
       },
     }),
     [],
@@ -73,10 +78,9 @@ export default function Navbar({
   useEffect(() => {
     if (typeof window === "undefined") return
 
-    // Default language should be English on load
-    const initial = "en"
+    // Read from localStorage, default to English
+    const initial = (window.localStorage.getItem(LANG_STORAGE_KEY) || "en").trim()
     setLang(initial)
-    window.localStorage.setItem(LANG_STORAGE_KEY, initial)
     window.dispatchEvent(new CustomEvent(LANG_EVENT, { detail: { lang: initial } }))
 
     const handler = (e) => {
@@ -124,27 +128,35 @@ export default function Navbar({
             />
           </div>
           <div className="navbar__logo-text">
-            <div className="navbar__logo-main">HCF</div>
+            {/* <div className="navbar__logo-main">HCF</div> */}
           </div>
         </div>
 
-        <button
-          className="navbar__mobile-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={t("toggleMenu")}
-          type="button"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div className="navbar__content">
+          <button
+            className="navbar__mobile-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={t("toggleMenu")}
+            type="button"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
 
-        <ul className={`navbar__menu ${isMobileMenuOpen ? "navbar__menu--open" : ""}`}>
+          <ul className={`navbar__menu ${isMobileMenuOpen ? "navbar__menu--open" : ""}`}>
           <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("hero")} type="button">
               {t("home")}
             </button>
           </li>
+          {isAuthenticated && (
+            <li>
+              <button className="authButtons" onClick={onAboutClick} type="button">
+                {t("about")}
+              </button>
+            </li>
+          )}
           <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("vision")} type="button">
               {t("vision")}
@@ -192,6 +204,8 @@ export default function Navbar({
         </ul>
 
         <div className="navbar__actions">
+         
+
           {!isAuthenticated ? (
             <button className="navbar__signin-btn" onClick={onSignIn} type="button">
               {t("signIn")}
@@ -218,8 +232,18 @@ export default function Navbar({
             aria-label={t("toggleTheme")}
             type="button"
           >
+            
             <span className="theme-icon">{isDarkMode ? "☀" : "🌙"}</span>
           </button>
+        </div>
+
+        <button 
+          className="navbar__payment-btn navbar__payment-btn--right" 
+          onClick={() => window.open('/donate', '_blank')} 
+          type="button"
+        >
+          {t("payment")}
+        </button>
         </div>
       </div>
     </nav>

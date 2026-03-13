@@ -85,26 +85,57 @@ const coreTeam = [
       "Gary McCann serves as a vital networker and prayer partner for HCF. His gift for building connections brings together believers from various backgrounds to support the ministry. Gary's dedication to prayer creates a spiritual foundation that undergirds all of HCF's activities, ensuring that the work is rooted in faith and dependence on God.",
   },
   {
-  name: "Tanishq Solanki",
-  role: "Key Volunteer Leader",
-  gender: "male",
-  photo: "/images/team/tanishq_profile.png",
-  description: "Built and maintains HCF’s website and digital presence, supporting outreach through web and media.",
-  email: "tanishqsolanki7@gmail.com",
-  about:
-    "Tanishq Solanki brings a strong blend of software engineering skill and a sincere commitment to Jesus to HCF. As a software developer, he builds and maintains key parts of HCF’s digital presence, making sure the website is reliable, clear, and easy for people to connect with. He also supports outreach through thoughtful content and social media, helping the message reach more Hindi-speaking friends and families. Above all, his faith and prayerful dependence on Jesus keep his work centered on serving God and strengthening the fellowship.",
-},
+    name: "Tanishq Solanki",
+    role: "Key Volunteer Leader",
+    gender: "male",
+    photo: "/images/team/tanishq_profile.png",
+    description: "Built and maintains HCF's website and digital presence, supporting outreach through web and media.",
+    email: "tanishqsolanki7@gmail.com",
+    about:
+      "Tanishq Solanki brings a strong blend of software engineering skill and a sincere commitment to Jesus to HCF. As a software developer, he builds and maintains key parts of HCF's digital presence, making sure the website is reliable, clear, and easy for people to connect with. He also supports outreach through thoughtful content and social media, helping the message reach more Hindi-speaking friends and families. Above all, his faith and prayerful dependence on Jesus keep his work centered on serving God and strengthening the fellowship.",
+  },
+ 
 ]
 
 const keyVolunteers = [
+  // {
+  //   name: "Kundan Srivastava",
+  //   role: "Key Volunteer Leader",
+  //   gender: "male",
+  //   photo: "",
+  //   areas: "Prayer laborer, Outreach, Strategy",
+  //   about:
+  //     "Kundan Srivastava is a key volunteer leader who serves with excellence in multiple areas of ministry. As a dedicated prayer laborer, he intercedes for the fellowship and its members. His strategic thinking and passion for outreach help HCF reach new people and communities with the gospel message.",
+  // },
+  
   {
-    name: "Kundan Srivastava",
-    role: "Key Volunteer Leader",
-    gender: "male",
-    photo: "",
-    areas: "Prayer laborer, Outreach, Strategy",
+     name: "Srishti Michael",
+     role: "Key Volunteer ",
+     gender: "female",
+     photo: "/images/team/srishti_profile.png",
+     areas: "Prayer laborer",
+     about:
+       "Srishti is is originally from Indore, India ,currently studying at Northeastern University. She seeks to walk in the Lord’s will and serve Him by loving people and sharing His truth with those around her. She has a deep heart for worship and enjoys singing as a way to glorify God and grow closer to Him. As a volunteer at HCF, she is grateful for the opportunity to serve the community, support fellowship activities, and help create a welcoming and spiritually uplifting environment for others. Through service, worship, and fellowship, she hopes to continue strengthening her faith and living out God’s love in everyday life. Her desire is to be a faithful witness of God’s grace and compassion within the HCF community and beyond.",
+    },
+    
+    {
+      name: "Dale Alphonso",
+    role: "Key Volunteer ",
+    gender: "female",
+    photo: "/images/team/dale_profile.png",
+    areas: "Prayer laborer",
+    about:"Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good."
+   
+  },
+   {
+    name: "Hannah Pereira",
+    role: "Creative Director",
+    gender: "female",
+    photo: "/images/team/hanna_profile.png",
+    description: "Artist, storyteller, and content creator sharing creativity and ideas.",
+    email: "",
     about:
-      "Kundan Srivastava is a key volunteer leader who serves with excellence in multiple areas of ministry. As a dedicated prayer laborer, he intercedes for the fellowship and its members. His strategic thinking and passion for outreach help HCF reach new people and communities with the gospel message.",
+      "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
   },
   {
    name: "Praveen Arpudha",
@@ -113,25 +144,8 @@ const keyVolunteers = [
    photo: "",
    areas: "Worship Minister",
    about:
-     "Praveen is a dynamic worship leader, talented keyboardist, and songwriter. Known for his ability to lead worship in multiple languages, he brings a unique and diverse sound to the community. He actively contributes to the HCF and is passionate about using his musical gifts to serve the church and inspire others.",
- },
-   {
-    name: "Dale Alphonso",
-    role: "Key Volunteer ",
-    gender: "female",
-    photo: "/images/team/dale_profile.png",
-    areas: "Prayer laborer",
-    about:"Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good."
-   },
-   {
-    name: "Srishti Michael",
-    role: "Key Volunteer ",
-    gender: "female",
-    photo: "/images/team/srishti_profile.png",
-    areas: "Prayer laborer",
-    about:
-      "Srishti is is originally from Indore, India ,currently studying at Northeastern University. She seeks to walk in the Lord’s will and serve Him by loving people and sharing His truth with those around her. She has a deep heart for worship and enjoys singing as a way to glorify God and grow closer to Him. As a volunteer at HCF, she is grateful for the opportunity to serve the community, support fellowship activities, and help create a welcoming and spiritually uplifting environment for others. Through service, worship, and fellowship, she hopes to continue strengthening her faith and living out God’s love in everyday life. Her desire is to be a faithful witness of God’s grace and compassion within the HCF community and beyond.",
-  },
+   "Praveen is a dynamic worship leader, talented keyboardist, and songwriter. Known for his ability to lead worship in multiple languages, he brings a unique and diverse sound to the community. He actively contributes to the HCF and is passionate about using his musical gifts to serve the church and inspire others.",
+  }
 ]
 
 export default function TeamsPage({ onBack }) {

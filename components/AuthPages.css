@@ -7,7 +7,20 @@
   justify-content: center;
   padding: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 2; /* stay above animated background/shapes */
+}
+
+/* keep auth-card above any decorative backgrounds and give it its own stacking context */
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 3;
 }
 
 /* Back to home button (top-right) */
@@ -180,6 +193,23 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(255, 153, 51, 0.4);
 }
+
+/* logo at top of auth card – keep size consistent and separated from form */
+.auth-card__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1.5rem;    /* always give bottom spacing so it doesn't touch other elements */
+  padding: 0;
+  width: 60px;              /* fixed width/height matching SVG */
+  height: 70px;
+}
+
+.auth-card__logo svg {
+  width: 100%;
+  height: 100%;
+}
+
 /* “Create an account” link-style button */
 .auth-form__link {
   width: 100%;
