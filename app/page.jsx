@@ -476,8 +476,19 @@ const email = (formData?.email || "").trim().toLowerCase()
           body: JSON.stringify({
             name: name,
             email: email,
-            message: `Congratulations ${name}! Welcome to Hindi Christian Fellowship of Greater Boston!\n\nWe're thrilled to have you join our community. You've successfully created your account and are now part of our fellowship.\n\nHere's what you can do next:\n• Explore our website and learn more about our mission\n• Join us for meetings and events\n• Connect with other members\n• Access member-only features\n\nMay God bless you abundantly as you grow in your faith journey with us.\n\nWarm regards,\nThe HCF Team`,
-            subject: "Welcome to HCF - Congratulations on Joining!",
+            message: `Dear ${name},
+
+Welcome to HCF. We're so glad you joined our online community.
+
+By registering, you now have access to more of our website, including our story, beliefs, team, original song videos, and volunteer opportunities.
+
+We'd also love to meet you in person every 3rd Saturday, 12:00 PM to 3:00 PM, at Mt. Hope Christian Church, 51 Lexington Street, Belmont, MA 02478.
+
+We're grateful to have you with us and pray this fellowship will be a blessing to you.
+
+With love and prayers,
+HCF`,
+            subject: "Welcome to Hindi Christian Fellowship",
             isWelcome: true
           }),
         })

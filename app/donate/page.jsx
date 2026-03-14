@@ -34,6 +34,24 @@ export default function DonatePage() {
     customAmount: '',
   })
 
+  const [stepStates, setStepStates] = useState({ 1: 'active', 2: 'inactive', 3: 'inactive', 4: 'inactive' })
+
+  const setSteps = (n) => {
+    const map = { 1: 1, 2: 2, 4: 4 }
+    const cur = map[n] || (n === 3 ? 3 : n)
+    const newStates = {}
+    for (let i = 1; i <= 4; i++) {
+      if (i < cur) newStates[i] = 'done'
+      else if (i === cur) newStates[i] = 'active'
+      else newStates[i] = 'inactive'
+    }
+    setStepStates(newStates)
+  }
+
+  useEffect(() => {
+    setSteps(1)
+  }, [])
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -126,24 +144,6 @@ export default function DonatePage() {
     })
     goScreen(1)
   }
-
-  const [stepStates, setStepStates] = useState({ 1: 'active', 2: 'inactive', 3: 'inactive', 4: 'inactive' })
-
-  const setSteps = (n) => {
-    const map = { 1: 1, 2: 2, 4: 4 }
-    const cur = map[n] || (n === 3 ? 3 : n)
-    const newStates = {}
-    for (let i = 1; i <= 4; i++) {
-      if (i < cur) newStates[i] = 'done'
-      else if (i === cur) newStates[i] = 'active'
-      else newStates[i] = 'inactive'
-    }
-    setStepStates(newStates)
-  }
-
-  useEffect(() => {
-    setSteps(1)
-  }, [])
 
   const renderStepDot = (stepNum) => {
     const state = stepStates[stepNum]

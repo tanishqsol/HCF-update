@@ -91,10 +91,19 @@ html {
 .navbar__content {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
 }
 
-.navbar__payment-btn--right {
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex: 1;
+}
+
+.navbar__actions {
   margin-left: auto;
 }
 
@@ -231,6 +240,10 @@ html {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+
+  /* Keep actions aligned to the right edge */
+  margin-left: auto;
+  justify-content: flex-end;
 
   /* Keep Sign Out / buttons on a single line on laptop widths */
   flex-wrap: nowrap;
@@ -398,10 +411,4 @@ html {
     height: 60px;
   }
 
-  /* Mobile styling for right-positioned donate button */
-  .navbar__payment-btn--right {
-    margin-left: 1rem;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.85rem;
-  }
 }
