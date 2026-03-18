@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const CONTACT_EMAIL = "hcfgreaterboston@gmail.com";
+const DEFAULT_FROM_EMAIL = "HCF <onboarding@resend.dev>";
 
 export async function POST(request: Request) {
   try {
     const { name, email, message, subject, isWelcome } = await request.json();
+    const fromEmail = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM_EMAIL;
 
     console.log("Email API called with:", { name, email, subject, isWelcome, messageLength: message?.length });
 
@@ -34,9 +37,7 @@ export async function POST(request: Request) {
     if (isWelcome) {
       // Welcome email to the new user
       emailSubject = subject || "Welcome to HCF!";
-      // For localhost testing, send welcome emails to admin email instead of user email
-      const isProduction = process.env.NODE_ENV === 'production';
-      emailRecipient = isProduction ? [email] : ["tanishqsolanki7@gmail.com"];
+      emailRecipient = [email];
       emailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8f9fa;">
           <div style="background: linear-gradient(135deg, #1e3a5f, #2d5a7c); color: white; padding: 40px 20px; text-align: center;">
@@ -48,12 +49,9 @@ export async function POST(request: Request) {
             <div style="line-height: 1.6; color: #333;">
               ${message.replace(/\n/g, "<br>")}
             </div>
-            ${!isProduction ? `<div style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; color: #856404;">
-              <strong>Development Note:</strong> This welcome email was sent to the admin email (${emailRecipient[0]}) instead of the user's email (${email}) because Resend only allows verified emails in development mode.
-            </div>` : ''}
             <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
               <p style="margin: 0; color: #666; font-size: 14px;">
-                <strong>Questions?</strong> Feel free to reach out to us at <a href="mailto:hcfgreaterboston@gmail.com" style="color: #1e3a5f;">hcfgreaterboston@gmail.com</a>
+                <strong>Questions?</strong> Feel free to reach out to us at <a href="mailto:${CONTACT_EMAIL}" style="color: #1e3a5f;">${CONTACT_EMAIL}</a>
               </p>
             </div>
           </div>
@@ -66,7 +64,7 @@ export async function POST(request: Request) {
     } else {
       // Contact form email to admin
       emailSubject = subject || `New Contact Form Submission from ${name}`;
-      emailRecipient = ["tanishqsolanki7@gmail.com"]; // Send to admin
+      emailRecipient = [CONTACT_EMAIL];
       emailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1e3a5f;">New Contact Form Submission</h2>
@@ -87,9 +85,9 @@ export async function POST(request: Request) {
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: "HCF <onboarding@resend.dev>", // Change to your verified domain
+      from: fromEmail,
       to: emailRecipient,
-      replyTo: isWelcome ? "hcfgreaterboston@gmail.com" : email,
+      replyTo: isWelcome ? CONTACT_EMAIL : email,
       subject: emailSubject,
       html: emailHtml,
     });

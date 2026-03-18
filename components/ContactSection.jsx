@@ -90,7 +90,9 @@ export default function ContactSection() {
                 <span className="contact-info__icon">📧</span>
                 <div className="contact-info__details">
                   <strong>Email</strong>
-                  <p>hcfgreaterboston@gmail.com</p>
+                  <p>
+                    <a href="mailto:hcfgreaterboston@gmail.com">hcfgreaterboston@gmail.com</a>
+                  </p>
                 </div>
               </div>
               <div className="contact-info__item">
