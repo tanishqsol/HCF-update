@@ -236,13 +236,13 @@ export default function Navbar({
             <span className="theme-icon">{isDarkMode ? "☀" : "🌙"}</span>
           </button>
 
-          <button 
+          {/* <button 
             className="navbar__payment-btn" 
             onClick={() => window.open('/donate', '_blank')} 
             type="button"
           >
             {t("payment")}
-          </button>
+          </button> */}
         </div>
         </div>
       </div>
