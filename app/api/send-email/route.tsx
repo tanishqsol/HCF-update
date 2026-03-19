@@ -7,10 +7,17 @@ const DEFAULT_FROM_EMAIL = "HCF <onboarding@resend.dev>";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message, subject, isWelcome } = await request.json();
+    const { name, email, message, subject, isWelcome, isNotification } = await request.json();
     const fromEmail = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM_EMAIL;
 
-    console.log("Email API called with:", { name, email, subject, isWelcome, messageLength: message?.length });
+    console.log("Email API called with:", {
+      name,
+      email,
+      subject,
+      isWelcome,
+      isNotification,
+      messageLength: message?.length,
+    });
 
     // Validate input
     if (!name || !email || !message) {
@@ -61,6 +68,25 @@ export async function POST(request: Request) {
           </div>
         </div>
       `;
+    } else if (isNotification) {
+      emailSubject = subject || `New Event Notification Request from ${name}`;
+      emailRecipient = [CONTACT_EMAIL];
+      emailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #1e3a5f;">New Event Notification Request</h2>
+          <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 10px 0;"><strong>Name:</strong> ${name}</p>
+            <p style="margin: 10px 0;"><strong>Email:</strong> ${email}</p>
+            <p style="margin: 10px 0;"><strong>Request:</strong></p>
+            <p style="background-color: white; padding: 15px; border-radius: 4px; margin: 10px 0;">
+              ${message.replace(/\n/g, "<br>")}
+            </p>
+          </div>
+          <p style="color: #666; font-size: 12px;">
+            This request was submitted from the HCF of Greater Boston event notifications button.
+          </p>
+        </div>
+      `;
     } else {
       // Contact form email to admin
       emailSubject = subject || `New Contact Form Submission from ${name}`;
@@ -84,6 +110,13 @@ export async function POST(request: Request) {
     }
 
     // Send email via Resend
+    console.log("[send-email] Sending email", {
+      fromEmail,
+      to: emailRecipient,
+      subject: emailSubject,
+      isWelcome: !!isWelcome,
+    });
+
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: emailRecipient,

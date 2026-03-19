@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import "./Hero.css"
 
-export default function Hero({ isDarkMode }) {
+export default function Hero({ isDarkMode, onNotificationsClick }) {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollY, setScrollY] = useState(0)
 
@@ -28,6 +28,8 @@ export default function Hero({ isDarkMode }) {
         tagline: "Speaking the truth about Jesus to Hindi speakers in Greater Boston",
         join: "Join Our Fellowship",
         learn: "Learn More",
+        notifications: "Get Event Alerts",
+        notificationsBadge: "New",
         welcomeSub: "Welcome",
         welcomeTitle: "Welcome to Hindi Christian Fellowship",
       },
@@ -36,6 +38,8 @@ export default function Hero({ isDarkMode }) {
         tagline: "ग्रेटर बोस्टन में हिंदी भाषियों के बीच यीशु के सत्य को साझा करना",
         join: "हमारी संगति में जुड़ें",
         learn: "और जानें",
+        notifications: "इवेंट अलर्ट पाएं",
+        notificationsBadge: "नया",
         welcomeSub: "स्वागत",
         welcomeTitle: "हिंदी क्रिस्टियन फेलोशिप में स्वागत",
       },
@@ -204,6 +208,15 @@ export default function Hero({ isDarkMode }) {
           >
             {t.learn}
           </button>
+          {onNotificationsClick && (
+            <button
+              className="hero__button hero__button--secondary hero__button--notifications"
+              onClick={onNotificationsClick}
+            >
+              <span>{t.notifications}</span>
+              <span className="hero__button-badge">{t.notificationsBadge}</span>
+            </button>
+          )}
         </div>
       </div>
     </section>

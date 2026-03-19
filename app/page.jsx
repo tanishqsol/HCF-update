@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { initializeApp, getApps, getApp } from "firebase/app"
 import {
   getAuth,
@@ -76,6 +76,20 @@ const toTitleCase = (str = "") =>
     .filter(Boolean)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ")
+
+const buildEventNotificationMessage = (name = "Friend") => `Hello ${name},
+
+We are excited to share that our first fellowship gathering is on Saturday, March 21, 2026.
+
+Location:
+Mt. Hope Christian Church
+51 Lexington Street
+Belmont, MA 02478
+
+We would love for you to join us for fellowship, worship, and community.
+
+Blessings,
+Hindi Christian Fellowship of Greater Boston`
 // Simple reusable dialog
 function StatusDialog({
   open,
@@ -192,6 +206,8 @@ export default function App() {
     secondaryLabel: null,
     onSecondary: null,
   })
+  const authInitializedRef = useRef(false)
+  const previousAuthUidRef = useRef(null)
 
   const closeDialog = () => setDialog((d) => ({ ...d, open: false }))
 
@@ -231,18 +247,22 @@ const name = toTitleCase(rawName)
       })
     )
 
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        name: name || null,
-        email: (user.email || "").toLowerCase() || null,
-        photoURL: photoURL || null,
-        provider: providerName || null,
-        lastLoginAt: serverTimestamp(),
-        createdAt: serverTimestamp(),
-      },
-      { merge: true }
-    )
+    try {
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          name: name || null,
+          email: (user.email || "").toLowerCase() || null,
+          photoURL: photoURL || null,
+          provider: providerName || null,
+          lastLoginAt: serverTimestamp(),
+          createdAt: serverTimestamp(),
+        },
+        { merge: true }
+      )
+    } catch (error) {
+      console.error("Persist signed-in user failed:", error)
+    }
   }
 
   useEffect(() => {
@@ -264,6 +284,10 @@ const name = toTitleCase(rawName)
   // ✅ Rehydrate auth on refresh
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
+      const isFirstAuthEvent = !authInitializedRef.current
+      const previousUid = previousAuthUidRef.current
+      authInitializedRef.current = true
+      previousAuthUidRef.current = user?.uid || null
       const saved = localStorage.getItem("isAuthenticated") === "true"
 
       if (!user && !saved) {
@@ -310,6 +334,21 @@ const name = toTitleCase(rawName)
             },
           })
         )
+
+        const shouldSendWelcomeEmail =
+          !isFirstAuthEvent &&
+          !!user.email &&
+          previousUid !== user.uid &&
+          typeof window !== "undefined" &&
+          !window.sessionStorage.getItem(`hcf_welcome_sent:${user.uid}`)
+
+        if (shouldSendWelcomeEmail) {
+          window.sessionStorage.setItem(`hcf_welcome_sent:${user.uid}`, "true")
+          await sendWelcomeEmail({
+            name: (localStorage.getItem(USER_NAME_STORAGE_KEY) || user.displayName || user.email.split("@")[0] || "").trim(),
+            email: user.email,
+          })
+        }
       } else if (saved) {
         // Admin bypass session (no firebase user)
         setIsAuthenticated(true)
@@ -347,6 +386,141 @@ const name = toTitleCase(rawName)
       setCurrentPage("home")
     }
   }, [isAuthenticated, currentPage])
+
+  const sendWelcomeEmail = async ({ name, email }) => {
+    if (!email) return
+
+    const safeName = toTitleCase((name || "").trim()) || "Friend"
+    const normalizedEmail = email.trim().toLowerCase()
+
+    try {
+      console.log("[welcome-email] Sending welcome email", {
+        email: normalizedEmail,
+        name: safeName,
+      })
+
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: safeName,
+          email: normalizedEmail,
+          message: `Dear ${safeName},
+
+Welcome to HCF. We're so glad you joined our online community.
+
+By registering, you now have access to more of our website, including our story, beliefs, team, original song videos, and volunteer opportunities.
+
+We'd also love to meet you in person every 3rd Saturday, 12:00 PM to 3:00 PM, at Mt. Hope Christian Church, 51 Lexington Street, Belmont, MA 02478.
+
+We're grateful to have you with us and pray this fellowship will be a blessing to you.
+
+With love and prayers,
+HCF`,
+          subject: "Welcome to Hindi Christian Fellowship",
+          isWelcome: true,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error("[welcome-email] API request failed", data)
+        openDialog({
+          variant: "error",
+          title: "Welcome Email Failed",
+          message: data?.details?.message || data?.error || "We couldn't send the welcome email right now.",
+          primaryLabel: "Close",
+          onPrimary: closeDialog,
+        })
+        throw new Error(data?.details?.message || data?.error || "Failed to send welcome email")
+      }
+
+      console.log("[welcome-email] Welcome email sent", data)
+      openDialog({
+        variant: "success",
+        title: "Welcome Email Sent",
+        message: `A welcome email was sent to ${normalizedEmail}.`,
+        primaryLabel: "OK",
+        onPrimary: closeDialog,
+      })
+    } catch (emailError) {
+      console.error("Welcome email failed to send:", emailError)
+    }
+  }
+
+  const handleNotificationsClick = async () => {
+    const storedName = (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
+    const storedEmail = (localStorage.getItem("userEmail") || "").trim().toLowerCase()
+    const displayName = toTitleCase(storedName || "Friend")
+
+    if (!isAuthenticated || !storedEmail) {
+      openDialog({
+        variant: "info",
+        title: "Upcoming Fellowship",
+        message: buildEventNotificationMessage(displayName),
+        primaryLabel: "Close",
+        onPrimary: closeDialog,
+      })
+      return
+    }
+
+    const email = storedEmail || window.prompt("Enter your email to receive event notifications:")?.trim().toLowerCase()
+    if (!email) return
+
+    const name =
+      storedName ||
+      window.prompt("Enter your name for the event notifications request:")?.trim() ||
+      "Website Visitor"
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: toTitleCase(name),
+          email,
+          subject: "New Event Notification Request",
+          message: buildEventNotificationMessage(toTitleCase(name)),
+          isNotification: true,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        openDialog({
+          variant: "error",
+          title: "Notification Request Failed",
+          message: data?.details?.message || data?.error || "We couldn't submit your event notification request.",
+          primaryLabel: "Close",
+          onPrimary: closeDialog,
+        })
+        return
+      }
+
+      openDialog({
+        variant: "success",
+        title: "Notifications Requested",
+        message: `We'll use ${email} for upcoming event notifications, and the admin team has been notified.`,
+        primaryLabel: "OK",
+        onPrimary: closeDialog,
+      })
+    } catch (error) {
+      console.error("Event notifications request failed:", error)
+      openDialog({
+        variant: "error",
+        title: "Notification Request Failed",
+        message: "We couldn't submit your event notification request right now. Please try again.",
+        primaryLabel: "Close",
+        onPrimary: closeDialog,
+      })
+    }
+  }
 
   const handleGoogleSignIn = async () => {
     try {
@@ -466,37 +640,6 @@ const email = (formData?.email || "").trim().toLowerCase()
         { merge: true }
       ).catch((e) => console.error("Firestore write failed:", e))
 
-      // Send congratulatory email
-      try {
-        await fetch("/api/send-email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name,
-            email: email,
-            message: `Dear ${name},
-
-Welcome to HCF. We're so glad you joined our online community.
-
-By registering, you now have access to more of our website, including our story, beliefs, team, original song videos, and volunteer opportunities.
-
-We'd also love to meet you in person every 3rd Saturday, 12:00 PM to 3:00 PM, at Mt. Hope Christian Church, 51 Lexington Street, Belmont, MA 02478.
-
-We're grateful to have you with us and pray this fellowship will be a blessing to you.
-
-With love and prayers,
-HCF`,
-            subject: "Welcome to Hindi Christian Fellowship",
-            isWelcome: true
-          }),
-        })
-      } catch (emailError) {
-        console.error("Welcome email failed to send:", emailError)
-        // Don't fail signup if email fails
-      }
-
       return true
     } catch (err) {
       console.error("Firebase sign-up failed:", err)
@@ -517,6 +660,7 @@ HCF`,
     localStorage.removeItem("userEmail")
     localStorage.removeItem(USER_NAME_STORAGE_KEY)
     localStorage.removeItem(USER_PHOTO_STORAGE_KEY)
+    previousAuthUidRef.current = null
 
     window.dispatchEvent(new CustomEvent(USER_EVENT, { detail: { name: "", photoURL: "" } }))
 
@@ -598,6 +742,7 @@ HCF`,
   // Home
   return (
     <div className="app-container">
+      <StatusDialog {...dialog} />
       <div className="animated-mesh-bg" />
 
       <div className="floating-shapes">
@@ -638,7 +783,7 @@ HCF`,
         onMusicClick={() => navigateTo("music")}
       />
 
-      <Hero isDarkMode={isDarkMode} />
+      <Hero isDarkMode={isDarkMode} onNotificationsClick={handleNotificationsClick} />
       <VisionSection />
       <CoreValuesSection />
       <MeetingsSection />

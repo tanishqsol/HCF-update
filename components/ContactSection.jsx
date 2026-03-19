@@ -110,15 +110,15 @@ export default function ContactSection() {
             <div className="contact-section__social">
               <h4 className="contact-section__social-title">Follow Us</h4>
               <div className="contact-section__social-links">
-                <a href="#facebook" className="social-link">
+                <a href="https://www.facebook.com/profile.php?id=61584879437991" className="social-link">
                   Facebook
                 </a>
-                <a href="#youtube" className="social-link">
+                {/* <a href="#youtube" className="social-link">
                   YouTube
                 </a>
                 <a href="#instagram" className="social-link">
                   Instagram
-                </a>
+                </a> */}
               </div>
               <p className="contact-section__social-note">(Social media links coming soon!)</p>
             </div>
