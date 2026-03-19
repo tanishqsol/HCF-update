@@ -96,6 +96,7 @@ function StatusDialog({
   variant = "info",
   title,
   message,
+  content,
   primaryLabel = "OK",
   onPrimary,
   secondaryLabel,
@@ -138,7 +139,7 @@ function StatusDialog({
       >
         <div style={{ padding: 16, borderTop: `6px solid ${accent}` }}>
           <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{title}</div>
-          <div style={{ fontSize: 14, lineHeight: 1.5, color: "#444" }}>{message}</div>
+          {content ? content : <div style={{ fontSize: 14, lineHeight: 1.5, color: "#444" }}>{message}</div>}
         </div>
 
         <div
@@ -201,6 +202,7 @@ export default function App() {
     variant: "info",
     title: "",
     message: "",
+    content: null,
     primaryLabel: "OK",
     onPrimary: null,
     secondaryLabel: null,
@@ -217,6 +219,7 @@ export default function App() {
       variant: cfg.variant || "info",
       title: cfg.title || "",
       message: cfg.message || "",
+      content: cfg.content || null,
       primaryLabel: cfg.primaryLabel || "OK",
       onPrimary: cfg.onPrimary || closeDialog,
       secondaryLabel: cfg.secondaryLabel || null,
@@ -460,7 +463,35 @@ HCF`,
       openDialog({
         variant: "info",
         title: "Upcoming Fellowship",
-        message: buildEventNotificationMessage(displayName),
+        content: (
+          <div style={{ display: "grid", gap: 14, color: "#444" }}>
+            <div style={{ fontSize: 14, lineHeight: 1.6 }}>
+              <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
+              <div style={{ marginBottom: 10 }}>
+                We are excited to share that our first fellowship gathering is on <strong>Saturday, March 21, 2026</strong>.
+              </div>
+              <div style={{ marginBottom: 10 }}>
+                <strong>Location:</strong>
+                <br />
+                Mt. Hope Christian Church
+                <br />
+                51 Lexington Street
+                <br />
+                Belmont, MA 02478
+              </div>
+              <div>We would love for you to join us for fellowship, worship, and community.</div>
+            </div>
+            <iframe
+              title="Mt. Hope Christian Church map"
+              src="https://www.google.com/maps?q=Mt.%20Hope%20Christian%20Church%2051%20Lexington%20Street%20Belmont%20MA%2002478&z=15&output=embed"
+              width="100%"
+              height="240"
+              style={{ border: 0, borderRadius: 12 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        ),
         primaryLabel: "Close",
         onPrimary: closeDialog,
       })
