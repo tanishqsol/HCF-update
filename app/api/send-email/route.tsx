@@ -3,6 +3,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const CONTACT_EMAIL = "hcfgreaterboston@gmail.com";
+const ADMIN_EMAIL = process.env.RESEND_TO_EMAIL || CONTACT_EMAIL;
 const DEFAULT_FROM_EMAIL = "HCF <onboarding@resend.dev>";
 
 export async function POST(request: Request) {
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
       `;
     } else if (isNotification) {
       emailSubject = subject || `New Event Notification Request from ${name}`;
-      emailRecipient = [CONTACT_EMAIL];
+      emailRecipient = [ADMIN_EMAIL];
       emailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1e3a5f;">New Event Notification Request</h2>
@@ -115,6 +116,7 @@ export async function POST(request: Request) {
       to: emailRecipient,
       subject: emailSubject,
       isWelcome: !!isWelcome,
+      isNotification: !!isNotification,
     });
 
     const { data, error } = await resend.emails.send({

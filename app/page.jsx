@@ -456,101 +456,43 @@ HCF`,
 
   const handleNotificationsClick = async () => {
     const storedName = (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
-    const storedEmail = (localStorage.getItem("userEmail") || "").trim().toLowerCase()
     const displayName = toTitleCase(storedName || "Friend")
 
-    if (!isAuthenticated || !storedEmail) {
-      openDialog({
-        variant: "info",
-        title: "Upcoming Fellowship",
-        content: (
-          <div style={{ display: "grid", gap: 14, color: "#444" }}>
-            <div style={{ fontSize: 14, lineHeight: 1.6 }}>
-              <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
-              <div style={{ marginBottom: 10 }}>
-                We are excited to share that our first fellowship gathering is on <strong>Saturday, March 21, 2026</strong>.
-              </div>
-              <div style={{ marginBottom: 10 }}>
-                <strong>Location:</strong>
-                <br />
-                Mt. Hope Christian Church
-                <br />
-                51 Lexington Street
-                <br />
-                Belmont, MA 02478
-              </div>
-              <div>We would love for you to join us for fellowship, worship, and community.</div>
+    openDialog({
+      variant: "info",
+      title: "Upcoming Fellowship",
+      content: (
+        <div style={{ display: "grid", gap: 14, color: "#444" }}>
+          <div style={{ fontSize: 14, lineHeight: 1.6 }}>
+            <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
+            <div style={{ marginBottom: 10 }}>
+              We are excited to share that our first fellowship gathering is on <strong>Saturday, March 21, 2026</strong>.
             </div>
-            <iframe
-              title="Mt. Hope Christian Church map"
-              src="https://www.google.com/maps?q=Mt.%20Hope%20Christian%20Church%2051%20Lexington%20Street%20Belmont%20MA%2002478&z=15&output=embed"
-              width="100%"
-              height="240"
-              style={{ border: 0, borderRadius: 12 }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            <div style={{ marginBottom: 10 }}>
+              <strong>Location:</strong>
+              <br />
+              Mt. Hope Christian Church
+              <br />
+              51 Lexington Street
+              <br />
+              Belmont, MA 02478
+            </div>
+            <div>We would love for you to join us for fellowship, worship, and community.</div>
           </div>
-        ),
-        primaryLabel: "Close",
-        onPrimary: closeDialog,
-      })
-      return
-    }
-
-    const email = storedEmail || window.prompt("Enter your email to receive event notifications:")?.trim().toLowerCase()
-    if (!email) return
-
-    const name =
-      storedName ||
-      window.prompt("Enter your name for the event notifications request:")?.trim() ||
-      "Website Visitor"
-
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: toTitleCase(name),
-          email,
-          subject: "New Event Notification Request",
-          message: buildEventNotificationMessage(toTitleCase(name)),
-          isNotification: true,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        openDialog({
-          variant: "error",
-          title: "Notification Request Failed",
-          message: data?.details?.message || data?.error || "We couldn't submit your event notification request.",
-          primaryLabel: "Close",
-          onPrimary: closeDialog,
-        })
-        return
-      }
-
-      openDialog({
-        variant: "success",
-        title: "Notifications Requested",
-        message: `We'll use ${email} for upcoming event notifications, and the admin team has been notified.`,
-        primaryLabel: "OK",
-        onPrimary: closeDialog,
-      })
-    } catch (error) {
-      console.error("Event notifications request failed:", error)
-      openDialog({
-        variant: "error",
-        title: "Notification Request Failed",
-        message: "We couldn't submit your event notification request right now. Please try again.",
-        primaryLabel: "Close",
-        onPrimary: closeDialog,
-      })
-    }
+          <iframe
+            title="Mt. Hope Christian Church map"
+            src="https://www.google.com/maps?q=Mt.%20Hope%20Christian%20Church%2051%20Lexington%20Street%20Belmont%20MA%2002478&z=15&output=embed"
+            width="100%"
+            height="240"
+            style={{ border: 0, borderRadius: 12 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+      ),
+      primaryLabel: "Close",
+      onPrimary: closeDialog,
+    })
   }
 
   const handleGoogleSignIn = async () => {
