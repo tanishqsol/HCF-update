@@ -81,6 +81,9 @@ const buildEventNotificationMessage = (name = "Friend") => `Hello ${name},
 
 We are excited to share that our first fellowship gathering is on Saturday, March 21, 2026.
 
+RSVP:
+https://forms.gle/wh2HyTatCn4rFhGP8
+
 Location:
 Mt. Hope Christian Church
 51 Lexington Street
@@ -467,6 +470,17 @@ HCF`,
             <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
             <div style={{ marginBottom: 10 }}>
               We are excited to share that our first fellowship gathering is on <strong>Saturday, March 21, 2026</strong>.
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <strong>RSVP:</strong>{" "}
+              <a
+                href="https://forms.gle/wh2HyTatCn4rFhGP8"
+                target="_blank"
+                rel="noreferrer"
+                style={{ color: "#1d4ed8", fontWeight: 700 }}
+              >
+                https://forms.gle/wh2HyTatCn4rFhGP8
+              </a>
             </div>
             <div style={{ marginBottom: 10 }}>
               <strong>Location:</strong>
