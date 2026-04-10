@@ -84,7 +84,7 @@ export default function HomePage() {
           <div style={{ fontSize: 14, lineHeight: 1.6 }}>
             <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
             <div style={{ marginBottom: 10 }}>
-              We are excited to share that our first fellowship gathering is on <strong>Saturday, April 18, 2026</strong>.
+              We are excited to share that our next fellowship gathering is on <strong>Saturday, April 18, 2026</strong>.
             </div>
             <div style={{ marginBottom: 10 }}>
               <strong>RSVP:</strong>{" "}
