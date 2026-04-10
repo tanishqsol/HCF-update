@@ -35,7 +35,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
       },
       hi: {
         subtitle: "ग्रेटर बोस्टन",
-        tagline: "ग्रेटर बोस्टन में हिंदी भाषियों के बीच यीशु के सत्य को साझा करना",
+        tagline: "ग्रेटर बोस्टन की हिंदी मसीही संगति",
         join: "हमारी संगति में जुड़ें",
         learn: "और जानें",
         notifications: "इवेंट अलर्ट पाएं",
@@ -140,7 +140,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
   return (
     <section
       id="hero"
-      className="hero"
+      className={`hero ${showProfile ? "hero--profile-visible" : ""}`}
       // Push everything slightly lower to avoid mobile navbar overlap
       style={{ paddingTop: "clamp(72px, 9vh, 140px)" }}
     >

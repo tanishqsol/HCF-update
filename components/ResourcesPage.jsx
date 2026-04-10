@@ -46,6 +46,11 @@ export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect })
     },
   ]
   const handleExpressInterest = () => {
+    if (onContactRedirect) {
+      onContactRedirect()
+      return
+    }
+
     onBack()
     setTimeout(() => {
       const contactSection = document.getElementById("contact")

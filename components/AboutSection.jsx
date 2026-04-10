@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import "./AboutSection.css"
 
 export default function AboutSection({ onBack, isDarkMode }) {
