@@ -47,7 +47,7 @@ const coreTeam = [
     description: "Co-leading the ministry with dedication to building community and discipleship.",
     email: "ajatiani@gmail.com",
     about:
-      "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for hospitality and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
+      "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for worship ministry and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
   },
   {
     name: "Tom Kane",
