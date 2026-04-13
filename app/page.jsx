@@ -89,12 +89,12 @@ export default function HomePage() {
             <div style={{ marginBottom: 10 }}>
               <strong>RSVP:</strong>{" "}
               <a
-                href="https://forms.gle/cwStVZk3g7Es5L8Q6"
+                href="https://forms.gle/ihJBZ4aNjRGWdPTf8"
                 target="_blank"
                 rel="noreferrer"
                 style={{ color: "#1d4ed8", fontWeight: 700 }}
               >
-                https://forms.gle/wh2HyTatCn4rFhGP8
+                https://forms.gle/ihJBZ4aNjRGWdPTf8
               </a>
             </div>
             <div style={{ marginBottom: 10 }}>
