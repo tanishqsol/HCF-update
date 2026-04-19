@@ -84,12 +84,12 @@ export default function HomePage() {
           <div style={{ fontSize: 14, lineHeight: 1.6 }}>
             <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
             <div style={{ marginBottom: 10 }}>
-              We are excited to share that our next fellowship gathering is on <strong>Saturday, April 18, 2026</strong>.
+              We are excited to share that our next fellowship gathering is on <strong>Saturday, May 16, 2026</strong>.
             </div>
             <div style={{ marginBottom: 10 }}>
               <strong>RSVP:</strong>{" "}
               <a
-                href="https://forms.gle/ihJBZ4aNjRGWdPTf8"
+                href="https://forms.gle/2wczNLEatvQ242kk8"
                 target="_blank"
                 rel="noreferrer"
                 style={{ color: "#1d4ed8", fontWeight: 700 }}

@@ -5,6 +5,11 @@ import "./MusicVideosPage.css"
 export default function MusicVideosPage({ onBack, isDarkMode }) {
   const videos = [
     {
+      id: "uKEAVkwCumY",
+      title: "Hindi Worship Song",
+      description: ".",
+    },
+    {
       id: "6zq-pDlAwbg",
       title: "First Hindi Song - November 2017",
       description:
