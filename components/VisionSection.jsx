@@ -18,7 +18,7 @@ const VISION_TEXT = {
       {
         title: "Community & Fellowship",
         description:
-          "To create a vibrant, multi-generational community where North Indians can experience genuine fellowship, grow in their faith, and find support as they navigate life in Boston.",
+          "To create a vibrant, multi-generational community where Hindi speakers can experience genuine fellowship, grow in their faith, and find support as they navigate life in Boston.",
         icon: "🤝",
       },
       {
@@ -49,7 +49,7 @@ const VISION_TEXT = {
       {
         title: "समुदाय और संगति",
         description:
-          "एक जीवंत, बहु-पीढ़ी समुदाय बनाना जहाँ उत्तर भारतीय सच्ची संगति का अनुभव करें, विश्वास में बढ़ें, और बोस्टन के जीवन में मार्गदर्शन व सहारा पाएँ।",
+          "एक जीवंत, बहु-पीढ़ी समुदाय बनाना जहाँ हिंदी भाषी लोग सच्ची संगति का अनुभव करें, विश्वास में बढ़ें, और बोस्टन के जीवन में मार्गदर्शन व सहारा पाएँ।",
         icon: "🤝",
       },
       {

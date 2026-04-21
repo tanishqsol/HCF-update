@@ -27,8 +27,8 @@ const coreValues = [
     english: "Cultural Integration",
     title_hi: "सांस्कृतिक एकीकरण",
     description_hi:
-      "हम उत्तर भारतीय सांस्कृतिक पहचान की समृद्ध विरासत का सम्मान और उत्सव करते हैं, और साथ ही यह भी खोजते हैं कि मसीह में विश्वास उसे कैसे पूर्ण रूप से जोड़ता और रूपांतरित करता है। हमारा विश्वास है कि विश्वास हमारी संस्कृति को मिटाता नहीं, बल्कि उसे और समृद्ध करता है।",
-    description: "We honor and celebrate the rich North Indian cultural identity while intentionally exploring how faith in Christ fully integrates with and transforms it. We believe faith should enrich, not erase, our cultural heritage.",
+      "हम हिंदी भाषी लोगों की समृद्ध सांस्कृतिक पहचान का सम्मान और उत्सव करते हैं, और साथ ही यह भी खोजते हैं कि मसीह में विश्वास उसे कैसे पूर्ण रूप से जोड़ता और रूपांतरित करता है। हमारा विश्वास है कि विश्वास हमारी संस्कृति को मिटाता नहीं, बल्कि उसे और समृद्ध करता है।",
+    description: "We honor and celebrate the rich cultural identity of Hindi speakers while intentionally exploring how faith in Christ fully integrates with and transforms it. We believe faith should enrich, not erase, our cultural heritage.",
     icon: "🪔",
   },
   {

@@ -141,7 +141,7 @@ const loadFirestoreProfile = async (uid) => {
   }
 }
 
-const persistSignedInUser = async (user, providerName) => {
+const saveSignedInUserProfile = (user, providerName) => {
   const name = toTitleCase((user.displayName || "").trim())
   const photoURL = (user.photoURL || "").trim()
   const email = (user.email || "").trim().toLowerCase()
@@ -153,22 +153,20 @@ const persistSignedInUser = async (user, providerName) => {
     photoURL,
   })
 
-  try {
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        name: name || null,
-        email: email || null,
-        photoURL: photoURL || null,
-        provider: providerName || null,
-        lastLoginAt: serverTimestamp(),
-        createdAt: serverTimestamp(),
-      },
-      { merge: true },
-    )
-  } catch (error) {
+  setDoc(
+    doc(db, "users", user.uid),
+    {
+      name: name || null,
+      email: email || null,
+      photoURL: photoURL || null,
+      provider: providerName || null,
+      lastLoginAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+    },
+    { merge: true },
+  ).catch((error) => {
     console.error("Persist signed-in user failed:", error)
-  }
+  })
 }
 
 const sendWelcomeEmail = async ({ name, email }) => {
@@ -217,6 +215,7 @@ export function useHcfAuth({
   redirectAuthenticatedTo = null,
   requireAuth = false,
   redirectUnauthenticatedTo = "/signin",
+  handleGoogleRedirect = false,
 } = {}) {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -299,6 +298,8 @@ export function useHcfAuth({
   }, [])
 
   useEffect(() => {
+    if (!handleGoogleRedirect) return
+
     let cancelled = false
 
     ;(async () => {
@@ -306,7 +307,7 @@ export function useHcfAuth({
         const result = await getRedirectResult(auth)
         if (!result?.user || cancelled) return
 
-        await persistSignedInUser(result.user, "google")
+        saveSignedInUserProfile(result.user, "google")
 
         if (!cancelled) {
           setIsAuthenticated(true)
@@ -324,7 +325,7 @@ export function useHcfAuth({
     return () => {
       cancelled = true
     }
-  }, [redirectAfterAuth, router])
+  }, [handleGoogleRedirect, redirectAfterAuth, router])
 
   useEffect(() => {
     if (!isReady || !redirectAuthenticatedTo || !isAuthenticated) return
@@ -343,7 +344,7 @@ export function useHcfAuth({
 
       try {
         const cred = await signInWithPopup(auth, provider)
-        await persistSignedInUser(cred.user, "google")
+        saveSignedInUserProfile(cred.user, "google")
         setIsAuthenticated(true)
         router.replace(redirectAfterAuth)
         return true

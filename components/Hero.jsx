@@ -1,11 +1,14 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import "./Hero.css"
 
 export default function Hero({ isDarkMode, onNotificationsClick }) {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollY, setScrollY] = useState(0)
+  const heroRef = useRef(null)
+  const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const [isPointerActive, setIsPointerActive] = useState(false)
 
   const LANG_STORAGE_KEY = "hcf_lang"
   const LANG_EVENT = "hcf:lang"
@@ -119,9 +122,35 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
 
   useEffect(() => {
     setIsVisible(true)
+
     const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+
+    const handlePointerMove = (event) => {
+      const rect = heroRef.current?.getBoundingClientRect()
+      if (!rect) return
+
+      const x = (event.clientX - rect.left) / rect.width - 0.5
+      const y = (event.clientY - rect.top) / rect.height - 0.5
+      setMouse({ x, y })
+      setIsPointerActive(true)
+    }
+
+    const resetPointer = () => {
+      setMouse({ x: 0, y: 0 })
+      setIsPointerActive(false)
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+
+    const section = heroRef.current
+    section?.addEventListener("pointermove", handlePointerMove)
+    section?.addEventListener("pointerleave", resetPointer)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      section?.removeEventListener("pointermove", handlePointerMove)
+      section?.removeEventListener("pointerleave", resetPointer)
+    }
   }, [])
 
   const fallbackAvatar = "/images/team/silhouette_male.png" // make sure this file exists
@@ -137,22 +166,47 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
   // Don’t render the chip until mounted (avoids weird first paint)
   const showProfile = mounted && !!userName
 
+  const pointerX = mouse.x * 24
+  const pointerY = mouse.y * 24
+  const contentLift = Math.min(scrollY * 0.22, 90)
+  const orbShiftX = isPointerActive ? pointerX : 0
+  const orbShiftY = isPointerActive ? pointerY : 0
+
   return (
     <section
+      ref={heroRef}
       id="hero"
       className={`hero ${showProfile ? "hero--profile-visible" : ""}`}
       // Push everything slightly lower to avoid mobile navbar overlap
       style={{ paddingTop: "clamp(72px, 9vh, 140px)" }}
     >
       <div
+        className="hero__ambient hero__ambient--one"
+        aria-hidden="true"
+        style={{ transform: `translate3d(${orbShiftX * 0.55}px, ${scrollY * 0.1 + orbShiftY * 0.4}px, 0)` }}
+      />
+      <div
+        className="hero__ambient hero__ambient--two"
+        aria-hidden="true"
+        style={{ transform: `translate3d(${-orbShiftX * 0.4}px, ${scrollY * 0.16 - orbShiftY * 0.3}px, 0)` }}
+      />
+      <div className="hero__grid" aria-hidden="true" />
+
+      <div
         className="hero__background"
         style={{
           backgroundImage: isDarkMode ? `url(/images/jesus-night.jpeg)` : `url(/images/jesus-day.jpeg)`,
-          transform: `translateY(${scrollY * 0.5}px) scale(${1 + scrollY * 0.0002})`,
+          transform: `translate3d(${pointerX * -0.35}px, ${scrollY * 0.34 + pointerY * -0.25}px, 0) scale(${1 + scrollY * 0.00018})`,
         }}
       />
 
-      <div className="hero__overlay" style={{ opacity: 0.4 + scrollY * 0.0005 }} />
+      <div
+        className="hero__overlay"
+        style={{
+          opacity: 0.42 + scrollY * 0.00035,
+          transform: `translate3d(${pointerX * -0.18}px, ${pointerY * -0.18}px, 0)`,
+        }}
+      />
 
       {showProfile && (
         <div
@@ -184,7 +238,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
       <div
         className={`hero__content ${isVisible ? "hero__content--visible" : ""}`}
         style={{
-          transform: `translateY(${-scrollY * 0.3}px)`,
+          transform: `translate3d(${pointerX * 0.28}px, ${-contentLift + pointerY * 0.18}px, 0)`,
           paddingBottom: "clamp(90px, 14vh, 160px)",
         }}
       >

@@ -10,7 +10,11 @@ import { useThemeMode } from "@/hooks/useThemeMode"
 export default function SignInPage() {
   const router = useRouter()
   useThemeMode()
-  const { signIn, signInWithGoogle } = useHcfAuth({ redirectAuthenticatedTo: "/", redirectAfterAuth: "/" })
+  const { signIn, signInWithGoogle } = useHcfAuth({
+    redirectAuthenticatedTo: "/",
+    redirectAfterAuth: "/",
+    handleGoogleRedirect: true,
+  })
 
   return (
     <AppShell>

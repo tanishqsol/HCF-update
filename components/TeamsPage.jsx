@@ -34,10 +34,10 @@ const coreTeam = [
     name: "Dr. Shashi Jatiani",
     role: "Founder",
     photo: "/images/team/shashi_prof.jpeg",
-    description: "Leading HCF with vision and passion for reaching North Indians with the gospel.",
+    description: "Leading HCF with vision and passion for reaching Hindi speakers with the gospel.",
     email: "sjatiani@gmail.com",
     about:
-      "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani utilizes his multilingual expertise to reach North Indians with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF, welcoming community for both spiritual seekers and seasoned believers.",
+      "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani utilizes his multilingual expertise to reach Hindi speakers with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF, welcoming community for both spiritual seekers and seasoned believers.",
   },
   {
     name: "Asavari Jatiani",
@@ -63,7 +63,7 @@ const coreTeam = [
     photo: "/images/team/swaroop_prof.png",
     description: "Partnering in ministry to expand the reach and impact of HCF.",
     email: "swaroopk2@gmail.com",
-    about: "Swaroop is deeply committed to discipling students from every nation and equipping them to follow Jesus faithfully. Based in the Boston area, he serves among international students, walking alongside them as they grow as disciples and develop a clear, missional vision for their lives. He carries a particular burden for the Indian student community, especially Hindi-speaking students, and longs to see them come to faith in Christ, mature spiritually, and be formed into servant leaders. Swaroop’s desire is that the Hindi Christian Fellowship of Boston would be used as an instrument to lead North Indian students in Boston to the light of Jesus, strengthening and multiplying Christ-centered fellowships and contributing to the planting and growth of healthy churches among Indian communities in the U.S. and beyond."
+    about: "Swaroop is deeply committed to discipling students from every nation and equipping them to follow Jesus faithfully. Based in the Boston area, he serves among international students, walking alongside them as they grow as disciples and develop a clear, missional vision for their lives. He carries a particular burden for the Indian student community, especially Hindi-speaking students, and longs to see them come to faith in Christ, mature spiritually, and be formed into servant leaders. Swaroop’s desire is that the Hindi Christian Fellowship of Boston would be used as an instrument to lead Hindi-speaking students in Boston to the light of Jesus, strengthening and multiplying Christ-centered fellowships and contributing to the planting and growth of healthy churches among Indian communities in the U.S. and beyond."
   },
   {
     name: "Mike Frost",
@@ -72,7 +72,7 @@ const coreTeam = [
     description: "Contributing partnership and support to the HCF mission.",
     email: "Mike.frost@bridgesinternational.com",
     about:
-      "Mike is passionate about helping people from every nation learn what it means to be a disciple of Jesus. In 2022, Mike and his family moved to Boston to serve as one of the team leaders with Bridges International, helping international students in the Boston area find a home away from home and thrive spiritually. Mike would love to see the North Indian students he meets in Boston get connected to HCF so they can grow spiritually and experience fellowship with North Indian families in the Boston area.",
+      "Mike is passionate about helping people from every nation learn what it means to be a disciple of Jesus. In 2022, Mike and his family moved to Boston to serve as one of the team leaders with Bridges International, helping international students in the Boston area find a home away from home and thrive spiritually. Mike would love to see the Hindi-speaking students he meets in Boston get connected to HCF so they can grow spiritually and experience fellowship with Hindi-speaking families in the Boston area.",
   },
   {
     name: "Gary McCann",
