@@ -9,7 +9,7 @@ const coreValues = [
     english: "Christ-Centered Discipleship",
     title_hi: "मसीह-केंद्रित शिष्यत्व",
     description_hi:
-      "हम यीशु मसीह के साथ गहरे और बढ़ते संबंध को जीवन और सेवकाई की नींव मानते हैं। हमारा संकल्प है कि हम बाइबल को विश्वासयोग्य रूप से सिखाएँ और विश्वासियों को अगुवा तथा आजीवन यीशु के शिष्य (शिष्य) बनने के लिए तैयार करें।",
+      "हम यीशु मसीह के साथ गहरे और बढ़ते संबंध को जीवन और सेवकाई की नींव मानते हैं। हमारा संकल्प है कि हम बाइबल को विश्वासयोग्य रूप से सिखाएँ और विश्वासियों को अगुवा तथा आजीवन यीशु के शिष्य बनने के लिए तैयार करें।",
     description: "We prioritize a deep, growing relationship with Jesus Christ as the foundation for all life and ministry. Our commitment is to teaching the Bible faithfully and equipping believers to become leaders and lifelong followers of Jesus (shishya).",
     icon: "✝️",
   },
@@ -18,8 +18,8 @@ const coreValues = [
     english: "Authentic Fellowship",
     title_hi: "सच्ची संगति",
     description_hi:
-      "हम एक जीवंत, बहु-पीढ़ी, बाइबल-आधारित और समावेशी परिवार बनाने के लिए प्रतिबद्ध हैं, जहाँ बोस्टन का हर हिंदी-भाषी भारतीय सच्चा प्रेम, सहारा और अपनापन पाए। हम पारदर्शिता, परस्पर उत्साहवर्धन और आत्मिक प्रामाणिकता को महत्व देते हैं।",
-    description: "We commit to creating a vibrant, multi-generational, biblical and inclusive family where every Hindi-speaking Indian in Boston finds genuine love, support, and belonging. We value transparency, mutual encouragement, and spiritual authenticity.",
+      "हम एक जीवंत, बहु-पीढ़ी, बाइबल-आधारित और समावेशी परिवार बनाने के लिए प्रतिबद्ध हैं, जहाँ बोस्टन का हर हिंदी-भाषी लोग सच्चा प्रेम, सहारा और अपनापन पाए। हम पारदर्शिता, परस्पर उत्साहवर्धन और आत्मिक प्रामाणिकता को महत्व देते हैं।",
+    description: "We commit to creating a vibrant, multi-generational, biblical and inclusive family where every Hindi-speaking in Boston finds genuine love, support, and belonging. We value transparency, mutual encouragement, and spiritual authenticity.",
     icon: "🧑‍🤝‍🧑",
   },
   {
@@ -36,8 +36,8 @@ const coreValues = [
     english: "Selfless Service",
     title_hi: "निस्वार्थ सेवा",
     description_hi:
-      "हम स्थानीय हिंदी-भाषी भारतीय समुदाय में मसीह जैसी सेवा (सेवा) के व्यावहारिक कार्यों के माध्यम से परमेश्वर का प्रेम दिखाते हैं। हम नए लोगों को नए देश में जीवन के अनुकूल होने में मदद करते हैं और मित्रता व जुड़ाव के पुल बनाते हैं।",
-    description: "We demonstrate God's love through practical acts of Christlike service (Sewa) within the local Hindi-speaking Indian community, actively helping newcomers adjust to life in a new country and building bridges of friendship and connection.",
+      "हम स्थानीय हिंदी-भाषी लोग समुदाय में मसीह जैसी सेवा (सेवा) के व्यावहारिक कार्यों के माध्यम से परमेश्वर का प्रेम दिखाते हैं। हम नए लोगों को नए देश में जीवन के अनुकूल होने में मदद करते हैं और मित्रता व जुड़ाव के पुल बनाते हैं।",
+    description: "We demonstrate God's love through practical acts of Christlike service (Sewa) within the local Hindi-speaking community, actively helping newcomers adjust to life in a new country and building bridges of friendship and connection.",
     icon: "🙏",
   },
   {
