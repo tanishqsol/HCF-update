@@ -16,22 +16,22 @@ export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect })
     },
     {
       title: "Bookkeeper",
-      description: "Assist in maintaining financial records and managing the fellowship's accounts.",
+      description: "Help track donations, expenses, and basic financial records with accuracy, integrity, and good stewardship.",
       icon: "💰",
     },
     {
       title: "Facilitators",
-      description: "Assist in maintaining financial records and managing the fellowship's accounts.",
+      description: "Welcome people, guide conversations, and help create a warm, organized environment during gatherings and small group moments.",
       icon: "🤝",
     },
     {
       title: "Kitchen/Food team",
-      description: "Assist in maintaining financial records and managing the fellowship's accounts.",
+      description: "Support meal planning, food setup, serving, and cleanup so our fellowship gatherings feel hospitable and cared for.",
       icon: "🍽️",
     },
     {
       title: "Event Manager",
-      description: "Assist in maintaining financial records and managing the fellowship's accounts.",
+      description: "Coordinate event details, schedules, volunteers, and logistics to help each gathering run smoothly from start to finish.",
       icon: "📅",
     },
     {
