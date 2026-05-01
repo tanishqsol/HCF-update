@@ -141,7 +141,7 @@ const keyVolunteers = [
    name: "Praveen Arpudha",
    role: "Key Volunteer ",
    gender: "male",
-   photo: "",
+   photo: "/images/team/praveen.png",
    areas: "Worship Minister",
    about:
    "Praveen is a dynamic worship leader, talented keyboardist, and songwriter. Known for his ability to lead worship in multiple languages, he brings a unique and diverse sound to the community. He actively contributes to the HCF and is passionate about using his musical gifts to serve the church and inspire others.",
