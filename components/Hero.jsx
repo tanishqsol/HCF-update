@@ -256,12 +256,12 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
           >
             {t.join}
           </button>
-          <button
+          {/* <button
             className="hero__button hero__button--secondary"
             onClick={() => document.getElementById("vision")?.scrollIntoView({ behavior: "smooth" })}
           >
             {t.learn}
-          </button>
+          </button> */}
           {onNotificationsClick && (
             <button
               className="hero__button hero__button--secondary hero__button--notifications"

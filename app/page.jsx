@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation"
 
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
-import VisionSection from "@/components/VisionSection"
+// import VisionSection from "@/components/VisionSection"
 import CoreValuesSection from "@/components/CoreValuesSection"
 import MeetingsSection from "@/components/MeetingsSection"
-import CreativeAvenuesSection from "@/components/CreativeAvenuesSection"
+// import CreativeAvenuesSection from "@/components/CreativeAvenuesSection"
 import ContactSection from "@/components/ContactSection"
 import Footer from "@/components/Footer"
 import StatusDialog from "@/components/StatusDialog"
@@ -161,10 +161,10 @@ export default function HomePage() {
       />
 
       <Hero isDarkMode={isDarkMode} onNotificationsClick={handleNotificationsClick} />
-      <VisionSection />
+      {/* <VisionSection /> */}
       <CoreValuesSection />
       <MeetingsSection />
-      <CreativeAvenuesSection />
+      {/* <CreativeAvenuesSection /> */}
       <ContactSection />
       <Footer />
     </AppShell>

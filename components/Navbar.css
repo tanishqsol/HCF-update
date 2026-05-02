@@ -250,6 +250,14 @@ html {
   white-space: nowrap;
 }
 
+.navbar__actions--guest {
+  padding-left: 0.75rem;
+}
+
+.navbar__menu--guest {
+  justify-content: center;
+}
+
 .navbar__signin-btn,
 .navbar__signout-btn {
   padding: 0.75rem 1.5rem;
@@ -388,6 +396,14 @@ html {
     gap: 1rem;
     flex-wrap: nowrap;
     white-space: nowrap;
+  }
+
+  .navbar__actions--guest {
+    padding-left: 0;
+  }
+
+  .navbar__menu--guest {
+    justify-content: flex-start;
   }
 
   .navbar__signin-btn,

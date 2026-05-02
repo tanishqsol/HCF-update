@@ -28,13 +28,13 @@ export default function Navbar({
       en: {
         home: "Home",
         about: "About Us",
-        vision: "Vision",
+        // vision: "Vision",
         coreValues: "Values",
         team: "Team",
         volunteer: "Volunteer",
         musicVideos: "Music Videos",
         meetings: "Meetings",
-        festivals: "Festivals",
+        // festivals: "Festivals",
         contact: "Contact",
         signIn: "Sign In",
         signOut: "Sign Out",
@@ -46,13 +46,13 @@ export default function Navbar({
       hi: {
         home: "होम",
         about: "हमारे बारे में",
-        vision: "दृष्टि",
+        // vision: "दृष्टि",
         coreValues: "मूल्य",
         team: "टीम",
         volunteer: "सेवा",
         musicVideos: "संगीत वीडियो",
         meetings: "सभाएं",
-        festivals: "उत्सव",
+        // festivals: "उत्सव",
         contact: "संपर्क",
         signIn: "साइन इन",
         signOut: "साइन आउट",
@@ -132,7 +132,7 @@ export default function Navbar({
           </div>
         </div>
 
-        <div className="navbar__content">
+        <div className={`navbar__content ${!isAuthenticated ? "navbar__content--guest" : ""}`}>
           <button
             className="navbar__mobile-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -144,7 +144,11 @@ export default function Navbar({
             <span></span>
           </button>
 
-          <ul className={`navbar__menu ${isMobileMenuOpen ? "navbar__menu--open" : ""}`}>
+          <ul
+            className={`navbar__menu ${isMobileMenuOpen ? "navbar__menu--open" : ""} ${
+              !isAuthenticated ? "navbar__menu--guest" : ""
+            }`}
+          >
           <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("hero")} type="button">
               {t("home")}
@@ -157,11 +161,11 @@ export default function Navbar({
               </button>
             </li>
           )}
-          <li>
+          {/* <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("vision")} type="button">
               {t("vision")}
             </button>
-          </li>
+          </li> */}
           <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("values")} type="button">
               {t("coreValues")}
@@ -191,11 +195,11 @@ export default function Navbar({
               {t("meetings")}
             </button>
           </li>
-          <li>
+          {/* <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("festivals")} type="button">
               {t("festivals")}
             </button>
-          </li>
+          </li> */}
           <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("contact")} type="button">
               {t("contact")}
@@ -203,7 +207,7 @@ export default function Navbar({
           </li>
         </ul>
 
-        <div className="navbar__actions">
+        <div className={`navbar__actions ${!isAuthenticated ? "navbar__actions--guest" : ""}`}>
          
 
           {!isAuthenticated ? (

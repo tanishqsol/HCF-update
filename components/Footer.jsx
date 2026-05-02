@@ -25,9 +25,9 @@ export default function Footer() {
             <div className="footer__column">
               <h4 className="footer__column-title">Quick Links</h4>
               <ul className="footer__menu">
-                <li>
+                {/* <li>
                   <button onClick={() => scrollToSection("vision")}>Vision</button>
-                </li>
+                </li> */}
                 <li>
                   <button onClick={() => scrollToSection("values")}>Core Values</button>
                 </li>
@@ -42,9 +42,9 @@ export default function Footer() {
             <div className="footer__column">
               <h4 className="footer__column-title">Connect</h4>
               <ul className="footer__menu">
-                <li>
+                {/* <li>
                   <button onClick={() => scrollToSection("festivals")}>Festivals</button>
-                </li>
+                </li> */}
                 <li>
                   <button onClick={() => scrollToSection("contact")}>Contact Us</button>
                 </li>
