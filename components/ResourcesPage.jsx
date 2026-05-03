@@ -19,11 +19,11 @@ export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect })
       description: "Use your musical gifts to support worship through singing or instruments and help lead the fellowship in joyful praise.",
       icon: "🎶",
     },
-    {
-      title: "Bookkeeper",
-      description: "Help track donations, expenses, and basic financial records with accuracy, integrity, and good stewardship.",
-      icon: "💰",
-    },
+    // {
+    //   title: "Bookkeeper",
+    //   description: "Help track donations, expenses, and basic financial records with accuracy, integrity, and good stewardship.",
+    //   icon: "💰",
+    // },
     {
       title: "Facilitators",
       description: "Welcome people, guide conversations, and help create a warm, organized environment during gatherings and small group moments.",
@@ -44,11 +44,11 @@ export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect })
       description: "Use your creativity to design slides, posters, and digital media that communicate our message clearly and beautifully.",
       icon: "🎨",
     },
-    {
-      title: "Internal Auditor",
-      description: "Support transparency and good stewardship by helping review our financial practices and internal processes.",
-      icon: "🧾",
-    },
+    // {
+    //   title: "Internal Auditor",
+    //   description: "Support transparency and good stewardship by helping review our financial practices and internal processes.",
+    //   icon: "🧾",
+    // },
   ]
   const handleExpressInterest = () => {
     if (onContactRedirect) {

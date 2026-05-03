@@ -242,7 +242,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
   const heroTransitionDistance = Math.max(heroScrollDistance * 0.82, 1)
   const heroImageProgress = Math.min(scrollY / heroTransitionDistance, 1)
   const baseHeroImage = isDarkMode ? "/images/jesus-night.jpeg" : "/images/jesus-day.jpeg"
-  const fullBackImage = "/images/fullBack.png"
+  const handsDownImage = "/images/handsDown.png"
   const backgroundTransform = `translate3d(${pointerX * -0.35}px, ${scrollY * 0.34 + pointerY * -0.25}px, 0) scale(${1 + scrollY * 0.00018})`
 
   return (
@@ -277,7 +277,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
       <div
         className="hero__background hero__background--alternate"
         style={{
-          backgroundImage: `url(${fullBackImage})`,
+          backgroundImage: `url(${handsDownImage})`,
           transform: backgroundTransform,
           opacity: heroImageProgress,
         }}
