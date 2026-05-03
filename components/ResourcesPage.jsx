@@ -4,15 +4,20 @@ import "./ResourcesPage.css"
 
 export default function ResourcesPage({ onBack, isDarkMode, onContactRedirect }) {
   const neededRoles = [
+    // {
+    //   title: "Guitarist",
+    //   description: "Join our music team as a guitarist to lead worship and enhance our musical ministry.",
+    //   icon: "🎸",
+    // },
+    // {
+    //   title: "Keyboardist",
+    //   description: "Musicians of all instruments are welcome to contribute to our worship and fellowship.",
+    //   icon: "🎹",
+    // },
     {
-      title: "Guitarist",
-      description: "Join our music team as a guitarist to lead worship and enhance our musical ministry.",
-      icon: "🎸",
-    },
-    {
-      title: "Keyboardist",
-      description: "Musicians of all instruments are welcome to contribute to our worship and fellowship.",
-      icon: "🎹",
+      title: "Musicians & Singers",
+      description: "Use your musical gifts to support worship through singing or instruments and help lead the fellowship in joyful praise.",
+      icon: "🎶",
     },
     {
       title: "Bookkeeper",

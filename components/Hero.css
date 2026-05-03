@@ -6,7 +6,7 @@
 .hero {
   position: relative;
   /* Use dynamic viewport units to avoid mobile browser UI issues */
-  min-height: 100svh;
+  min-height: 175svh;
 
   /* Fixed navbars can overlap the hero, so reserve space */
   --navbar-offset: clamp(72px, 8vh, 120px);
@@ -31,8 +31,22 @@
   background-repeat: no-repeat;
 
   transition: background-image 0.8s ease;
-  will-change: transform;
+  will-change: transform, opacity;
   z-index: 0;
+}
+
+.hero__background--base {
+  z-index: 0;
+}
+
+.hero__background--mid {
+  z-index: 0;
+  opacity: 0;
+}
+
+.hero__background--alternate {
+  z-index: 0;
+  opacity: 0;
 }
 
 .hero__overlay {
@@ -45,6 +59,104 @@
 
 .dark-mode .hero__overlay {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+}
+
+.hero__ornaments {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__ornament {
+  --hero-ornament-drift: 18px;
+
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  user-select: none;
+  will-change: transform, opacity;
+  animation: heroOrnamentFloat ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 211, 111, 0.25));
+}
+
+.hero__particle {
+  --hero-particle-travel: 150px;
+
+  position: absolute;
+  bottom: -5%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 252, 242, 0.95) 0%, rgba(255, 240, 193, 0.95) 42%, rgba(255, 194, 92, 0.4) 72%, rgba(255, 194, 92, 0) 100%);
+  box-shadow: 0 0 12px rgba(255, 205, 102, 0.35);
+  will-change: transform, opacity;
+  animation: heroParticleRise linear infinite;
+}
+
+.hero__ornament--star {
+  color: rgba(255, 221, 120, 0.96);
+  text-shadow: 0 0 12px rgba(255, 211, 111, 0.45), 0 0 26px rgba(255, 182, 66, 0.18);
+}
+
+.hero__ornament--flower {
+  color: rgba(255, 230, 166, 0.92);
+  text-shadow: 0 0 10px rgba(255, 240, 189, 0.25), 0 0 24px rgba(255, 182, 66, 0.14);
+}
+
+@keyframes heroOrnamentFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.96);
+    opacity: 0.45;
+  }
+  25% {
+    transform: translate3d(calc(var(--hero-ornament-drift) * 0.45), calc(var(--hero-ornament-drift) * -0.65), 0)
+      rotate(8deg) scale(1.02);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(calc(var(--hero-ornament-drift) * -0.25), calc(var(--hero-ornament-drift) * -1), 0)
+      rotate(-6deg) scale(1.08);
+    opacity: 0.72;
+  }
+  75% {
+    transform: translate3d(calc(var(--hero-ornament-drift) * -0.5), calc(var(--hero-ornament-drift) * -0.3), 0)
+      rotate(5deg) scale(1);
+    opacity: 0.88;
+  }
+}
+
+@keyframes heroParticleRise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.55;
+  }
+  45% {
+    transform: translate3d(-10px, calc(var(--hero-particle-travel) * -0.45), 0) scale(1);
+    opacity: 0.75;
+  }
+  75% {
+    transform: translate3d(12px, calc(var(--hero-particle-travel) * -0.82), 0) scale(1.08);
+    opacity: 0.48;
+  }
+  100% {
+    transform: translate3d(-6px, calc(var(--hero-particle-travel) * -1), 0) scale(0.92);
+    opacity: 0;
+  }
 }
 
 /* ==========================
@@ -91,11 +203,8 @@
   font-size: clamp(1.5rem, 3.5vw, 2.5rem);
   font-weight: 600;
   margin-top: 1rem;
-  background: linear-gradient(135deg, #ff9933, #ffd699, #138808, #3a9d5d);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffd166;
+  text-shadow: 0 0 18px rgba(255, 209, 102, 0.35), 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .hero__tagline {
@@ -330,6 +439,18 @@
 
 /* Phones: KEEP YOUR CURRENT SETTINGS (chip style, top-center) */
 @media (max-width: 768px) {
+  .hero__ornament {
+    opacity: 0.68;
+  }
+
+  .hero__ornament:nth-child(2n) {
+    display: none;
+  }
+
+  .hero__particle:nth-child(3n) {
+    display: none;
+  }
+
   .hero--profile-visible {
     --hero-profile-safe-pad: clamp(96px, 15vh, 150px);
   }
@@ -381,6 +502,19 @@
   .hero__button {
     width: 100%;
     max-width: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__ornament {
+    animation: none;
+    opacity: 0.55;
+    transform: none;
+  }
+
+  .hero__particle {
+    animation: none;
+    opacity: 0.2;
   }
 }
 
