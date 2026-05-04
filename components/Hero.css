@@ -6,7 +6,7 @@
 .hero {
   position: relative;
   /* Use dynamic viewport units to avoid mobile browser UI issues */
-  min-height: 175svh;
+  min-height: 118svh;
 
   /* Fixed navbars can overlap the hero, so reserve space */
   --navbar-offset: clamp(72px, 8vh, 120px);
@@ -21,27 +21,20 @@
 
 .hero__background {
   position: absolute;
-  top: -10%;
-  left: -5%;
-  right: -5%;
-  bottom: -10%;
+  inset: 0;
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  transition: background-image 0.8s ease;
-  will-change: transform, opacity;
   z-index: 0;
+  transition: opacity 0.45s linear;
+  will-change: opacity, transform;
 }
 
 .hero__background--base {
   z-index: 0;
-}
-
-.hero__background--mid {
-  z-index: 0;
-  opacity: 0;
+  opacity: 1;
 }
 
 .hero__background--alternate {
@@ -78,7 +71,7 @@
 }
 
 .hero__ornament {
-  --hero-ornament-drift: 18px;
+  --hero-ornament-drift: 12px;
 
   position: absolute;
   display: inline-flex;
@@ -86,9 +79,7 @@
   justify-content: center;
   line-height: 1;
   user-select: none;
-  will-change: transform, opacity;
   animation: heroOrnamentFloat ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(255, 211, 111, 0.25));
 }
 
 .hero__particle {
@@ -99,19 +90,15 @@
   border-radius: 999px;
   background:
     radial-gradient(circle at 35% 35%, rgba(255, 252, 242, 0.95) 0%, rgba(255, 240, 193, 0.95) 42%, rgba(255, 194, 92, 0.4) 72%, rgba(255, 194, 92, 0) 100%);
-  box-shadow: 0 0 12px rgba(255, 205, 102, 0.35);
-  will-change: transform, opacity;
   animation: heroParticleRise linear infinite;
 }
 
 .hero__ornament--star {
   color: rgba(255, 221, 120, 0.96);
-  text-shadow: 0 0 12px rgba(255, 211, 111, 0.45), 0 0 26px rgba(255, 182, 66, 0.18);
 }
 
 .hero__ornament--flower {
   color: rgba(255, 230, 166, 0.92);
-  text-shadow: 0 0 10px rgba(255, 240, 189, 0.25), 0 0 24px rgba(255, 182, 66, 0.14);
 }
 
 @keyframes heroOrnamentFloat {
@@ -178,8 +165,7 @@
 
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 900ms ease, transform 900ms ease;
-  will-change: transform, opacity;
+  transition: opacity 700ms ease, transform 700ms ease;
 }
 
 .hero__content--visible {
@@ -275,7 +261,6 @@
   background: rgba(255, 255, 255, 0.15);
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
 }
 
 .hero__button--secondary:hover {
@@ -308,7 +293,7 @@
   border-radius: inherit;
   border: 1px solid rgba(255, 255, 255, 0.35);
   opacity: 0.7;
-  animation: heroNotificationPulse 1.8s ease-in-out infinite;
+  animation: none;
 }
 
 .hero__button-badge {
@@ -439,6 +424,10 @@
 
 /* Phones: KEEP YOUR CURRENT SETTINGS (chip style, top-center) */
 @media (max-width: 768px) {
+  .hero {
+    min-height: 100svh;
+  }
+
   .hero__ornament {
     opacity: 0.68;
   }
@@ -447,7 +436,7 @@
     display: none;
   }
 
-  .hero__particle:nth-child(3n) {
+  .hero__particle:nth-child(n + 8) {
     display: none;
   }
 
@@ -477,8 +466,6 @@
     background: rgba(255, 255, 255, 0.16);
     border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 
     /* phone avatar size */
     --hp-avatar: 38px;

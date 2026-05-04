@@ -5,11 +5,10 @@ import "./Hero.css"
 
 export default function Hero({ isDarkMode, onNotificationsClick }) {
   const [isVisible, setIsVisible] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
-  const [viewportHeight, setViewportHeight] = useState(0)
   const heroRef = useRef(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
-  const [isPointerActive, setIsPointerActive] = useState(false)
+  const baseBgRef = useRef(null)
+  const altBgRef = useRef(null)
+  const overlayRef = useRef(null)
 
   const LANG_STORAGE_KEY = "hcf_lang"
   const LANG_EVENT = "hcf:lang"
@@ -27,62 +26,34 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
 
   const floatingOrnaments = useMemo(
     () => [
-      { symbol: "✦", type: "star", left: "7%", top: "16%", size: "1.35rem", duration: "7.5s", delay: "-1.2s", drift: "20px" },
-      { symbol: "✶", type: "star", left: "14%", top: "60%", size: "1.05rem", duration: "9.5s", delay: "-4s", drift: "26px" },
-      { symbol: "✦", type: "star", left: "22%", top: "28%", size: "1rem", duration: "8.6s", delay: "-6.5s", drift: "16px" },
-      { symbol: "✧", type: "star", left: "31%", top: "72%", size: "0.95rem", duration: "7.8s", delay: "-2.8s", drift: "18px" },
-      { symbol: "✦", type: "star", left: "68%", top: "14%", size: "1.2rem", duration: "8.8s", delay: "-5.2s", drift: "18px" },
-      { symbol: "✶", type: "star", left: "76%", top: "18%", size: "1.55rem", duration: "8.2s", delay: "-3.1s", drift: "22px" },
-      { symbol: "✧", type: "star", left: "82%", top: "52%", size: "1rem", duration: "7.4s", delay: "-7.1s", drift: "16px" },
-      { symbol: "✦", type: "star", left: "90%", top: "30%", size: "1.15rem", duration: "9.1s", delay: "-2.3s", drift: "20px" },
-      { symbol: "❀", type: "flower", left: "10%", top: "40%", size: "1.6rem", duration: "10.8s", delay: "-3.4s", drift: "22px" },
-      { symbol: "✿", type: "flower", left: "19%", top: "78%", size: "1.3rem", duration: "11.6s", delay: "-6.2s", drift: "18px" },
-      { symbol: "❁", type: "flower", left: "62%", top: "58%", size: "1.4rem", duration: "9.8s", delay: "-1.2s", drift: "24px" },
-      { symbol: "✾", type: "flower", left: "67%", top: "36%", size: "1.35rem", duration: "10.2s", delay: "-4.7s", drift: "22px" },
-      { symbol: "❀", type: "flower", left: "71%", top: "68%", size: "1.55rem", duration: "11.4s", delay: "-2.6s", drift: "26px" },
-      { symbol: "✿", type: "flower", left: "75%", top: "43%", size: "1.2rem", duration: "9.4s", delay: "-5.6s", drift: "18px" },
-      { symbol: "❁", type: "flower", left: "79%", top: "60%", size: "1.7rem", duration: "10.7s", delay: "-3.8s", drift: "24px" },
-      { symbol: "✾", type: "flower", left: "85%", top: "36%", size: "1.15rem", duration: "8.9s", delay: "-6.9s", drift: "20px" },
-      { symbol: "❀", type: "flower", left: "88%", top: "66%", size: "1.28rem", duration: "11.1s", delay: "-2.1s", drift: "20px" },
+      { symbol: "✦", type: "star", left: "10%", top: "18%", size: "1.1rem", duration: "10s", delay: "-1.2s", drift: "14px" },
+      { symbol: "✦", type: "star", left: "74%", top: "16%", size: "1.2rem", duration: "11s", delay: "-4.2s", drift: "16px" },
+      { symbol: "❀", type: "flower", left: "13%", top: "42%", size: "1.35rem", duration: "13s", delay: "-2.4s", drift: "16px" },
+      { symbol: "❁", type: "flower", left: "78%", top: "56%", size: "1.45rem", duration: "12s", delay: "-5.1s", drift: "18px" },
     ],
     []
   )
 
   const risingParticles = useMemo(
     () => [
-      { left: "2%", size: "5px", duration: "5.8s", delay: "-0.8s", travel: "190px", opacity: 0.38 },
-      { left: "5%", size: "7px", duration: "6.1s", delay: "-3.6s", travel: "220px", opacity: 0.54 },
-      { left: "8%", size: "4px", duration: "4.9s", delay: "-1.9s", travel: "168px", opacity: 0.3 },
-      { left: "11%", size: "6px", duration: "5.4s", delay: "-5.1s", travel: "205px", opacity: 0.42 },
-      { left: "14%", size: "8px", duration: "6.4s", delay: "-2.2s", travel: "230px", opacity: 0.58 },
-      { left: "17%", size: "5px", duration: "5.2s", delay: "-4.7s", travel: "176px", opacity: 0.36 },
-      { left: "20%", size: "7px", duration: "6.7s", delay: "-0.5s", travel: "214px", opacity: 0.5 },
-      { left: "23%", size: "4px", duration: "4.7s", delay: "-3.4s", travel: "160px", opacity: 0.28 },
-      { left: "26%", size: "6px", duration: "5.6s", delay: "-2.9s", travel: "188px", opacity: 0.41 },
-      { left: "29%", size: "8px", duration: "6.2s", delay: "-5.8s", travel: "224px", opacity: 0.55 },
-      { left: "32%", size: "5px", duration: "5.1s", delay: "-1.6s", travel: "180px", opacity: 0.35 },
-      { left: "35%", size: "7px", duration: "6.5s", delay: "-4.2s", travel: "216px", opacity: 0.48 },
-      { left: "38%", size: "4px", duration: "4.8s", delay: "-0.9s", travel: "164px", opacity: 0.29 },
-      { left: "41%", size: "6px", duration: "5.5s", delay: "-3.1s", travel: "194px", opacity: 0.4 },
-      { left: "44%", size: "9px", duration: "6.9s", delay: "-5.4s", travel: "238px", opacity: 0.62 },
-      { left: "47%", size: "5px", duration: "5s", delay: "-2.7s", travel: "174px", opacity: 0.34 },
-      { left: "50%", size: "7px", duration: "6.3s", delay: "-4.9s", travel: "208px", opacity: 0.52 },
-      { left: "53%", size: "4px", duration: "4.6s", delay: "-1.3s", travel: "156px", opacity: 0.27 },
-      { left: "56%", size: "6px", duration: "5.7s", delay: "-3.8s", travel: "198px", opacity: 0.39 },
-      { left: "59%", size: "8px", duration: "6.6s", delay: "-0.4s", travel: "228px", opacity: 0.57 },
-      { left: "62%", size: "5px", duration: "5.3s", delay: "-5.6s", travel: "184px", opacity: 0.37 },
-      { left: "65%", size: "7px", duration: "6.1s", delay: "-2.5s", travel: "212px", opacity: 0.49 },
-      { left: "68%", size: "9px", duration: "6.8s", delay: "-4.4s", travel: "242px", opacity: 0.64 },
-      { left: "71%", size: "4px", duration: "4.9s", delay: "-1.7s", travel: "162px", opacity: 0.31 },
-      { left: "74%", size: "6px", duration: "5.8s", delay: "-3.3s", travel: "202px", opacity: 0.43 },
-      { left: "77%", size: "8px", duration: "6.4s", delay: "-5s", travel: "222px", opacity: 0.56 },
-      { left: "80%", size: "5px", duration: "5.2s", delay: "-0.6s", travel: "178px", opacity: 0.35 },
-      { left: "83%", size: "7px", duration: "6s", delay: "-2.8s", travel: "206px", opacity: 0.47 },
-      { left: "86%", size: "4px", duration: "4.5s", delay: "-4.6s", travel: "150px", opacity: 0.25 },
-      { left: "89%", size: "6px", duration: "5.6s", delay: "-1.1s", travel: "192px", opacity: 0.4 },
-      { left: "92%", size: "8px", duration: "6.3s", delay: "-3.9s", travel: "226px", opacity: 0.54 },
-      { left: "95%", size: "5px", duration: "5.1s", delay: "-5.2s", travel: "172px", opacity: 0.33 },
-      { left: "98%", size: "4px", duration: "4.7s", delay: "-2.4s", travel: "158px", opacity: 0.24 },
+      { left: "4%", size: "3px", duration: "4.8s", delay: "-1.4s", travel: "156px", opacity: 0.24 },
+      { left: "9%", size: "4px", duration: "4.4s", delay: "-3.9s", travel: "168px", opacity: 0.3 },
+      { left: "14%", size: "3px", duration: "5.1s", delay: "-2.2s", travel: "160px", opacity: 0.24 },
+      { left: "20%", size: "4px", duration: "4.6s", delay: "-5.1s", travel: "176px", opacity: 0.32 },
+      { left: "27%", size: "3px", duration: "4.9s", delay: "-1.8s", travel: "162px", opacity: 0.22 },
+      { left: "33%", size: "4px", duration: "4.3s", delay: "-4.7s", travel: "178px", opacity: 0.3 },
+      { left: "40%", size: "3px", duration: "5.2s", delay: "-2.7s", travel: "166px", opacity: 0.24 },
+      { left: "46%", size: "4px", duration: "4.5s", delay: "-5.5s", travel: "182px", opacity: 0.32 },
+      { left: "53%", size: "3px", duration: "4.7s", delay: "-3.1s", travel: "164px", opacity: 0.24 },
+      { left: "59%", size: "4px", duration: "4.2s", delay: "-1.2s", travel: "174px", opacity: 0.3 },
+      { left: "65%", size: "3px", duration: "5s", delay: "-4.1s", travel: "160px", opacity: 0.22 },
+      { left: "71%", size: "4px", duration: "4.6s", delay: "-2.5s", travel: "180px", opacity: 0.32 },
+      { left: "77%", size: "3px", duration: "4.8s", delay: "-5.8s", travel: "166px", opacity: 0.24 },
+      { left: "83%", size: "4px", duration: "4.3s", delay: "-3.3s", travel: "176px", opacity: 0.3 },
+      { left: "88%", size: "3px", duration: "5.1s", delay: "-1.6s", travel: "162px", opacity: 0.22 },
+      { left: "92%", size: "4px", duration: "4.4s", delay: "-4.9s", travel: "184px", opacity: 0.32 },
+      { left: "96%", size: "3px", duration: "4.7s", delay: "-2.9s", travel: "170px", opacity: 0.24 },
+      { left: "98%", size: "4px", duration: "4.2s", delay: "-5.3s", travel: "178px", opacity: 0.3 },
     ],
     []
   )
@@ -185,38 +156,69 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
 
   useEffect(() => {
     setIsVisible(true)
+  }, [])
 
-    const syncViewport = () => setViewportHeight(window.innerHeight)
-    const handleScroll = () => setScrollY(window.scrollY)
-
-    const handlePointerMove = (event) => {
-      const rect = heroRef.current?.getBoundingClientRect()
-      if (!rect) return
-
-      const x = (event.clientX - rect.left) / rect.width - 0.5
-      const y = (event.clientY - rect.top) / rect.height - 0.5
-      setMouse({ x, y })
-      setIsPointerActive(true)
+  useEffect(() => {
+    const preloadHandsDownImage = () => {
+      const img = new window.Image()
+      img.src = "/images/handsDown.png"
     }
 
-    const resetPointer = () => {
-      setMouse({ x: 0, y: 0 })
-      setIsPointerActive(false)
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(preloadHandsDownImage, { timeout: 1200 })
+      return () => window.cancelIdleCallback(idleId)
     }
 
-    syncViewport()
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    window.addEventListener("resize", syncViewport)
+    const timeoutId = window.setTimeout(preloadHandsDownImage, 180)
+    return () => window.clearTimeout(timeoutId)
+  }, [])
 
-    const section = heroRef.current
-    section?.addEventListener("pointermove", handlePointerMove)
-    section?.addEventListener("pointerleave", resetPointer)
+  useEffect(() => {
+    const hero = heroRef.current
+    const baseBg = baseBgRef.current
+    const altBg = altBgRef.current
+    const overlay = overlayRef.current
+
+    if (!hero || !baseBg || !altBg || !overlay) return
+
+    let rafId = 0
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const isPhoneViewport = window.matchMedia("(max-width: 768px)").matches
+    const enableBackgroundDrift = !prefersReducedMotion && !isPhoneViewport
+
+    const updateHeroVisuals = () => {
+      const scrollTop = window.scrollY
+      const heroTop = hero.offsetTop
+      const localScroll = Math.max(scrollTop - heroTop, 0)
+      const transitionDistance = Math.max(hero.offsetHeight * (isPhoneViewport ? 0.42 : 0.52), 1)
+      const progress = Math.min(localScroll / transitionDistance, 1)
+      const backgroundShift = enableBackgroundDrift ? localScroll * 0.05 : 0
+      const backgroundScale = enableBackgroundDrift ? 1 + localScroll * 0.00003 : 1
+      const transformValue = `translate3d(0, ${backgroundShift}px, 0) scale(${backgroundScale})`
+
+      baseBg.style.opacity = `${1 - progress}`
+      altBg.style.opacity = `${progress}`
+      baseBg.style.transform = transformValue
+      altBg.style.transform = transformValue
+      overlay.style.opacity = `${enableBackgroundDrift ? 0.42 + progress * 0.08 : 0.46 + progress * 0.04}`
+    }
+
+    const requestUpdate = () => {
+      if (rafId) return
+      rafId = window.requestAnimationFrame(() => {
+        updateHeroVisuals()
+        rafId = 0
+      })
+    }
+
+    updateHeroVisuals()
+    window.addEventListener("scroll", requestUpdate, { passive: true })
+    window.addEventListener("resize", requestUpdate)
 
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-      window.removeEventListener("resize", syncViewport)
-      section?.removeEventListener("pointermove", handlePointerMove)
-      section?.removeEventListener("pointerleave", resetPointer)
+      window.removeEventListener("scroll", requestUpdate)
+      window.removeEventListener("resize", requestUpdate)
+      if (rafId) window.cancelAnimationFrame(rafId)
     }
   }, [])
 
@@ -233,17 +235,8 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
   // Don’t render the chip until mounted (avoids weird first paint)
   const showProfile = mounted && !!userName
 
-  const pointerX = mouse.x * 24
-  const pointerY = mouse.y * 24
-  const contentLift = Math.min(scrollY * 0.22, 90)
-  const orbShiftX = isPointerActive ? pointerX : 0
-  const orbShiftY = isPointerActive ? pointerY : 0
-  const heroScrollDistance = Math.max((heroRef.current?.offsetHeight || 0) - viewportHeight, 1)
-  const heroTransitionDistance = Math.max(heroScrollDistance * 0.82, 1)
-  const heroImageProgress = Math.min(scrollY / heroTransitionDistance, 1)
   const baseHeroImage = isDarkMode ? "/images/jesus-night.jpeg" : "/images/jesus-day.jpeg"
   const handsDownImage = "/images/handsDown.png"
-  const backgroundTransform = `translate3d(${pointerX * -0.35}px, ${scrollY * 0.34 + pointerY * -0.25}px, 0) scale(${1 + scrollY * 0.00018})`
 
   return (
     <section
@@ -254,42 +247,24 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
       style={{ paddingTop: "clamp(72px, 9vh, 140px)" }}
     >
       <div
-        className="hero__ambient hero__ambient--one"
-        aria-hidden="true"
-        style={{ transform: `translate3d(${orbShiftX * 0.55}px, ${scrollY * 0.1 + orbShiftY * 0.4}px, 0)` }}
-      />
-      <div
-        className="hero__ambient hero__ambient--two"
-        aria-hidden="true"
-        style={{ transform: `translate3d(${-orbShiftX * 0.4}px, ${scrollY * 0.16 - orbShiftY * 0.3}px, 0)` }}
-      />
-      <div className="hero__grid" aria-hidden="true" />
-
-      <div
+        ref={baseBgRef}
         className="hero__background hero__background--base"
         style={{
           backgroundImage: `url(${baseHeroImage})`,
-          transform: backgroundTransform,
-          opacity: 1 - heroImageProgress,
+          transform: "translate3d(0, 0, 0)",
         }}
       />
 
       <div
+        ref={altBgRef}
         className="hero__background hero__background--alternate"
         style={{
           backgroundImage: `url(${handsDownImage})`,
-          transform: backgroundTransform,
-          opacity: heroImageProgress,
+          transform: "translate3d(0, 0, 0)",
         }}
       />
 
-      <div
-        className="hero__overlay"
-        style={{
-          opacity: 0.42 + scrollY * 0.00035,
-          transform: `translate3d(${pointerX * -0.18}px, ${pointerY * -0.18}px, 0)`,
-        }}
-      />
+      <div ref={overlayRef} className="hero__overlay" />
 
       <div className="hero__ornaments" aria-hidden="true">
         {floatingOrnaments.map((ornament, index) => (
@@ -358,7 +333,6 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
       <div
         className={`hero__content ${isVisible ? "hero__content--visible" : ""}`}
         style={{
-          transform: `translate3d(${pointerX * 0.28}px, ${-contentLift + pointerY * 0.18}px, 0)`,
           paddingBottom: "clamp(90px, 14vh, 160px)",
         }}
       >
