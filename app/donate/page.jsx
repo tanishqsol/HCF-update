@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { initializeApp, getApps, getApp } from 'firebase/app'
+import AppShell from '@/components/AppShell'
 import './donate.css'
 
 const firebaseConfig = {
@@ -69,14 +70,16 @@ export default function DonatePage() {
   // Show loading state while checking authentication
   if (isLoading) {
     return (
-      <div className="donate-page-body" style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
-        <div style={{ color: 'var(--cream)', fontSize: '1.2rem' }}>Loading...</div>
-      </div>
+      <AppShell showShapes={false}>
+        <div className="donate-page-body" style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh' 
+        }}>
+          <div style={{ color: 'var(--cream)', fontSize: '1.2rem' }}>Loading...</div>
+        </div>
+      </AppShell>
     )
   }
 
@@ -154,7 +157,8 @@ export default function DonatePage() {
   const formattedAmount = '$' + parseFloat(amount).toFixed(2)
 
   return (
-    <div className="donate-page-body">
+    <AppShell showShapes={false}>
+      <div className="donate-page-body">
       {/* NAV */}
       <nav className="donate-nav">
         <div className="donate-nav-logo" onClick={handleNavClick} style={{ cursor: 'pointer' }}>
@@ -509,6 +513,7 @@ export default function DonatePage() {
           <span>— John 3:16</span>
         </div>
       </div>
-    </div>
+      </div>
+    </AppShell>
   )
 }

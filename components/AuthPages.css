@@ -102,7 +102,7 @@
   padding: 14px 16px;
   border-radius: 14px;
 
-  background: #ffffff;
+  background: #fff8ef;
   border: 1px solid rgba(0,0,0,0.12);
 
   font-weight: 800;
@@ -116,7 +116,7 @@
 .google-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-  background: #fcfcfc;
+  background: #fff3e2;
 }
 
 .google-btn:active:not(:disabled) {
@@ -135,7 +135,7 @@
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  background: #ffffff;
+  background: #fffaf4;
 }
 
 .google-btn__text {

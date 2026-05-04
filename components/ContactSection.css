@@ -1,6 +1,6 @@
 .contact-section {
   padding: 6rem 2rem;
-  background: var(--section-alt-background);
+  background: linear-gradient(180deg, var(--section-alt-background) 0%, color-mix(in srgb, var(--section-alt-background) 74%, white 26%) 100%);
 }
 
 .contact-section__container {
@@ -12,13 +12,15 @@
   text-align: center;
   margin-bottom: 4rem;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
+  transform: translateY(32px);
+  filter: blur(8px);
+  transition: opacity 0.75s ease, transform 0.75s ease, filter 0.75s ease;
 }
 
 .contact-section__header--visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 
 .contact-section__title {
@@ -45,13 +47,15 @@
 
 .contact-section__info {
   opacity: 0;
-  transform: translateX(-30px);
-  transition: all 0.6s ease 0.2s;
+  transform: translateX(-40px);
+  filter: blur(8px);
+  transition: opacity 0.75s ease 0.18s, transform 0.75s ease 0.18s, filter 0.75s ease 0.18s;
 }
 
 .contact-section__info--visible {
   opacity: 1;
   transform: translateX(0);
+  filter: blur(0);
 }
 
 .contact-section__subtitle {
@@ -72,6 +76,14 @@
   display: flex;
   gap: 1rem;
   align-items: start;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.contact-info__item--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .contact-info__icon {
@@ -97,7 +109,16 @@
 .contact-section__social {
   padding: 2rem;
   background: var(--card-background);
+  border: 1px solid color-mix(in srgb, var(--border-color) 75%, transparent);
   border-radius: 15px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+}
+
+.contact-section__social--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .contact-section__social-title {
@@ -140,10 +161,12 @@
 .contact-section__form {
   background: var(--card-background);
   padding: 2.5rem;
+  border: 1px solid color-mix(in srgb, var(--border-color) 75%, transparent);
   border-radius: 20px;
   opacity: 0;
-  transform: translateX(30px);
-  transition: all 0.6s ease 0.4s;
+  transform: translateX(42px);
+  filter: blur(8px);
+  transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s, filter 0.8s ease 0.3s;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
@@ -163,6 +186,7 @@
 .contact-section__form--visible {
   opacity: 1;
   transform: translateX(0);
+  filter: blur(0);
 }
 
 /* Fix: Removed :global() as it's not standard CSS. */
@@ -173,6 +197,14 @@
 
 .form-group {
   margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.form-group--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .form-group label {
@@ -226,6 +258,13 @@
   box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.contact-section__button--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Add shine effect on button hover */

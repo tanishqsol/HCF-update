@@ -91,7 +91,7 @@
 }
 
 .highlight-item {
-  background: white;
+  background: var(--card-background);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -160,7 +160,7 @@
 }
 
 [data-theme="dark"] .highlight-item {
-  background: #333333;
+  background: var(--card-background);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 

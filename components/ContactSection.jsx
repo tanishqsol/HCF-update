@@ -149,7 +149,10 @@ export default function ContactSection() {
           <div className={`contact-section__info ${isVisible ? "contact-section__info--visible" : ""}`}>
             <h3 className="contact-section__subtitle">{t.contactInfo}</h3>
             <div className="contact-info">
-              <div className="contact-info__item">
+              <div
+                className={`contact-info__item ${isVisible ? "contact-info__item--visible" : ""}`}
+                style={{ transitionDelay: "0.28s" }}
+              >
                 <span className="contact-info__icon">📧</span>
                 <div className="contact-info__details">
                   <strong>{t.email}</strong>
@@ -158,7 +161,10 @@ export default function ContactSection() {
                   </p>
                 </div>
               </div>
-              <div className="contact-info__item">
+              <div
+                className={`contact-info__item ${isVisible ? "contact-info__item--visible" : ""}`}
+                style={{ transitionDelay: "0.4s" }}
+              >
                 <span className="contact-info__icon">📍</span>
                 <div className="contact-info__details">
                   <strong>{t.location}</strong>
@@ -166,7 +172,7 @@ export default function ContactSection() {
                 </div>
               </div>
             </div>
-            <div className="contact-section__social">
+            <div className={`contact-section__social ${isVisible ? "contact-section__social--visible" : ""}`}>
               <h4 className="contact-section__social-title">{t.followUs}</h4>
               <div className="contact-section__social-links">
                 <a href="https://www.facebook.com/profile.php?id=61584879437991" className="social-link">
@@ -189,7 +195,7 @@ export default function ContactSection() {
             {submitStatus && (
               <div className={`form-status form-status--${submitStatus.type}`}>{submitStatus.message}</div>
             )}
-            <div className="form-group">
+            <div className={`form-group ${isVisible ? "form-group--visible" : ""}`} style={{ transitionDelay: "0.5s" }}>
               <label htmlFor="name">{t.name}</label>
               <input
                 type="text"
@@ -202,7 +208,7 @@ export default function ContactSection() {
                 disabled={isSubmitting}
               />
             </div>
-            <div className="form-group">
+            <div className={`form-group ${isVisible ? "form-group--visible" : ""}`} style={{ transitionDelay: "0.6s" }}>
               <label htmlFor="email">{t.email}</label>
               <input
                 type="email"
@@ -215,7 +221,7 @@ export default function ContactSection() {
                 disabled={isSubmitting}
               />
             </div>
-            <div className="form-group">
+            <div className={`form-group ${isVisible ? "form-group--visible" : ""}`} style={{ transitionDelay: "0.7s" }}>
               <label htmlFor="message">{t.message}</label>
               <textarea
                 id="message"
@@ -228,7 +234,11 @@ export default function ContactSection() {
                 disabled={isSubmitting}
               />
             </div>
-            <button type="submit" className="contact-section__button" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className={`contact-section__button ${isVisible ? "contact-section__button--visible" : ""}`}
+              disabled={isSubmitting}
+            >
               {isSubmitting ? t.sending : t.send}
             </button>
           </form>
