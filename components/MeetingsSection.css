@@ -199,6 +199,35 @@
   margin-right: auto;
 }
 
+.meetings-section__prayerVelocity {
+  position: relative;
+  width: 100%;
+  margin: 0 auto 1.5rem;
+  padding: 0.85rem 0;
+  overflow: hidden;
+  border-top: 1px solid color-mix(in srgb, var(--border-color) 72%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-color) 72%, transparent);
+  background: transparent;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 7%, black 93%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, black 7%, black 93%, transparent 100%);
+}
+
+.meetings-section__prayerVelocityTrack {
+  width: 100%;
+}
+
+.meetings-section__prayerVelocityRow {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.meetings-section__prayerFade {
+  display: none;
+}
+
 .meetings-section__button {
   background: var(--color-primary);
   color: white;

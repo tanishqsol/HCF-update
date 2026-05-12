@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { ScrollVelocityContainer, ScrollVelocityRow } from "./ui/scroll-based-velocity"
 import "./MeetingsSection.css"
 
 const TEXT = {
@@ -158,7 +159,15 @@ export default function MeetingsSection() {
           ))}
         </div>
         <div className={`meetings-section__cta ${isVisible ? "meetings-section__cta--visible" : ""}`}>
-          <p className="meetings-section__prayer">{t.prayer}</p>
+          <div className="meetings-section__prayerVelocity" aria-label={t.prayer}>
+            <ScrollVelocityContainer className="meetings-section__prayerVelocityTrack">
+              <ScrollVelocityRow baseVelocity={6} direction={1} className="meetings-section__prayerVelocityRow">
+                {t.prayer}
+              </ScrollVelocityRow>
+            </ScrollVelocityContainer>
+            <div className="meetings-section__prayerFade meetings-section__prayerFade--left" aria-hidden="true" />
+            <div className="meetings-section__prayerFade meetings-section__prayerFade--right" aria-hidden="true" />
+          </div>
           <button
             className="meetings-section__button"
             onClick={() => document.getElementById("contact").scrollIntoView({ behavior: "smooth" })}
