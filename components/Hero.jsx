@@ -165,7 +165,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
       <div className="hero__magic-rings" aria-hidden="true">
         <div className="hero__magic-ringsInner">
           <MagicRings
-            lineThickness={4}
+            lineThickness={3}
             speed={0.5}
             baseRadius={0.25}
             noiseAmount={0}
@@ -178,8 +178,8 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
             colorTwo="#ffffff"
             colorThree="#138808"
             ringCount={6}
-            attenuation={9}
-            opacity={0.8}
+            attenuation={11}
+            opacity={0.42}
             radiusStep={0.09}
             scaleRate={0.09}
             followMouse={false}
