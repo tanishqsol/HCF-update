@@ -68,6 +68,9 @@
 
 .footer__menu button,
 .footer__menu a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   background: none;
   border: none;
   color: white;
@@ -78,6 +81,12 @@
   text-decoration: none;
   padding: 0;
   text-align: left;
+}
+
+.footer__social-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
 }
 
 .footer__menu button:hover,

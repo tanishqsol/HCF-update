@@ -38,7 +38,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
         tagline: "Speaking the truth about Jesus to Hindi speakers in Greater Boston",
         join: "Join Our Fellowship",
         learn: "Learn More",
-        notifications: "Get Event Alerts",
+        notifications: "Fellowship Schedule",
         notificationsBadge: "New",
         welcomeSub: "Welcome",
         welcomeTitle: "Welcome to Hindi Christian Fellowship",

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   devIndicators: false,
+  allowedDevOrigins: ["10.0.0.45"],
   typescript: {
     ignoreBuildErrors: true,
   },

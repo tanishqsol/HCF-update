@@ -108,7 +108,7 @@
 
 .contact-section__social {
   padding: 2rem;
-  background: var(--card-background);
+  background: linear-gradient(180deg, #fffdf7 0%, #fff6ea 100%);
   border: 1px solid color-mix(in srgb, var(--border-color) 75%, transparent);
   border-radius: 15px;
   opacity: 0;
@@ -136,6 +136,9 @@
 }
 
 .social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   padding: 0.5rem 1.5rem;
   background: var(--color-primary);
   color: white;
@@ -150,6 +153,12 @@
   transform: translateY(-2px);
 }
 
+.social-link__icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
 .contact-section__social-note {
   font-size: 0.9rem;
   color: var(--foreground);
@@ -159,7 +168,7 @@
 }
 
 .contact-section__form {
-  background: var(--card-background);
+  background: linear-gradient(180deg, #fffdf7 0%, #fff6ea 100%);
   padding: 2.5rem;
   border: 1px solid color-mix(in srgb, var(--border-color) 75%, transparent);
   border-radius: 20px;
@@ -192,7 +201,13 @@
 /* Fix: Removed :global() as it's not standard CSS. */
 /* Assumes .dark-mode is a global class applied to a parent element. */
 .dark-mode .contact-section__form {
+  background: linear-gradient(180deg, rgba(35, 47, 64, 0.96) 0%, rgba(30, 42, 58, 0.98) 100%);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .contact-section__social {
+  background: linear-gradient(180deg, rgba(35, 47, 64, 0.96) 0%, rgba(30, 42, 58, 0.98) 100%);
+  border-color: rgba(255, 191, 105, 0.16);
 }
 
 .form-group {

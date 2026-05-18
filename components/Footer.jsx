@@ -1,5 +1,6 @@
 "use client"
 
+import { InstagramIcon, YouTubeIcon } from "./SocialIcons"
 import "./Footer.css"
 
 export default function Footer() {
@@ -11,7 +12,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer">
+    <footer id="site-footer" className="footer">
       <div className="footer__container">
         <div className="footer__main">
           <div className="footer__brand">
@@ -49,10 +50,19 @@ export default function Footer() {
                   <button onClick={() => scrollToSection("contact")}>Contact Us</button>
                 </li>
                 <li>
-                  <a href="#facebook">Facebook</a>
+                  <a href="https://www.facebook.com/profile.php?id=61584879437991" target="_blank" rel="noreferrer">Facebook</a>
                 </li>
                 <li>
-                  <a href="#youtube">YouTube</a>
+                  <a href="https://www.youtube.com/@HindiChristianFellowshipHCF" target="_blank" rel="noreferrer">
+                    <YouTubeIcon className="footer__social-icon" />
+                    YouTube
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com/hcfgreaterboston/" target="_blank" rel="noreferrer">
+                    <InstagramIcon className="footer__social-icon" />
+                    Instagram
+                  </a>
                 </li>
               </ul>
             </div>

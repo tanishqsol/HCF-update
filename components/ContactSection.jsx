@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { InstagramIcon, YouTubeIcon } from "./SocialIcons"
 import "./ContactSection.css"
 
 const TEXT = {
@@ -12,7 +13,7 @@ const TEXT = {
     location: "Location",
     locationValue: "Greater Boston Area, MA",
     followUs: "Follow Us",
-    socialNote: "(Social media links coming soon!)",
+    socialNote: "Follow along for fellowship updates, worship clips, and community moments.",
     name: "Name",
     namePlaceholder: "Your name",
     message: "Message",
@@ -31,7 +32,7 @@ const TEXT = {
     location: "स्थान",
     locationValue: "ग्रेटर बोस्टन क्षेत्र, मैसाचुसेट्स",
     followUs: "हमें फॉलो करें",
-    socialNote: "(सोशल मीडिया लिंक जल्द आ रहे हैं!)",
+    socialNote: "संगति अपडेट, आराधना क्लिप और समुदाय की झलकियों के लिए हमें फॉलो करें।",
     name: "नाम",
     namePlaceholder: "अपना नाम लिखें",
     message: "संदेश",
@@ -175,15 +176,17 @@ export default function ContactSection() {
             <div className={`contact-section__social ${isVisible ? "contact-section__social--visible" : ""}`}>
               <h4 className="contact-section__social-title">{t.followUs}</h4>
               <div className="contact-section__social-links">
-                <a href="https://www.facebook.com/profile.php?id=61584879437991" className="social-link">
+                <a href="https://www.facebook.com/profile.php?id=61584879437991" className="social-link" target="_blank" rel="noreferrer">
                   Facebook
                 </a>
-                {/* <a href="#youtube" className="social-link">
+                <a href="https://www.youtube.com/@HindiChristianFellowshipHCF" className="social-link" target="_blank" rel="noreferrer">
+                  <YouTubeIcon className="social-link__icon" />
                   YouTube
                 </a>
-                <a href="#instagram" className="social-link">
+                <a href="https://www.instagram.com/hcfgreaterboston/" className="social-link" target="_blank" rel="noreferrer">
+                  <InstagramIcon className="social-link__icon" />
                   Instagram
-                </a> */}
+                </a>
               </div>
               <p className="contact-section__social-note">{t.socialNote}</p>
             </div>

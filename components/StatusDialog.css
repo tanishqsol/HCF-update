@@ -1,0 +1,135 @@
+.status-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 15, 28, 0.56);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  overflow-y: auto;
+  animation: statusDialogFade 220ms ease-out;
+}
+
+.status-dialog__panel {
+  width: min(560px, 100%);
+  max-height: min(88svh, 760px);
+  background:
+    radial-gradient(circle at top right, rgba(255, 209, 102, 0.18), transparent 32%),
+    linear-gradient(180deg, #fffdf8 0%, #fff7eb 100%);
+  border-radius: 24px;
+  box-shadow: 0 28px 80px rgba(7, 15, 28, 0.28);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(217, 119, 6, 0.14);
+  animation: statusDialogRise 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.status-dialog__content {
+  padding: 22px 22px 18px;
+  overflow-y: auto;
+}
+
+.status-dialog__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #1a365d;
+}
+
+.status-dialog__message {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.status-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px 22px;
+  background: rgba(255, 255, 255, 0.72);
+  border-top: 1px solid rgba(26, 54, 93, 0.08);
+}
+
+.status-dialog__secondary,
+.status-dialog__primary {
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.status-dialog__secondary:hover,
+.status-dialog__primary:hover {
+  transform: translateY(-1px);
+}
+
+.status-dialog__secondary {
+  border: 1px solid #d7dce4;
+  background: white;
+  color: #1a365d;
+}
+
+.status-dialog__primary {
+  border: none;
+  color: white;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+}
+
+@keyframes statusDialogFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes statusDialogRise {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .status-dialog {
+    align-items: flex-start;
+    padding: calc(env(safe-area-inset-top) + 10px) 10px 10px;
+  }
+
+  .status-dialog__panel {
+    width: 100%;
+    max-height: min(82svh, 700px);
+    border-radius: 20px;
+  }
+
+  .status-dialog__content {
+    padding: 16px 16px 12px;
+  }
+
+  .status-dialog__actions {
+    padding: 12px 16px 16px;
+    position: sticky;
+    bottom: 0;
+  }
+
+  .status-dialog__title {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .status-dialog__secondary,
+  .status-dialog__primary {
+    padding: 9px 14px;
+    font-size: 0.95rem;
+  }
+}

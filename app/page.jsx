@@ -12,6 +12,8 @@ import MeetingsSection from "@/components/MeetingsSection"
 import ContactSection from "@/components/ContactSection"
 import Footer from "@/components/Footer"
 import StatusDialog from "@/components/StatusDialog"
+import ScrollProgressRail from "@/components/ScrollProgressRail"
+import { InstagramIcon, YouTubeIcon } from "@/components/SocialIcons"
 import AppShell from "@/components/AppShell"
 import { useHcfAuth } from "@/hooks/useHcfAuth"
 import { useThemeMode } from "@/hooks/useThemeMode"
@@ -26,12 +28,18 @@ const toTitleCase = (str = "") =>
     .join(" ")
 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
+const POPUP_SESSION_KEY = "hcf_home_popup_seen"
+const FELLOWSHIP_DATE = "Saturday, June 20, 2026"
+const RSVP_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
+const RSVP_DISPLAY_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
+const YOUTUBE_URL = "https://www.youtube.com/@HindiChristianFellowshipHCF"
+const INSTAGRAM_URL = "https://www.instagram.com/hcfgreaterboston/"
+const FELLOWSHIP_LOCATION = ["Mt. Hope Christian Church", "51 Lexington Street", "Belmont, MA 02478"]
 
 export default function HomePage() {
   const router = useRouter()
   const { isDarkMode, toggleTheme } = useThemeMode()
   const { isAuthenticated, signOut } = useHcfAuth()
-  const [scrollProgress, setScrollProgress] = useState(0)
   const [dialog, setDialog] = useState({
     open: false,
     variant: "info",
@@ -59,20 +67,21 @@ export default function HomePage() {
       onSecondary: config.onSecondary || null,
     })
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
-      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0
-      setScrollProgress(progress)
-    }
+  const buildLinkCardStyle = (accentColor) => ({
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    padding: "12px 14px",
+    borderRadius: 14,
+    background: "rgba(255, 255, 255, 0.86)",
+    border: `1px solid ${accentColor}`,
+    color: "#1a365d",
+    fontWeight: 700,
+    textDecoration: "none",
+  })
 
-    window.addEventListener("scroll", handleScroll)
-    handleScroll()
-
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const handleNotificationsClick = () => {
+  const showFellowshipDialog = () => {
     const storedName = (localStorage.getItem(USER_NAME_STORAGE_KEY) || "").trim()
     const displayName = toTitleCase(storedName || "Friend")
 
@@ -80,40 +89,82 @@ export default function HomePage() {
       variant: "info",
       title: "Upcoming Fellowship",
       content: (
-        <div style={{ display: "grid", gap: 14, color: "#444" }}>
-          <div style={{ fontSize: 14, lineHeight: 1.6 }}>
-            <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
-            <div style={{ marginBottom: 10 }}>
-              We are excited to share that our next fellowship gathering is on <strong>Saturday, May 16, 2026</strong>.
+        <div style={{ display: "grid", gap: 18, color: "#374151" }}>
+          <div
+            style={{
+              padding: "16px 18px",
+              borderRadius: 18,
+              background: "linear-gradient(135deg, rgba(255, 209, 102, 0.18), rgba(255, 153, 51, 0.12), rgba(19, 136, 8, 0.12))",
+              border: "1px solid rgba(255, 153, 51, 0.14)",
+            }}
+          >
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#b45309", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
+              Next Gathering
             </div>
-            <div style={{ marginBottom: 10 }}>
-              <strong>RSVP:</strong>{" "}
-              <a
-                href="https://forms.gle/2wczNLEatvQ242kk8"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "#1d4ed8", fontWeight: 700 }}
-              >
-                https://forms.gle/ihJBZ4aNjRGWdPTf8
-              </a>
+            <div style={{ fontSize: 15, lineHeight: 1.7 }}>
+              <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
+              <div style={{ marginBottom: 10 }}>
+                Join us for our upcoming fellowship on <strong>{FELLOWSHIP_DATE}</strong>.
+              </div>
+              <div style={{ marginBottom: 4 }}>
+                <strong>Location:</strong>
+              </div>
+              {FELLOWSHIP_LOCATION.map((line) => (
+                <div key={line}>{line}</div>
+              ))}
             </div>
-            <div style={{ marginBottom: 10 }}>
-              <strong>Location:</strong>
-              <br />
-              Mt. Hope Christian Church
-              <br />
-              51 Lexington Street
-              <br />
-              Belmont, MA 02478
-            </div>
-            <div>We would love for you to join us for fellowship, worship, and community.</div>
           </div>
+
+          <div style={{ display: "grid", gap: 10 }}>
+            <a
+              href={RSVP_URL}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "13px 16px",
+                borderRadius: 999,
+                background: "linear-gradient(135deg, #ff9933, #d97706)",
+                color: "#fff",
+                fontWeight: 800,
+                textDecoration: "none",
+                boxShadow: "0 12px 28px rgba(217, 119, 6, 0.24)",
+              }}
+            >
+              RSVP For Fellowship
+            </a>
+            <div style={{ fontSize: 13, color: "#6b7280", textAlign: "center" }}>{RSVP_DISPLAY_URL}</div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10 }}>
+            <a
+              href={YOUTUBE_URL}
+              target="_blank"
+              rel="noreferrer"
+              style={buildLinkCardStyle("rgba(220, 38, 38, 0.12)")}
+            >
+              <YouTubeIcon className="social-link__icon" />
+              YouTube
+            </a>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noreferrer"
+              style={buildLinkCardStyle("rgba(236, 72, 153, 0.12)")}
+            >
+              <InstagramIcon className="social-link__icon" />
+              Instagram
+            </a>
+          </div>
+
           <iframe
             title="Mt. Hope Christian Church map"
             src="https://www.google.com/maps?q=Mt.%20Hope%20Christian%20Church%2051%20Lexington%20Street%20Belmont%20MA%2002478&z=15&output=embed"
             width="100%"
-            height="240"
-            style={{ border: 0, borderRadius: 12 }}
+            height="220"
+            style={{ border: 0, borderRadius: 16 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
@@ -124,29 +175,88 @@ export default function HomePage() {
     })
   }
 
+  const showWelcomeDialog = () => {
+    openDialog({
+      variant: "info",
+      title: "Welcome to HCF",
+      content: (
+        <div style={{ display: "grid", gap: 16, color: "#374151" }}>
+          <div
+            style={{
+              padding: "14px 16px",
+              borderRadius: 18,
+              background: "linear-gradient(135deg, rgba(255, 209, 102, 0.18), rgba(255, 153, 51, 0.1), rgba(19, 136, 8, 0.1))",
+              border: "1px solid rgba(255, 153, 51, 0.14)",
+            }}
+          >
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#b45309", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
+              Stay Connected
+            </div>
+            <div style={{ fontSize: 14, lineHeight: 1.7 }}>
+              Follow our fellowship updates and RSVP for the next gathering on <strong>{FELLOWSHIP_DATE}</strong>.
+            </div>
+          </div>
+
+          <a
+            href={RSVP_URL}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "12px 16px",
+              borderRadius: 999,
+              background: "linear-gradient(135deg, #ff9933, #d97706)",
+              color: "#fff",
+              fontWeight: 800,
+              textDecoration: "none",
+              boxShadow: "0 12px 28px rgba(217, 119, 6, 0.24)",
+            }}
+          >
+            RSVP For Fellowship
+          </a>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
+            <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(220, 38, 38, 0.12)")}>
+              <YouTubeIcon className="social-link__icon" />
+              YouTube
+            </a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(236, 72, 153, 0.12)")}>
+              <InstagramIcon className="social-link__icon" />
+              Instagram
+            </a>
+          </div>
+        </div>
+      ),
+      primaryLabel: "Close",
+      onPrimary: closeDialog,
+    })
+  }
+
+  const handleNotificationsClick = () => {
+    showFellowshipDialog()
+  }
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    if (window.sessionStorage.getItem(POPUP_SESSION_KEY) === "seen") {
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      showWelcomeDialog()
+      window.sessionStorage.setItem(POPUP_SESSION_KEY, "seen")
+    }, 550)
+
+    return () => window.clearTimeout(timer)
+  }, [])
+
   return (
     <AppShell>
       <StatusDialog {...dialog} />
-
-      <div className="scroll-progress">
-        <svg className="scroll-progress__circle" width="60" height="60">
-          <circle className="scroll-progress__bg" cx="30" cy="30" r="26" fill="none" strokeWidth="3" />
-          <circle
-            className="scroll-progress__fill"
-            cx="30"
-            cy="30"
-            r="26"
-            fill="none"
-            strokeWidth="3"
-            strokeDasharray={`${2 * Math.PI * 26}`}
-            strokeDashoffset={`${2 * Math.PI * 26 * (1 - scrollProgress / 100)}`}
-          />
-        </svg>
-        <svg className="scroll-progress__cross" width="20" height="26" viewBox="0 0 20 26">
-          <rect x="8" y="0" width="4" height="26" rx="1" fill="currentColor" />
-          <rect x="3" y="7" width="14" height="4" rx="1" fill="currentColor" />
-        </svg>
-      </div>
+      <ScrollProgressRail />
 
       <Navbar
         isDarkMode={isDarkMode}

@@ -368,52 +368,97 @@
     radial-gradient(circle, rgba(255, 196, 92, 0.16) 0%, transparent 72%);
 }
 
-/* Add scroll progress indicator with cross */
-.scroll-progress {
+.scroll-progress-rail {
   position: fixed;
-  bottom: 1rem;
-  right: 7rem;
-  z-index: 1000;
-  width: 60px;
-  height: 60px;
+  top: 50%;
+  right: max(0.85rem, calc(env(safe-area-inset-right) + 0.5rem));
+  transform: translateY(-50%);
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  pointer-events: none;
 }
 
-.scroll-progress__circle {
-  transform: rotate(-90deg);
+.scroll-progress-rail__label {
+  min-width: 3.5rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card-background) 82%, white 18%);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, transparent 72%);
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(26, 54, 93, 0.12);
 }
 
-.scroll-progress__bg {
-  stroke: rgba(128, 128, 128, 0.2);
+.dark .scroll-progress-rail__label {
+  background: color-mix(in srgb, var(--card-background) 88%, black 12%);
+  color: #fff4e6;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
 }
 
-.scroll-progress__fill {
-  stroke: var(--color-accent);
+.scroll-progress-rail__track {
+  position: relative;
+  width: clamp(2.5rem, 4vw, 3.25rem);
+  height: clamp(320px, 56vh, 520px);
+  max-height: calc(100svh - 8rem);
+}
+
+.scroll-progress-rail__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.scroll-progress-rail__path {
+  fill: none;
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.3s ease;
+  stroke-linejoin: round;
+  stroke-width: 11;
 }
 
-.scroll-progress__cross {
+.scroll-progress-rail__path--base {
+  stroke: color-mix(in srgb, var(--color-primary) 18%, white 82%);
+  filter: drop-shadow(0 16px 26px rgba(26, 54, 93, 0.12));
+}
+
+.dark .scroll-progress-rail__path--base {
+  stroke: color-mix(in srgb, var(--color-primary) 28%, black 72%);
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.28));
+}
+
+.scroll-progress-rail__path--fill {
+  stroke: url(#scroll-progress-rail-gradient);
+  transition: stroke-dashoffset 0.18s ease-out;
+}
+
+.scroll-progress-rail__thumb {
   position: absolute;
-  top: 52%;
-  left: 55%;
+  width: 2.6rem;
+  height: 3.15rem;
   transform: translate(-50%, -50%);
-  color: var(--color-accent);
-  opacity: 0.9;
+  color: #ff9933;
+  filter: drop-shadow(0 12px 18px rgba(255, 153, 51, 0.28));
+  transition: left 0.18s ease-out, top 0.18s ease-out;
 }
 
-@media (max-width: 768px) {
-  .scroll-progress {
+.scroll-progress-rail__cross {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dark .scroll-progress-rail__thumb {
+  color: #ffbf69;
+}
+
+@media (max-width: 767px) {
+  .scroll-progress-rail {
     display: none;
-  }
-
-  .scroll-progress__circle {
-    width: 50px;
-    height: 50px;
-  }
-
-  .scroll-progress__cross {
-    width: 16px;
-    height: 22px;
   }
 
   .floating-particles {
