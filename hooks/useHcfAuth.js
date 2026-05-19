@@ -275,20 +275,6 @@ export function useHcfAuth({
         setIsReady(true)
       }
 
-      const shouldSendWelcomeEmail =
-        !isFirstAuthEvent &&
-        !!user.email &&
-        previousUid !== user.uid &&
-        typeof window !== "undefined" &&
-        !window.sessionStorage.getItem(`hcf_welcome_sent:${user.uid}`)
-
-      if (shouldSendWelcomeEmail) {
-        window.sessionStorage.setItem(`hcf_welcome_sent:${user.uid}`, "true")
-        await sendWelcomeEmail({
-          name: name || fallbackName || user.email.split("@")[0] || "",
-          email: user.email,
-        })
-      }
     })
 
     return () => {
@@ -439,6 +425,11 @@ export function useHcfAuth({
         },
         { merge: true },
       ).catch((error) => console.error("Firestore write failed:", error))
+
+      await sendWelcomeEmail({
+        name: name || credential.user.email?.split("@")[0] || "",
+        email,
+      })
 
       return true
     } catch (error) {

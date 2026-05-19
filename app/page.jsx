@@ -248,7 +248,7 @@ export default function HomePage() {
     const timer = window.setTimeout(() => {
       showWelcomeDialog()
       window.sessionStorage.setItem(POPUP_SESSION_KEY, "seen")
-    }, 550)
+    }, 2000)
 
     return () => window.clearTimeout(timer)
   }, [])

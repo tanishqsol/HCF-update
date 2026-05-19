@@ -126,8 +126,6 @@ export default function ScrollProgressRail({ startId = "hero", endId = "site-foo
     return null
   }
 
-  const progressPercent = Math.round(progress * 100)
-
   return (
     <div
       className="scroll-progress-rail"
@@ -135,9 +133,8 @@ export default function ScrollProgressRail({ startId = "hero", endId = "site-foo
       aria-label="Homepage scroll progress"
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-valuenow={progressPercent}
+      aria-valuenow={Math.round(progress * 100)}
     >
-      <span className="scroll-progress-rail__label">{progressPercent}%</span>
       <div className="scroll-progress-rail__track" aria-hidden="true">
         <svg
           className="scroll-progress-rail__svg"
