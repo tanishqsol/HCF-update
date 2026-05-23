@@ -268,6 +268,7 @@ export default function HomePage() {
         onAboutClick={() => router.push("/about")}
         onResourcesClick={() => router.push("/resources")}
         onMusicClick={() => router.push("/music")}
+        onGalleryClick={() => router.push("/gallery")}
       />
 
       <Hero isDarkMode={isDarkMode} onNotificationsClick={handleNotificationsClick} />

@@ -12,6 +12,7 @@ export default function Navbar({
   onTeamsClick,
   onResourcesClick,
   onMusicClick,
+  onGalleryClick,
   onAboutClick,
 }) {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -33,6 +34,7 @@ export default function Navbar({
         team: "Team",
         volunteer: "Volunteer",
         musicVideos: "Music Videos",
+        gallery: "Gallery",
         meetings: "Meetings",
         // festivals: "Festivals",
         contact: "Contact",
@@ -51,6 +53,7 @@ export default function Navbar({
         team: "टीम",
         volunteer: "सेवा",
         musicVideos: "संगीत वीडियो",
+        gallery: "गैलरी",
         meetings: "सभाएं",
         // festivals: "उत्सव",
         contact: "संपर्क",
@@ -186,6 +189,11 @@ export default function Navbar({
               <li className="navbar__menu-item--auth">
                 <button className="authButtons" onClick={onMusicClick} type="button">
                   {t("musicVideos")}
+                </button>
+              </li>
+              <li className="navbar__menu-item--auth">
+                <button className="authButtons" onClick={onGalleryClick} type="button">
+                  {t("gallery")}
                 </button>
               </li>
             </>
