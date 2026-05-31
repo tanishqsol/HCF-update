@@ -13,7 +13,7 @@ import ContactSection from "@/components/ContactSection"
 import Footer from "@/components/Footer"
 import StatusDialog from "@/components/StatusDialog"
 import ScrollProgressRail from "@/components/ScrollProgressRail"
-import { InstagramIcon, YouTubeIcon } from "@/components/SocialIcons"
+import { FacebookIcon, InstagramIcon, YouTubeIcon } from "@/components/SocialIcons"
 import AppShell from "@/components/AppShell"
 import { useHcfAuth } from "@/hooks/useHcfAuth"
 import { useThemeMode } from "@/hooks/useThemeMode"
@@ -32,6 +32,7 @@ const POPUP_SESSION_KEY = "hcf_home_popup_seen"
 const FELLOWSHIP_DATE = "Saturday, June 20, 2026"
 const RSVP_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
 const RSVP_DISPLAY_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
+const FACEBOOK_URL = "https://www.facebook.com/HindiChristianFellowshipGB"
 const YOUTUBE_URL = "https://www.youtube.com/@HindiChristianFellowshipHCF"
 const INSTAGRAM_URL = "https://www.instagram.com/hcfgreaterboston/"
 const FELLOWSHIP_LOCATION = ["Mt. Hope Christian Church", "51 Lexington Street", "Belmont, MA 02478"]
@@ -140,6 +141,15 @@ export default function HomePage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10 }}>
             <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noreferrer"
+              style={buildLinkCardStyle("rgba(24, 119, 242, 0.12)")}
+            >
+              <FacebookIcon className="social-link__icon" />
+              Facebook
+            </a>
+            <a
               href={YOUTUBE_URL}
               target="_blank"
               rel="noreferrer"
@@ -218,6 +228,10 @@ export default function HomePage() {
           </a>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
+            <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(24, 119, 242, 0.12)")}>
+              <FacebookIcon className="social-link__icon" />
+              Facebook
+            </a>
             <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(220, 38, 38, 0.12)")}>
               <YouTubeIcon className="social-link__icon" />
               YouTube
