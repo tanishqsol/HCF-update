@@ -176,7 +176,7 @@ export default function ContactSection() {
             <div className={`contact-section__social ${isVisible ? "contact-section__social--visible" : ""}`}>
               <h4 className="contact-section__social-title">{t.followUs}</h4>
               <div className="contact-section__social-links">
-                <a href="https://www.facebook.com/profile.php?id=61584879437991" className="social-link" target="_blank" rel="noreferrer">
+                <a href="https://www.facebook.com/share/1BiW5JdifG/" className="social-link" target="_blank" rel="noreferrer">
                   Facebook
                 </a>
                 <a href="https://www.youtube.com/@HindiChristianFellowshipHCF" className="social-link" target="_blank" rel="noreferrer">

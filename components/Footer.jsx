@@ -50,7 +50,7 @@ export default function Footer() {
                   <button onClick={() => scrollToSection("contact")}>Contact Us</button>
                 </li>
                 <li>
-                  <a href="https://www.facebook.com/profile.php?id=61584879437991" target="_blank" rel="noreferrer">Facebook</a>
+                  <a href="https://www.facebook.com/share/1BiW5JdifG/" target="_blank" rel="noreferrer">Facebook</a>
                 </li>
                 <li>
                   <a href="https://www.youtube.com/@HindiChristianFellowshipHCF" target="_blank" rel="noreferrer">
