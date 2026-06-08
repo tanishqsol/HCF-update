@@ -35,7 +35,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
     () => ({
       en: {
         subtitle: "of Greater Boston",
-        tagline: "Speaking the truth about Jesus to Hindi speakers in Greater Boston",
+        tagline: "Revealing the truth about Jesus to Hindi speakers in Greater Boston and beyond",
         join: "Join Our Fellowship",
         learn: "Learn More",
         notifications: "Fellowship Schedule",
