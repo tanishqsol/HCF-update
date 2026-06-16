@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { CalendarDays, MapPin, X } from "lucide-react"
 
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
@@ -28,7 +29,7 @@ const toTitleCase = (str = "") =>
     .join(" ")
 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
-const POPUP_SESSION_KEY = "hcf_home_popup_seen"
+const POPUP_SESSION_KEY = "hcf_meeting_popup_seen_v2"
 const FELLOWSHIP_DATE = "Saturday, June 20, 2026"
 const RSVP_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
 const RSVP_DISPLAY_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
@@ -41,6 +42,7 @@ export default function HomePage() {
   const router = useRouter()
   const { isDarkMode, toggleTheme } = useThemeMode()
   const { isAuthenticated, signOut } = useHcfAuth()
+  const [meetingPopupOpen, setMeetingPopupOpen] = useState(false)
   const [dialog, setDialog] = useState({
     open: false,
     variant: "info",
@@ -185,71 +187,13 @@ export default function HomePage() {
     })
   }
 
-  const showWelcomeDialog = () => {
-    openDialog({
-      variant: "info",
-      title: "Welcome to HCF",
-      content: (
-        <div style={{ display: "grid", gap: 16, color: "#374151" }}>
-          <div
-            style={{
-              padding: "14px 16px",
-              borderRadius: 18,
-              background: "linear-gradient(135deg, rgba(255, 209, 102, 0.18), rgba(255, 153, 51, 0.1), rgba(19, 136, 8, 0.1))",
-              border: "1px solid rgba(255, 153, 51, 0.14)",
-            }}
-          >
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#b45309", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
-              Stay Connected
-            </div>
-            <div style={{ fontSize: 14, lineHeight: 1.7 }}>
-              Follow our fellowship updates and RSVP for the next gathering on <strong>{FELLOWSHIP_DATE}</strong>.
-            </div>
-          </div>
-
-          <a
-            href={RSVP_URL}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "12px 16px",
-              borderRadius: 999,
-              background: "linear-gradient(135deg, #ff9933, #d97706)",
-              color: "#fff",
-              fontWeight: 800,
-              textDecoration: "none",
-              boxShadow: "0 12px 28px rgba(217, 119, 6, 0.24)",
-            }}
-          >
-            RSVP For Fellowship
-          </a>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
-            <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(24, 119, 242, 0.12)")}>
-              <FacebookIcon className="social-link__icon" />
-              Facebook
-            </a>
-            <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(220, 38, 38, 0.12)")}>
-              <YouTubeIcon className="social-link__icon" />
-              YouTube
-            </a>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" style={buildLinkCardStyle("rgba(236, 72, 153, 0.12)")}>
-              <InstagramIcon className="social-link__icon" />
-              Instagram
-            </a>
-          </div>
-        </div>
-      ),
-      primaryLabel: "Close",
-      onPrimary: closeDialog,
-    })
-  }
-
   const handleNotificationsClick = () => {
     showFellowshipDialog()
+  }
+
+  const dismissMeetingPopup = () => {
+    setMeetingPopupOpen(false)
+    window.sessionStorage.setItem(POPUP_SESSION_KEY, "seen")
   }
 
   useEffect(() => {
@@ -260,8 +204,7 @@ export default function HomePage() {
     }
 
     const timer = window.setTimeout(() => {
-      showWelcomeDialog()
-      window.sessionStorage.setItem(POPUP_SESSION_KEY, "seen")
+      setMeetingPopupOpen(true)
     }, 2000)
 
     return () => window.clearTimeout(timer)
@@ -270,6 +213,42 @@ export default function HomePage() {
   return (
     <AppShell>
       <StatusDialog {...dialog} />
+      {meetingPopupOpen && (
+        <aside className="meeting-popup" aria-label="Upcoming meeting reminder">
+          <button
+            type="button"
+            className="meeting-popup__close"
+            aria-label="Close meeting reminder"
+            onClick={dismissMeetingPopup}
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+
+          <div className="meeting-popup__eyebrow">Next meeting</div>
+          <h2 className="meeting-popup__title">June 20</h2>
+          <p className="meeting-popup__copy">A warm time of fellowship, prayer, and connection awaits.</p>
+
+          <div className="meeting-popup__details">
+            <div className="meeting-popup__detail">
+              <CalendarDays size={18} aria-hidden="true" />
+              <span>{FELLOWSHIP_DATE}</span>
+            </div>
+            <div className="meeting-popup__detail">
+              <MapPin size={18} aria-hidden="true" />
+              <span>Mt. Hope Christian Church, Belmont</span>
+            </div>
+          </div>
+
+          <div className="meeting-popup__actions">
+            <a href={RSVP_URL} target="_blank" rel="noreferrer" className="meeting-popup__primary">
+              RSVP
+            </a>
+            <button type="button" className="meeting-popup__secondary" onClick={showFellowshipDialog}>
+              Details
+            </button>
+          </div>
+        </aside>
+      )}
       <ScrollProgressRail />
 
       <Navbar
