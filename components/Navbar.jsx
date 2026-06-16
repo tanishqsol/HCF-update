@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import { FacebookIcon, InstagramIcon, YouTubeIcon } from "./SocialIcons"
 import "./Navbar.css"
 
 export default function Navbar({
@@ -114,6 +115,23 @@ export default function Navbar({
   }
 
   const navButtonStyle = isDarkMode ? { color: "#ffffff" } : {}
+  const socialLinks = [
+    {
+      label: "YouTube",
+      href: "https://www.youtube.com/@HindiChristianFellowshipHCF",
+      Icon: YouTubeIcon,
+    },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/hcfgreaterboston/",
+      Icon: InstagramIcon,
+    },
+    {
+      label: "Facebook",
+      href: "https://www.facebook.com/share/1BiW5JdifG/",
+      Icon: FacebookIcon,
+    },
+  ]
 
   return (
     <nav
@@ -122,6 +140,22 @@ export default function Navbar({
       }`}
     >
       <div className="navbar__container">
+        <div className="navbar__social-links" aria-label="HCF social links">
+          {socialLinks.map(({ label, href, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              className={`navbar__social-link navbar__social-link--${label.toLowerCase()}`}
+              aria-label={`Visit HCF on ${label}`}
+              title={label}
+            >
+              <Icon className="navbar__social-icon" />
+            </a>
+          ))}
+        </div>
+
         <div className="navbar__logo" onClick={() => scrollToSection("hero")}> 
           <div className="navbar__logo-icon-wrapper">
             <img
