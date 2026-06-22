@@ -22,7 +22,7 @@ const Silhouette = ({ gender = "male" }) => {
       {isFemale && (
         <path
           d="M20 20c3-10 21-10 24 0 0 0-4-6-12-6s-12 6-12 6z"
-          fill="#9f9f9f"
+          fill="#4f4c4c"
         />
       )}
     </svg>
@@ -35,7 +35,7 @@ const coreTeam = [
     role: "Founder",
     photo: "/images/team/shashi_prof.jpeg",
     description: "Leading HCF with vision and passion for reaching Hindi speakers with the gospel.",
-    email: "sjatiani@gmail.com",
+    email: "hcfgreaterboston@gmail.com",
     about:
       "Dr. Shashi Jatiani’s journey of faith began as a teenager in India, sparking a lifelong commitment to serve the Lord Jesus globally in various capacities. As the visionary founder of the Hindi Christian Fellowship (HCF) of Greater Boston, Dr. Jatiani utilizes his multilingual expertise to reach Hindi speakers with the transformative message of the Gospel in their own heart-language. He is deeply dedicated to building bridges between faith in Christ and God-ordained culture, establishing HCF, welcoming community for both spiritual seekers and seasoned believers.",
   },
@@ -45,7 +45,6 @@ const coreTeam = [
     gender: "female",
     photo: "/images/team/A_bhabhiji.png",
     description: "Co-leading the ministry with dedication to building community and discipleship.",
-    email: "ajatiani@gmail.com",
     about:
       "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for worship ministry and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
   },
@@ -54,7 +53,6 @@ const coreTeam = [
     role: "Partner",
     photo: "images/team/tom_profile-2.jpeg",
     description: "Supporting the ministry with strategic partnership and guidance.",
-    email: "t_kane_123@yahoo.com", 
     about: "Tom grew up on Long Island, New York, in a suburban community with his four brothers and his parents. He attended Stony Brook University, where he graduated with a degree in economics, and did some graduate work at Purdue University. He became a born-again Christian at the age of 19. He moved up to Boston in 2006, where he is a member of Park Street Church, attending there since 2007. He works in the financial services industry for a large life insurance company that is headquartered in Boston. His ministry interests are in the areas of evangelism, discipleship, and corporate prayer. He is a lifelong bachelor and currently lives in Everett, MA.",
   },
   {
@@ -62,7 +60,6 @@ const coreTeam = [
     role: "Partner",
     photo: "/images/team/swaroop_prof.png",
     description: "Partnering in ministry to expand the reach and impact of HCF.",
-    email: "swaroopk2@gmail.com",
     about: "Swaroop is deeply committed to discipling students from every nation and equipping them to follow Jesus faithfully. Based in the Boston area, he serves among international students, walking alongside them as they grow as disciples and develop a clear, missional vision for their lives. He carries a particular burden for the Indian student community, especially Hindi-speaking students, and longs to see them come to faith in Christ, mature spiritually, and be formed into servant leaders. Swaroop’s desire is that the Hindi Christian Fellowship of Boston would be used as an instrument to lead Hindi-speaking students in Boston to the light of Jesus, strengthening and multiplying Christ-centered fellowships and contributing to the planting and growth of healthy churches among Indian communities in the U.S. and beyond."
   },
   {
@@ -70,7 +67,6 @@ const coreTeam = [
     role: "Partner",
     photo: "/images/team/mike_prof.png",
     description: "Contributing partnership and support to the HCF mission.",
-    email: "Mike.frost@bridgesinternational.com",
     about:
       "Mike is passionate about helping people from every nation learn what it means to be a disciple of Jesus. In 2022, Mike and his family moved to Boston to serve as one of the team leaders with Bridges International, helping international students in the Boston area find a home away from home and thrive spiritually. Mike would love to see the Hindi-speaking students he meets in Boston get connected to HCF so they can grow spiritually and experience fellowship with Hindi-speaking families in the Boston area.",
   },
@@ -80,7 +76,6 @@ const coreTeam = [
     gender: "male",
     photo: "/images/team/gary_profile.png",
     description: "Building connections and leading prayer ministry for HCF.",
-    email: "garyrmccann@outlook.com",
     about:
       "Gary McCann serves as a vital networker and prayer partner for HCF. His gift for building connections brings together believers from various backgrounds to support the ministry. Gary's dedication to prayer creates a spiritual foundation that undergirds all of HCF's activities, ensuring that the work is rooted in faith and dependence on God.",
   },
@@ -90,7 +85,6 @@ const coreTeam = [
     gender: "male",
     photo: "/images/team/tanishq_profile.png",
     description: "Built and maintains HCF's website and digital presence, supporting outreach through web and media.",
-    email: "tanishqsolanki7@gmail.com",
     about:
       "Tanishq Solanki brings a strong blend of software engineering skill and a sincere commitment to Jesus to HCF. As a software developer, he builds and maintains key parts of HCF's digital presence, making sure the website is reliable, clear, and easy for people to connect with. He also supports outreach through thoughtful content and social media, helping the message reach more Hindi-speaking friends and families. Above all, his faith and prayerful dependence on Jesus keep his work centered on serving God and strengthening the fellowship.",
   },
@@ -98,55 +92,114 @@ const coreTeam = [
 ]
 
 const keyVolunteers = [
-  // {
-  //   name: "Kundan Srivastava",
-  //   role: "Key Volunteer Leader",
-  //   gender: "male",
-  //   photo: "",
-  //   areas: "Prayer laborer, Outreach, Strategy",
-  //   about:
-  //     "Kundan Srivastava is a key volunteer leader who serves with excellence in multiple areas of ministry. As a dedicated prayer laborer, he intercedes for the fellowship and its members. His strategic thinking and passion for outreach help HCF reach new people and communities with the gospel message.",
-  // },
-  
   {
-     name: "Srishti Michael",
-     role: "Key Volunteer ",
-     gender: "female",
-     photo: "/images/team/srishti_profile.png",
-     areas: "Prayer laborer",
-     about:
-       "Srishti is is originally from Indore, India ,currently studying at Northeastern University. She seeks to walk in the Lord’s will and serve Him by loving people and sharing His truth with those around her. She has a deep heart for worship and enjoys singing as a way to glorify God and grow closer to Him. As a volunteer at HCF, she is grateful for the opportunity to serve the community, support fellowship activities, and help create a welcoming and spiritually uplifting environment for others. Through service, worship, and fellowship, she hopes to continue strengthening her faith and living out God’s love in everyday life. Her desire is to be a faithful witness of God’s grace and compassion within the HCF community and beyond.",
-    },
-    
-    {
-      name: "Dale Alphonso",
-    role: "Key Volunteer ",
+    name: "Jim Figucia",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Lead Hospitality",
+  },
+  {
+    name: "Kenneth Amana",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Social Media Consultant",
+  },
+  {
+    name: "Gaurav Assudani",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Social Media Consultant",
+  },
+  {
+    name: "Praveen",
+    role: "Key Volunteer",
+    gender: "male",
+    photo: "/images/team/praveen.png",
+    areas: "Musician",
+  },
+  {
+    name: "Jesrhythym Kaur",
+    role: "Key Volunteer",
+    gender: "female",
+    photo: "/images/team/rithym_profile.png",
+
+    areas: "Content Creator",
+  },
+  {
+    name: "Dale Alphonso",
+    role: "Volunteer",
     gender: "female",
     photo: "/images/team/dale_profile.png",
     areas: "Prayer laborer",
-    about:"Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good."
-   
+    about:
+      "Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good.",
   },
-   {
+  {
+    name: "John P Jacob",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Musician",
+  },
+  {
+    name: "Rithwik George Moses",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Musician",
+  },
+  {
+    name: "Andrew Blaze",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Musician",
+  },
+  {
+    name: "Abhinav",
+    role: "Key Volunteer",
+    gender: "male",
+    areas: "Media Team",
+  },
+]
+
+const otherVolunteers = [
+  {
     name: "Hannah Pereira",
     role: "Creative Director",
     gender: "female",
-    photo: "/images/team/hanna_profile.png",
+    // photo: "/images/team/hanna_profile.png",
     description: "Artist, storyteller, and content creator sharing creativity and ideas.",
-    email: "",
     about:
       "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
   },
+
   {
-   name: "Praveen Arpudha",
-   role: "Key Volunteer ",
-   gender: "male",
-   photo: "/images/team/praveen.png",
-   areas: "Worship Minister",
-   about:
-   "Praveen is a dynamic worship leader, talented keyboardist, and songwriter. Known for his ability to lead worship in multiple languages, he brings a unique and diverse sound to the community. He actively contributes to the HCF and is passionate about using his musical gifts to serve the church and inspire others.",
-  }
+    name: "Ramandeep Kaur",
+    role: "Singer",
+    gender: "female",
+    // photo: "/images/team/hanna_profile.png",
+    // description: "Artist, storyteller, and content creator sharing creativity and ideas.",
+    // about:
+    //   "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
+  },
+   {
+    name: "Prabhriyaz Singh",
+    role: "Music",
+    gender: "female",
+    // photo: "/images/team/hanna_profile.png",
+    // description: "Artist, storyteller, and content creator sharing creativity and ideas.",
+    // about:
+    //   "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
+  },
+  {
+    name: "⁠⁠Sanjaya Gurung",
+    role: "Creative Director",
+    gender: "Mail",
+    // photo: "/images/team/hanna_profile.png",
+    description: "Artist, storyteller, and content creator sharing creativity and ideas.",
+    // about:
+    //   "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
+  },
 ]
+
 
 export default function TeamsPage({ onBack }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -159,6 +212,7 @@ export default function TeamsPage({ onBack }) {
 
   const handleCardClick = (member) => setSelectedMember(member)
   const handleCloseModal = () => setSelectedMember(null)
+  const isKeyVolunteer = (member) => keyVolunteers.some((volunteer) => volunteer.name === member?.name)
 
   return (
     <div className="teams-page" ref={pageRef}>
@@ -236,7 +290,40 @@ export default function TeamsPage({ onBack }) {
                 <div className="volunteer-profile__content">
                   <h3 className="volunteer-profile__name">{volunteer.name}</h3>
                   <p className="volunteer-profile__role">{volunteer.role}</p>
-                  <p className="volunteer-profile__areas">{volunteer.areas}</p>
+                  {(volunteer.areas || volunteer.description) && (
+                    <p className="volunteer-profile__areas">{volunteer.areas || volunteer.description}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="teams-page__section">
+          <h2 className="teams-page__section-title">Other Volunteers</h2>
+          <div className="volunteers-grid">
+            {otherVolunteers.map((volunteer, index) => (
+              <div
+                key={`${volunteer.name}-${index}`}
+                className={`volunteer-profile ${isVisible ? "volunteer-profile--visible" : ""}`}
+                style={{ transitionDelay: `${(coreTeam.length + keyVolunteers.length + index) * 0.1}s` }}
+                onClick={() => handleCardClick(volunteer)}
+              >
+                <div className="volunteer-profile__avatar">
+                  {volunteer.photo ? (
+                    <img
+                      src={volunteer.photo}
+                      alt={volunteer.name}
+                      style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }}
+                    />
+                  ) : (
+                    <Silhouette gender={volunteer.gender} />
+                  )}
+                </div>
+                <div className="volunteer-profile__content">
+                  <h3 className="volunteer-profile__name">{volunteer.name}</h3>
+                  <p className="volunteer-profile__role">{volunteer.role}</p>
+                  <p className="volunteer-profile__areas">{volunteer.areas || volunteer.description}</p>
                 </div>
               </div>
             ))}
@@ -272,12 +359,14 @@ export default function TeamsPage({ onBack }) {
 
             <div className="team-modal__divider"></div>
 
-            <div className="team-modal__about">
-              <h3 className="team-modal__about-title">About</h3>
-              <p className="team-modal__about-text">{selectedMember.about}</p>
-            </div>
+            {selectedMember.about && (
+              <div className="team-modal__about">
+                <h3 className="team-modal__about-title">About</h3>
+                <p className="team-modal__about-text">{selectedMember.about}</p>
+              </div>
+            )}
 
-            {selectedMember.email && (
+            {selectedMember.email && !isKeyVolunteer(selectedMember) && (
               <a href={`mailto:${selectedMember.email}`} className="team-modal__email">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />

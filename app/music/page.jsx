@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import AppShell from "@/components/AppShell"
 import MusicVideosPage from "@/components/MusicVideosPage"
@@ -9,6 +9,7 @@ import { useThemeMode } from "@/hooks/useThemeMode"
 
 export default function MusicRoutePage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   useThemeMode()
   const { isAuthenticated, isReady } = useHcfAuth({ requireAuth: true, redirectUnauthenticatedTo: "/signin" })
 
@@ -18,7 +19,7 @@ export default function MusicRoutePage() {
 
   return (
     <AppShell showShapes={false}>
-      <MusicVideosPage onBack={() => router.push("/")} />
+      <MusicVideosPage initialTab={searchParams.get("tab")} onBack={() => router.push("/")} />
     </AppShell>
   )
 }

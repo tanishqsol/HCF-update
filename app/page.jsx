@@ -30,7 +30,7 @@ const toTitleCase = (str = "") =>
 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
 const POPUP_SESSION_KEY = "hcf_meeting_popup_seen_v2"
-const FELLOWSHIP_DATE = "Saturday, June 20, 2026"
+const FELLOWSHIP_DATE = "Saturday, 18th July, 2026"
 const RSVP_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
 const RSVP_DISPLAY_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
 const FACEBOOK_URL = "https://www.facebook.com/share/1BiW5JdifG/"
@@ -225,7 +225,7 @@ export default function HomePage() {
           </button>
 
           <div className="meeting-popup__eyebrow">Next meeting</div>
-          <h2 className="meeting-popup__title">June 20</h2>
+          <h2 className="meeting-popup__title"> July 18</h2>
           <p className="meeting-popup__copy">A warm time of fellowship, prayer, and connection awaits.</p>
 
           <div className="meeting-popup__details">
@@ -261,6 +261,7 @@ export default function HomePage() {
         onAboutClick={() => router.push("/about")}
         onResourcesClick={() => router.push("/resources")}
         onMusicClick={() => router.push("/music")}
+        onServiceArchivesClick={() => router.push("/music?tab=archives")}
         onGalleryClick={() => router.push("/gallery")}
       />
 

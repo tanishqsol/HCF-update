@@ -13,6 +13,7 @@ export default function Navbar({
   onTeamsClick,
   onResourcesClick,
   onMusicClick,
+  onServiceArchivesClick,
   onGalleryClick,
   onAboutClick,
 }) {
@@ -31,12 +32,11 @@ export default function Navbar({
         home: "Home",
         about: "About Us",
         // vision: "Vision",
-        coreValues: "Values",
         team: "Team",
         volunteer: "Volunteer",
         musicVideos: "Music Videos",
+        serviceArchives: "Our Services",
         gallery: "Gallery",
-        meetings: "Meetings",
         // festivals: "Festivals",
         contact: "Contact",
         signIn: "Sign In",
@@ -50,12 +50,11 @@ export default function Navbar({
         home: "होम",
         about: "हमारे बारे में",
         // vision: "दृष्टि",
-        coreValues: "मूल्य",
         team: "टीम",
         volunteer: "सेवा",
         musicVideos: "संगीत वीडियो",
+        serviceArchives: "हमारी सेवाएं",
         gallery: "गैलरी",
-        meetings: "सभाएं",
         // festivals: "उत्सव",
         contact: "संपर्क",
         signIn: "साइन इन",
@@ -191,50 +190,39 @@ export default function Navbar({
               {t("home")}
             </button>
           </li>
-          {isAuthenticated && (
-            <li>
-              <button className="authButtons" onClick={onAboutClick} type="button">
-                {t("about")}
-              </button>
-            </li>
-          )}
+          <li>
+            <button className="authButtons" onClick={onAboutClick} type="button">
+              {t("about")}
+            </button>
+          </li>
           {/* <li>
             <button style={navButtonStyle} onClick={() => scrollToSection("vision")} type="button">
               {t("vision")}
             </button>
           </li> */}
-          <li>
-            <button style={navButtonStyle} onClick={() => scrollToSection("values")} type="button">
-              {t("coreValues")}
+          <li className="navbar__menu-item--auth">
+            <button className="authButtons" onClick={onTeamsClick} type="button">
+              {t("team")}
             </button>
           </li>
-          {isAuthenticated && (
-            <>
-              <li className="navbar__menu-item--auth">
-                <button className="authButtons" onClick={onTeamsClick} type="button">
-                  {t("team")}
-                </button>
-              </li>
-              <li className="navbar__menu-item--auth">
-                <button className="authButtons" onClick={onResourcesClick} type="button">
-                  {t("volunteer")}
-                </button>
-              </li>
-              <li className="navbar__menu-item--auth">
-                <button className="authButtons" onClick={onMusicClick} type="button">
-                  {t("musicVideos")}
-                </button>
-              </li>
-              <li className="navbar__menu-item--auth">
-                <button className="authButtons" onClick={onGalleryClick} type="button">
-                  {t("gallery")}
-                </button>
-              </li>
-            </>
-          )}
-          <li>
-            <button style={navButtonStyle} onClick={() => scrollToSection("meetings")} type="button">
-              {t("meetings")}
+          <li className="navbar__menu-item--auth">
+            <button className="authButtons" onClick={onResourcesClick} type="button">
+              {t("volunteer")}
+            </button>
+          </li>
+          <li className="navbar__menu-item--auth">
+            <button className="authButtons" onClick={onMusicClick} type="button">
+              {t("musicVideos")}
+            </button>
+          </li>
+          <li className="navbar__menu-item--auth">
+            <button className="authButtons" onClick={onServiceArchivesClick} type="button">
+              {t("serviceArchives")}
+            </button>
+          </li>
+          <li className="navbar__menu-item--auth">
+            <button className="authButtons" onClick={onGalleryClick} type="button">
+              {t("gallery")}
             </button>
           </li>
           {/* <li>

@@ -88,8 +88,12 @@
 }
 
 .team-profile {
-  background: var(--card-background);
-  border: 2px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 209, 102, 0.34), transparent 32%),
+    linear-gradient(145deg, #fff7df 0%, #cde9f2 44%, #d8e8cd 100%);
+  border: 1px solid rgba(26, 54, 93, 0.12);
   border-radius: 20px;
   padding: 2rem;
   display: flex;
@@ -100,6 +104,26 @@
   opacity: 0;
   transform: translateY(30px);
   cursor: pointer;
+  box-shadow: 0 18px 44px rgba(26, 54, 93, 0.12);
+}
+
+.team-profile::before,
+.volunteer-profile::before,
+.team-modal__content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.46), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(255, 153, 51, 0.18), transparent 30%);
+}
+
+.team-profile > *,
+.volunteer-profile > *,
+.team-modal__content > * {
+  position: relative;
+  z-index: 1;
 }
 
 .team-profile--visible {
@@ -109,8 +133,8 @@
 
 .team-profile:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  border-color: var(--color-accent);
+  box-shadow: 0 24px 70px rgba(26, 54, 93, 0.2);
+  border-color: rgba(255, 153, 51, 0.52);
 }
 
 .team-profile__avatar {
@@ -169,7 +193,7 @@
 .team-profile__name {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #18365c;
 }
 
 .team-profile__role {
@@ -182,16 +206,17 @@
 
 .team-profile__description {
   font-size: 0.95rem;
-  color: var(--muted-foreground);
+  color: #33506a;
   line-height: 1.6;
 }
 
 .team-profile__email {
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(255, 153, 51, 0.1);
+  background: rgba(255, 255, 255, 0.52);
+  border: 1px solid rgba(255, 153, 51, 0.22);
   border-radius: 8px;
-  color: var(--color-accent);
+  color: #b45309;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -199,8 +224,34 @@
 }
 
 .team-profile__email:hover {
-  background: var(--color-accent);
+  background: #d97706;
   color: white;
+}
+
+.dark-mode .team-profile {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 153, 51, 0.22), transparent 34%),
+    linear-gradient(145deg, #253a58 0%, #1d4b55 50%, #2d4b36 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-mode .team-profile__name,
+.dark-mode .volunteer-profile__name,
+.dark-mode .team-modal__name,
+.dark-mode .team-modal__about-title {
+  color: #f8fafc;
+}
+
+.dark-mode .team-profile__description,
+.dark-mode .volunteer-profile__areas,
+.dark-mode .team-modal__about-text {
+  color: rgba(248, 250, 252, 0.82);
+}
+
+.dark-mode .team-profile__email {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 153, 51, 0.24);
+  color: #ffb86b;
 }
 
 .volunteers-grid {
@@ -210,8 +261,12 @@
 }
 
 .volunteer-profile {
-  background: var(--card-background);
-  border: 2px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(19, 136, 8, 0.16), transparent 30%),
+    linear-gradient(135deg, #f7ecd7 0%, #d8edf3 48%, #e5dccf 100%);
+  border: 1px solid rgba(45, 122, 77, 0.14);
   border-radius: 20px;
   padding: 2rem;
   display: flex;
@@ -221,6 +276,7 @@
   opacity: 0;
   transform: translateX(-30px);
   cursor: pointer;
+  box-shadow: 0 16px 38px rgba(26, 54, 93, 0.1);
 }
 
 .volunteer-profile--visible {
@@ -230,8 +286,8 @@
 
 .volunteer-profile:hover {
   transform: translateX(10px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  border-color: var(--color-growth);
+  box-shadow: 0 18px 52px rgba(26, 54, 93, 0.18);
+  border-color: rgba(45, 122, 77, 0.34);
 }
 
 .volunteer-profile__avatar {
@@ -258,7 +314,7 @@
 .volunteer-profile__name {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #18365c;
   margin-bottom: 0.5rem;
 }
 
@@ -273,7 +329,14 @@
 
 .volunteer-profile__areas {
   font-size: 0.95rem;
-  color: var(--muted-foreground);
+  color: #33506a;
+}
+
+.dark-mode .volunteer-profile {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(19, 136, 8, 0.2), transparent 32%),
+    linear-gradient(135deg, #2c3a55 0%, #1c4a55 48%, #324330 100%);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Added modal styles for team member details popup */
@@ -303,8 +366,10 @@
 }
 
 .team-modal__content {
-  background: var(--card-background);
-  border: 2px solid var(--border-color);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 209, 102, 0.28), transparent 34%),
+    linear-gradient(145deg, #fff7df 0%, #dceef4 48%, #e5efd9 100%);
+  border: 1px solid rgba(26, 54, 93, 0.14);
   border-radius: 24px;
   padding: 3rem;
   max-width: 600px;
@@ -314,6 +379,13 @@
   position: relative;
   animation: modal-slide-up 0.4s ease;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .team-modal__content {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 153, 51, 0.2), transparent 35%),
+    linear-gradient(145deg, #253a58 0%, #1d4b55 48%, #2d4b36 100%);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 @keyframes modal-slide-up {
@@ -371,7 +443,7 @@
 .team-modal__name {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #18365c;
   text-align: center;
   margin-bottom: 0.5rem;
 }
@@ -409,13 +481,13 @@
 .team-modal__about-title {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #18365c;
   margin-bottom: 1rem;
 }
 
 .team-modal__about-text {
   font-size: 1rem;
-  color: var(--muted-foreground);
+  color: #33506a;
   line-height: 1.7;
   text-align: justify;
 }
