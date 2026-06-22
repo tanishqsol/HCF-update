@@ -49,7 +49,10 @@ export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMo
   const activeVideos = activeTab === "music" ? videos : serviceArchives
 
   useEffect(() => {
-    setActiveTab(normalizeTab(initialTab))
+    const urlTab =
+      typeof window === "undefined" ? initialTab : new URLSearchParams(window.location.search).get("tab")
+
+    setActiveTab(normalizeTab(urlTab || initialTab))
   }, [initialTab])
 
   return (
