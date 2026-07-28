@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import MagicRings from "./MagicRings"
 import "./Hero.css"
 
-export default function Hero({ isDarkMode, onNotificationsClick }) {
+export default function Hero({ isDarkMode, onNotificationsClick, onOfferingClick }) {
   const [isVisible, setIsVisible] = useState(false)
 
   const LANG_STORAGE_KEY = "hcf_lang"
@@ -40,6 +40,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
         learn: "Learn More",
         notifications: "Fellowship Schedule",
         notificationsBadge: "New",
+        offering: "Support HCF",
         welcomeSub: "Welcome",
         welcomeTitle: "Welcome to Hindi Christian Fellowship",
       },
@@ -50,6 +51,7 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
         learn: "और जानें",
         notifications: "इवेंट अलर्ट पाएं",
         notificationsBadge: "नया",
+        offering: "भेंट",
         welcomeSub: "स्वागत",
         welcomeTitle: "हिंदी क्रिस्टियन फेलोशिप में स्वागत",
       },
@@ -268,6 +270,15 @@ export default function Hero({ isDarkMode, onNotificationsClick }) {
             >
               <span>{t.notifications}</span>
               <span className="hero__button-badge">{t.notificationsBadge}</span>
+            </button>
+          )}
+          {onOfferingClick && (
+            <button
+              className="hero__button hero__button--secondary hero__button--offering"
+              onClick={onOfferingClick}
+              type="button"
+            >
+              {t.offering}
             </button>
           )}
         </div>

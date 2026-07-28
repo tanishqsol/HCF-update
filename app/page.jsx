@@ -29,13 +29,14 @@ const toTitleCase = (str = "") =>
     .join(" ")
 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
-const POPUP_SESSION_KEY = "hcf_meeting_popup_seen_v2"
-const FELLOWSHIP_DATE = "Saturday, 18th July, 2026"
-const RSVP_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
-const RSVP_DISPLAY_URL = "https://forms.gle/ihJBZ4aNjRGWdPTf8"
+const FELLOWSHIP_DATE = "Saturday, 15th August, 2026"
+const RSVP_URL = "https://forms.gle/WoDihu9uV5J94Lmr7"
+const RSVP_DISPLAY_URL = "https://forms.gle/WoDihu9uV5J94Lmr7"
 const FACEBOOK_URL = "https://www.facebook.com/share/1BiW5JdifG/"
 const YOUTUBE_URL = "https://www.youtube.com/@HindiChristianFellowshipHCF"
 const INSTAGRAM_URL = "https://www.instagram.com/hcfgreaterboston/"
+const ZELLE_URL =
+  "https://enroll.zellepay.com/qr-codes?data=ewogICJuYW1lIiA6ICJISU5ESSBDSFJJU1RJQU4gRkVMTE9XU0hJUCBPRiBHUkVBVEVSIEJPIiwKICAiYWN0aW9uIiA6ICJwYXltZW50IiwKICAidG9rZW4iIDogIkJvc3RvbkhDRiIKfQ=="
 const FELLOWSHIP_LOCATION = ["Mt. Hope Christian Church", "51 Lexington Street", "Belmont, MA 02478"]
 
 export default function HomePage() {
@@ -43,6 +44,7 @@ export default function HomePage() {
   const { isDarkMode, toggleTheme } = useThemeMode()
   const { isAuthenticated, signOut } = useHcfAuth()
   const [meetingPopupOpen, setMeetingPopupOpen] = useState(false)
+  const [offeringPopupOpen, setOfferingPopupOpen] = useState(false)
   const [dialog, setDialog] = useState({
     open: false,
     variant: "info",
@@ -191,23 +193,41 @@ export default function HomePage() {
     showFellowshipDialog()
   }
 
+  const handleOfferingClick = () => {
+    setOfferingPopupOpen(true)
+  }
+
+  const openZelleLink = () => {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(window.navigator.userAgent)
+
+    if (isMobile) {
+      window.location.href = ZELLE_URL
+      return
+    }
+
+    window.open(ZELLE_URL, "_blank", "noopener,noreferrer")
+  }
+
   const dismissMeetingPopup = () => {
     setMeetingPopupOpen(false)
-    window.sessionStorage.setItem(POPUP_SESSION_KEY, "seen")
+  }
+
+  const dismissOfferingPopup = () => {
+    setOfferingPopupOpen(false)
   }
 
   useEffect(() => {
     if (typeof window === "undefined") return
 
-    if (window.sessionStorage.getItem(POPUP_SESSION_KEY) === "seen") {
-      return
-    }
+    let meetingTimer
 
-    const timer = window.setTimeout(() => {
+    meetingTimer = window.setTimeout(() => {
       setMeetingPopupOpen(true)
     }, 2000)
 
-    return () => window.clearTimeout(timer)
+    return () => {
+      window.clearTimeout(meetingTimer)
+    }
   }, [])
 
   return (
@@ -225,8 +245,10 @@ export default function HomePage() {
           </button>
 
           <div className="meeting-popup__eyebrow">Next meeting</div>
-          <h2 className="meeting-popup__title"> July 18</h2>
-          <p className="meeting-popup__copy">A warm time of fellowship, prayer, and connection awaits.</p>
+          <h2 className="meeting-popup__title">August 15</h2>
+          <p className="meeting-popup__copy">
+            <strong>Independence Day Special fellowship, prayer, and connection awaits.</strong>
+          </p>
 
           <div className="meeting-popup__details">
             <div className="meeting-popup__detail">
@@ -249,6 +271,30 @@ export default function HomePage() {
           </div>
         </aside>
       )}
+      {offeringPopupOpen && (
+        <aside className="offering-popup" aria-label="Zelle offering QR code">
+          <button
+            type="button"
+            className="offering-popup__close"
+            aria-label="Close offering reminder"
+            onClick={dismissOfferingPopup}
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+
+          <div className="offering-popup__eyebrow">Offerings</div>
+          <h2 className="offering-popup__title">Give With Zelle</h2>
+          <p className="offering-popup__copy">Scan the QR code to support HCF through Zelle.</p>
+          <div className="offering-popup__qr">
+            <button type="button" onClick={openZelleLink} aria-label="Open HCF Zelle giving link">
+              <img src="/images/Hcf_Zelle.png" alt="HCF Zelle giving QR code" />
+            </button>
+          </div>
+          <button type="button" onClick={openZelleLink} className="offering-popup__button">
+            Open Zelle
+          </button>
+        </aside>
+      )}
       <ScrollProgressRail />
 
       <Navbar
@@ -265,7 +311,11 @@ export default function HomePage() {
         onGalleryClick={() => router.push("/gallery")}
       />
 
-      <Hero isDarkMode={isDarkMode} onNotificationsClick={handleNotificationsClick} />
+      <Hero
+        isDarkMode={isDarkMode}
+        onNotificationsClick={handleNotificationsClick}
+        onOfferingClick={handleOfferingClick}
+      />
       {/* <VisionSection /> */}
       <CoreValuesSection />
       <MeetingsSection />

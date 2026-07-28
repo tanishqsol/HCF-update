@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import * as THREE from "three"
 
 import "./MagicRings.css"
 
@@ -138,167 +137,182 @@ export default function MagicRings({
     const mount = mountRef.current
     if (!mount) return
 
+    let disposed = false
     let renderer
+    let cleanupScene = () => {}
 
-    try {
-      renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: false,
-        powerPreference: "high-performance",
-        premultipliedAlpha: true,
+    import("three")
+      .then((THREE) => {
+        if (disposed || !mount.isConnected) return
+
+        try {
+          renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: false,
+            powerPreference: "high-performance",
+            premultipliedAlpha: true,
+          })
+        } catch {
+          return
+        }
+
+        if (!renderer.capabilities.isWebGL2) {
+          renderer.dispose()
+          return
+        }
+
+        renderer.setClearColor(0x000000, 0)
+        renderer.setClearAlpha(0)
+        renderer.domElement.style.background = "transparent"
+        renderer.domElement.style.pointerEvents = "none"
+        mount.appendChild(renderer.domElement)
+
+        const scene = new THREE.Scene()
+        const camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 0.1, 10)
+        camera.position.z = 1
+
+        const uniforms = {
+          uTime: { value: 0 },
+          uAttenuation: { value: 0 },
+          uResolution: { value: new THREE.Vector2() },
+          uColor: { value: new THREE.Color() },
+          uColorTwo: { value: new THREE.Color() },
+          uColorThree: { value: new THREE.Color() },
+          uLineThickness: { value: 0 },
+          uBaseRadius: { value: 0 },
+          uRadiusStep: { value: 0 },
+          uScaleRate: { value: 0 },
+          uRingCount: { value: 0 },
+          uOpacity: { value: 1 },
+          uNoiseAmount: { value: 0 },
+          uRotation: { value: 0 },
+          uRingGap: { value: 1.6 },
+          uFadeIn: { value: 0.5 },
+          uFadeOut: { value: 0.75 },
+          uMouse: { value: new THREE.Vector2() },
+          uMouseInfluence: { value: 0 },
+          uHoverAmount: { value: 0 },
+          uHoverScale: { value: 1 },
+          uParallax: { value: 0 },
+          uBurst: { value: 0 },
+        }
+
+        const geometry = new THREE.PlaneGeometry(1, 1)
+        const material = new THREE.ShaderMaterial({
+          vertexShader,
+          fragmentShader,
+          uniforms,
+          transparent: true,
+        })
+        const quad = new THREE.Mesh(geometry, material)
+        scene.add(quad)
+
+        const resize = () => {
+          const width = mount.clientWidth
+          const height = mount.clientHeight
+          const dpr = Math.min(window.devicePixelRatio, 1.5)
+          renderer.setSize(width, height, false)
+          renderer.setPixelRatio(dpr)
+          uniforms.uResolution.value.set(width * dpr, height * dpr)
+        }
+
+        resize()
+        window.addEventListener("resize", resize)
+
+        const resizeObserver = new ResizeObserver(resize)
+        resizeObserver.observe(mount)
+
+        const onPointerMove = (event) => {
+          if (!propsRef.current.followMouse) return
+          const rect = mount.getBoundingClientRect()
+          mouseRef.current[0] = (event.clientX - rect.left) / rect.width - 0.5
+          mouseRef.current[1] = -((event.clientY - rect.top) / rect.height - 0.5)
+        }
+
+        const onPointerEnter = () => {
+          if (!propsRef.current.followMouse) return
+          isHoveredRef.current = true
+        }
+
+        const onPointerLeave = () => {
+          if (!propsRef.current.followMouse) return
+          isHoveredRef.current = false
+          mouseRef.current[0] = 0
+          mouseRef.current[1] = 0
+        }
+
+        const onClick = () => {
+          if (!propsRef.current.clickBurst) return
+          burstRef.current = 1
+        }
+
+        mount.addEventListener("pointermove", onPointerMove)
+        mount.addEventListener("pointerenter", onPointerEnter)
+        mount.addEventListener("pointerleave", onPointerLeave)
+        mount.addEventListener("click", onClick)
+
+        let frameId = 0
+
+        const animate = (time) => {
+          frameId = window.requestAnimationFrame(animate)
+          const props = propsRef.current
+
+          smoothMouseRef.current[0] += (mouseRef.current[0] - smoothMouseRef.current[0]) * 0.08
+          smoothMouseRef.current[1] += (mouseRef.current[1] - smoothMouseRef.current[1]) * 0.08
+          hoverAmountRef.current += ((isHoveredRef.current ? 1 : 0) - hoverAmountRef.current) * 0.08
+          burstRef.current *= 0.95
+
+          if (burstRef.current < 0.001) burstRef.current = 0
+
+          uniforms.uTime.value = time * 0.001 * props.speed
+          uniforms.uAttenuation.value = props.attenuation
+          uniforms.uColor.value.set(props.color)
+          uniforms.uColorTwo.value.set(props.colorTwo)
+          uniforms.uColorThree.value.set(props.colorThree)
+          uniforms.uLineThickness.value = props.lineThickness
+          uniforms.uBaseRadius.value = props.baseRadius
+          uniforms.uRadiusStep.value = props.radiusStep
+          uniforms.uScaleRate.value = props.scaleRate
+          uniforms.uRingCount.value = props.ringCount
+          uniforms.uOpacity.value = props.opacity
+          uniforms.uNoiseAmount.value = props.noiseAmount
+          uniforms.uRotation.value = (props.rotation * Math.PI) / 180
+          uniforms.uRingGap.value = props.ringGap
+          uniforms.uFadeIn.value = props.fadeIn
+          uniforms.uFadeOut.value = props.fadeOut
+          uniforms.uMouse.value.set(smoothMouseRef.current[0], smoothMouseRef.current[1])
+          uniforms.uMouseInfluence.value = props.followMouse ? props.mouseInfluence : 0
+          uniforms.uHoverAmount.value = hoverAmountRef.current
+          uniforms.uHoverScale.value = props.hoverScale
+          uniforms.uParallax.value = props.parallax
+          uniforms.uBurst.value = props.clickBurst ? burstRef.current : 0
+
+          renderer.render(scene, camera)
+        }
+
+        frameId = window.requestAnimationFrame(animate)
+
+        cleanupScene = () => {
+          window.cancelAnimationFrame(frameId)
+          window.removeEventListener("resize", resize)
+          resizeObserver.disconnect()
+          mount.removeEventListener("pointermove", onPointerMove)
+          mount.removeEventListener("pointerenter", onPointerEnter)
+          mount.removeEventListener("pointerleave", onPointerLeave)
+          mount.removeEventListener("click", onClick)
+          if (renderer.domElement.parentNode === mount) {
+            mount.removeChild(renderer.domElement)
+          }
+          geometry.dispose()
+          material.dispose()
+          renderer.dispose()
+        }
       })
-    } catch {
-      return
-    }
-
-    if (!renderer.capabilities.isWebGL2) {
-      renderer.dispose()
-      return
-    }
-
-    renderer.setClearColor(0x000000, 0)
-    renderer.setClearAlpha(0)
-    renderer.domElement.style.background = "transparent"
-    renderer.domElement.style.pointerEvents = "none"
-    mount.appendChild(renderer.domElement)
-
-    const scene = new THREE.Scene()
-    const camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 0.1, 10)
-    camera.position.z = 1
-
-    const uniforms = {
-      uTime: { value: 0 },
-      uAttenuation: { value: 0 },
-      uResolution: { value: new THREE.Vector2() },
-      uColor: { value: new THREE.Color() },
-      uColorTwo: { value: new THREE.Color() },
-      uColorThree: { value: new THREE.Color() },
-      uLineThickness: { value: 0 },
-      uBaseRadius: { value: 0 },
-      uRadiusStep: { value: 0 },
-      uScaleRate: { value: 0 },
-      uRingCount: { value: 0 },
-      uOpacity: { value: 1 },
-      uNoiseAmount: { value: 0 },
-      uRotation: { value: 0 },
-      uRingGap: { value: 1.6 },
-      uFadeIn: { value: 0.5 },
-      uFadeOut: { value: 0.75 },
-      uMouse: { value: new THREE.Vector2() },
-      uMouseInfluence: { value: 0 },
-      uHoverAmount: { value: 0 },
-      uHoverScale: { value: 1 },
-      uParallax: { value: 0 },
-      uBurst: { value: 0 },
-    }
-
-    const geometry = new THREE.PlaneGeometry(1, 1)
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms,
-      transparent: true,
-    })
-    const quad = new THREE.Mesh(geometry, material)
-    scene.add(quad)
-
-    const resize = () => {
-      const width = mount.clientWidth
-      const height = mount.clientHeight
-      const dpr = Math.min(window.devicePixelRatio, 1.5)
-      renderer.setSize(width, height, false)
-      renderer.setPixelRatio(dpr)
-      uniforms.uResolution.value.set(width * dpr, height * dpr)
-    }
-
-    resize()
-    window.addEventListener("resize", resize)
-
-    const resizeObserver = new ResizeObserver(resize)
-    resizeObserver.observe(mount)
-
-    const onPointerMove = (event) => {
-      if (!propsRef.current.followMouse) return
-      const rect = mount.getBoundingClientRect()
-      mouseRef.current[0] = (event.clientX - rect.left) / rect.width - 0.5
-      mouseRef.current[1] = -((event.clientY - rect.top) / rect.height - 0.5)
-    }
-
-    const onPointerEnter = () => {
-      if (!propsRef.current.followMouse) return
-      isHoveredRef.current = true
-    }
-
-    const onPointerLeave = () => {
-      if (!propsRef.current.followMouse) return
-      isHoveredRef.current = false
-      mouseRef.current[0] = 0
-      mouseRef.current[1] = 0
-    }
-
-    const onClick = () => {
-      if (!propsRef.current.clickBurst) return
-      burstRef.current = 1
-    }
-
-    mount.addEventListener("pointermove", onPointerMove)
-    mount.addEventListener("pointerenter", onPointerEnter)
-    mount.addEventListener("pointerleave", onPointerLeave)
-    mount.addEventListener("click", onClick)
-
-    let frameId = 0
-
-    const animate = (time) => {
-      frameId = window.requestAnimationFrame(animate)
-      const props = propsRef.current
-
-      smoothMouseRef.current[0] += (mouseRef.current[0] - smoothMouseRef.current[0]) * 0.08
-      smoothMouseRef.current[1] += (mouseRef.current[1] - smoothMouseRef.current[1]) * 0.08
-      hoverAmountRef.current += ((isHoveredRef.current ? 1 : 0) - hoverAmountRef.current) * 0.08
-      burstRef.current *= 0.95
-
-      if (burstRef.current < 0.001) burstRef.current = 0
-
-      uniforms.uTime.value = time * 0.001 * props.speed
-      uniforms.uAttenuation.value = props.attenuation
-      uniforms.uColor.value.set(props.color)
-      uniforms.uColorTwo.value.set(props.colorTwo)
-      uniforms.uColorThree.value.set(props.colorThree)
-      uniforms.uLineThickness.value = props.lineThickness
-      uniforms.uBaseRadius.value = props.baseRadius
-      uniforms.uRadiusStep.value = props.radiusStep
-      uniforms.uScaleRate.value = props.scaleRate
-      uniforms.uRingCount.value = props.ringCount
-      uniforms.uOpacity.value = props.opacity
-      uniforms.uNoiseAmount.value = props.noiseAmount
-      uniforms.uRotation.value = (props.rotation * Math.PI) / 180
-      uniforms.uRingGap.value = props.ringGap
-      uniforms.uFadeIn.value = props.fadeIn
-      uniforms.uFadeOut.value = props.fadeOut
-      uniforms.uMouse.value.set(smoothMouseRef.current[0], smoothMouseRef.current[1])
-      uniforms.uMouseInfluence.value = props.followMouse ? props.mouseInfluence : 0
-      uniforms.uHoverAmount.value = hoverAmountRef.current
-      uniforms.uHoverScale.value = props.hoverScale
-      uniforms.uParallax.value = props.parallax
-      uniforms.uBurst.value = props.clickBurst ? burstRef.current : 0
-
-      renderer.render(scene, camera)
-    }
-
-    frameId = window.requestAnimationFrame(animate)
+      .catch(() => {})
 
     return () => {
-      window.cancelAnimationFrame(frameId)
-      window.removeEventListener("resize", resize)
-      resizeObserver.disconnect()
-      mount.removeEventListener("pointermove", onPointerMove)
-      mount.removeEventListener("pointerenter", onPointerEnter)
-      mount.removeEventListener("pointerleave", onPointerLeave)
-      mount.removeEventListener("click", onClick)
-      mount.removeChild(renderer.domElement)
-      geometry.dispose()
-      material.dispose()
-      renderer.dispose()
+      disposed = true
+      cleanupScene()
     }
   }, [])
 

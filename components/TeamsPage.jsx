@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import "./TeamsPage.css"
 
-const Silhouette = ({ gender = "male" }) => {
+const Silhouette = ({ gender = "Male" }) => {
   // Simple inline SVG placeholder (no external image files needed)
   const isFemale = gender === "female"
 
@@ -73,7 +73,7 @@ const coreTeam = [
   {
     name: "Gary McCann",
     role: "Networker, Prayer Partner",
-    gender: "male",
+    gender: "Male",
     photo: "/images/team/gary_profile.png",
     description: "Building connections and leading prayer ministry for HCF.",
     about:
@@ -82,7 +82,7 @@ const coreTeam = [
   {
     name: "Tanishq Solanki",
     role: "Key Volunteer Leader, website developer",
-    gender: "male",
+    gender: "Male",
     photo: "/images/team/tanishq_profile.png",
     description: "Built and maintains HCF's website and digital presence, supporting outreach through web and media.",
     about:
@@ -95,25 +95,25 @@ const keyVolunteers = [
   {
     name: "Jim Figucia",
     role: "Key Volunteer",
-    gender: "male",
+    gender: "Male",
     areas: "Lead Hospitality",
   },
   {
     name: "Kenneth Amana",
     role: "Key Volunteer",
-    gender: "male",
+    gender: "Male",
     areas: "Social Media Consultant",
   },
   {
     name: "Gaurav Assudani",
     role: "Key Volunteer",
-    gender: "male",
+    gender: "Male",
     areas: "Social Media Consultant",
   },
   {
     name: "Praveen",
     role: "Key Volunteer",
-    gender: "male",
+    gender: "Male",
     photo: "/images/team/praveen.png",
     areas: "Musician",
   },
@@ -191,8 +191,8 @@ const otherVolunteers = [
   },
   {
     name: "⁠⁠Sanjaya Gurung",
-    role: "Creative Director",
-    gender: "Mail",
+    role: "Mussician",
+    gender: "Male",
     // photo: "/images/team/hanna_profile.png",
     description: "Artist, storyteller, and content creator sharing creativity and ideas.",
     // about:

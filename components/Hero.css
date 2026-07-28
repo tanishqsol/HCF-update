@@ -299,6 +299,19 @@
   box-shadow: 0 14px 36px rgba(255, 153, 51, 0.35), 0 0 0 4px rgba(255, 255, 255, 0.16);
 }
 
+.hero__button--offering {
+  background: linear-gradient(135deg, rgba(111, 44, 145, 0.94), rgba(26, 54, 93, 0.94));
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(26, 54, 93, 0.32);
+}
+
+.hero__button--offering:hover {
+  background: linear-gradient(135deg, rgba(127, 58, 166, 1), rgba(26, 54, 93, 1));
+  color: white;
+  border-color: white;
+  box-shadow: 0 14px 36px rgba(111, 44, 145, 0.34), 0 0 0 4px rgba(255, 255, 255, 0.14);
+}
+
 .hero__button--notifications::before {
   content: "";
   position: absolute;
