@@ -141,7 +141,7 @@ const keyVolunteers = [
     areas: "Musician",
   },
   {
-    name: "Rithwik George Moses",
+    name: "Rtwick George Moses",
     role: "Key Volunteer",
     gender: "male",
     areas: "Musician",
@@ -153,7 +153,7 @@ const keyVolunteers = [
     areas: "Musician",
   },
   {
-    name: "Abhinav",
+    name: "Abhinav Kumar Sangi",
     role: "Key Volunteer",
     gender: "male",
     areas: "Media Team",
@@ -163,7 +163,7 @@ const keyVolunteers = [
 const otherVolunteers = [
   {
     name: "Hannah Pereira",
-    role: "Creative Director",
+    role: "Graphic Designer",
     gender: "female",
     // photo: "/images/team/hanna_profile.png",
     description: "Artist, storyteller, and content creator sharing creativity and ideas.",
@@ -191,7 +191,7 @@ const otherVolunteers = [
   },
   {
     name: "⁠⁠Sanjaya Gurung",
-    role: "Mussician",
+    role: "Musician",
     gender: "Male",
     // photo: "/images/team/hanna_profile.png",
     description: "Artist, storyteller, and content creator sharing creativity and ideas.",
