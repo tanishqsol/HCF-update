@@ -18,6 +18,7 @@ import { FacebookIcon, InstagramIcon, YouTubeIcon } from "@/components/SocialIco
 import AppShell from "@/components/AppShell"
 import { useHcfAuth } from "@/hooks/useHcfAuth"
 import { useThemeMode } from "@/hooks/useThemeMode"
+import { getFellowshipDateInfo } from "@/lib/fellowshipDate.cjs"
 
 const toTitleCase = (str = "") =>
   str
@@ -29,7 +30,6 @@ const toTitleCase = (str = "") =>
     .join(" ")
 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
-const FELLOWSHIP_DATE = "Saturday, 15th August, 2026"
 const RSVP_URL = "https://forms.gle/WoDihu9uV5J94Lmr7"
 const RSVP_DISPLAY_URL = "https://forms.gle/WoDihu9uV5J94Lmr7"
 const FACEBOOK_URL = "https://www.facebook.com/share/1BiW5JdifG/"
@@ -43,6 +43,7 @@ export default function HomePage() {
   const router = useRouter()
   const { isDarkMode, toggleTheme } = useThemeMode()
   const { isAuthenticated, signOut } = useHcfAuth()
+  const fellowshipDate = getFellowshipDateInfo()
   const [meetingPopupOpen, setMeetingPopupOpen] = useState(false)
   const [offeringPopupOpen, setOfferingPopupOpen] = useState(false)
   const [dialog, setDialog] = useState({
@@ -109,7 +110,7 @@ export default function HomePage() {
             <div style={{ fontSize: 15, lineHeight: 1.7 }}>
               <div style={{ marginBottom: 10 }}>Hello {displayName},</div>
               <div style={{ marginBottom: 10 }}>
-                Join us for our upcoming fellowship on <strong>{FELLOWSHIP_DATE}</strong>.
+                Join us for our upcoming fellowship on <strong>{fellowshipDate.full}</strong>.
               </div>
               <div style={{ marginBottom: 4 }}>
                 <strong>Location:</strong>
@@ -245,7 +246,7 @@ export default function HomePage() {
           </button>
 
           <div className="meeting-popup__eyebrow">Next meeting</div>
-          <h2 className="meeting-popup__title">August 15</h2>
+          <h2 className="meeting-popup__title">{fellowshipDate.title}</h2>
           <p className="meeting-popup__copy">
             <strong>Independence Day Special fellowship, prayer, and connection awaits.</strong>
           </p>
@@ -253,7 +254,7 @@ export default function HomePage() {
           <div className="meeting-popup__details">
             <div className="meeting-popup__detail">
               <CalendarDays size={18} aria-hidden="true" />
-              <span>{FELLOWSHIP_DATE}</span>
+              <span>{fellowshipDate.full}</span>
             </div>
             <div className="meeting-popup__detail">
               <MapPin size={18} aria-hidden="true" />
