@@ -43,7 +43,7 @@ const coreTeam = [
     name: "Asavari Jatiani",
     role: "Co-founder",
     gender: "female",
-    photo: "/images/team/A_bhabhiji.png",
+    photo: "/images/team/Asavari.png",
     description: "Co-leading the ministry with dedication to building community and discipleship.",
     about:
       "Asavari Jatiani serves as the co-founder of HCF, bringing warmth, compassion, and dedication to the ministry. She plays a vital role in fostering community connections and nurturing discipleship among members. Her heart for worship ministry and spiritual growth creates an environment where people feel welcomed and encouraged in their faith journey.",
@@ -96,13 +96,13 @@ const keyVolunteers = [
     name: "Jim Figucia",
     role: "Key Volunteer",
     gender: "Male",
-    areas: "Lead Hospitality",
+    areas: "Head Hospitality",
   },
   {
     name: "Kenneth Amana",
     role: "Key Volunteer",
     gender: "Male",
-    areas: "Social Media Consultant",
+    areas: "Logistics",
   },
   {
     name: "Gaurav Assudani",
@@ -111,10 +111,10 @@ const keyVolunteers = [
     areas: "Social Media Consultant",
   },
   {
-    name: "Praveen",
+    name: "Praveen Arpudha",
     role: "Key Volunteer",
     gender: "Male",
-    photo: "/images/team/praveen.png",
+    photo: "/images/team/praveen_profile.png",
     areas: "Musician",
   },
   {
@@ -130,7 +130,7 @@ const keyVolunteers = [
     role: "Volunteer",
     gender: "female",
     photo: "/images/team/dale_profile.png",
-    areas: "Prayer laborer",
+    areas: "Prayer Labourer, Singer",
     about:
       "Dale Alphonso is originally from Mumbai, India, and came to this country as an international student. She is currently studying at Northeastern University. Not only does Dale have a goal for her future, but she also has a calling on her heart to serve the Lord Jesus and work for His Kingdom. She feels that God has called her to be an intercessor in prayer, to be a watchman, and to be a witness to the truth, wanting to be behind the scenes, standing in the gap for others through prayer. She has a desire to know the Lord more intimately, to get close to Him, and she has a passion to help others know Him so that they too can taste and see that the Lord is good.",
   },
@@ -138,19 +138,19 @@ const keyVolunteers = [
     name: "John P Jacob",
     role: "Key Volunteer",
     gender: "male",
-    areas: "Musician",
+    areas: "Musician, Media Team",
   },
   {
     name: "Rtwick George Moses",
     role: "Key Volunteer",
     gender: "male",
-    areas: "Musician",
+    areas: "Musician, Media Team",
   },
   {
     name: "Andrew Blaze",
     role: "Key Volunteer",
     gender: "male",
-    areas: "Musician",
+    areas: "Musician, Media Team",
   },
   {
     name: "Abhinav Kumar Sangi",
@@ -166,7 +166,7 @@ const otherVolunteers = [
     role: "Graphic Designer",
     gender: "female",
     // photo: "/images/team/hanna_profile.png",
-    description: "Artist, storyteller, and content creator sharing creativity and ideas.",
+    // description: "Artist, storyteller, and content creator sharing creativity and ideas.",
     about:
       "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
   },
@@ -182,7 +182,7 @@ const otherVolunteers = [
   },
    {
     name: "Prabhriyaz Singh",
-    role: "Music",
+    role: "Musician",
     gender: "female",
     // photo: "/images/team/hanna_profile.png",
     // description: "Artist, storyteller, and content creator sharing creativity and ideas.",
@@ -194,7 +194,7 @@ const otherVolunteers = [
     role: "Musician",
     gender: "Male",
     // photo: "/images/team/hanna_profile.png",
-    description: "Artist, storyteller, and content creator sharing creativity and ideas.",
+    // description: "Artist, storyteller, and content creator sharing creativity and ideas.",
     // about:
     //   "Hannah Pereira brings creativity and artistic vision to HCF through her work as an artist, storyteller, and content creator. Her passion for sharing ideas through various creative mediums helps communicate the gospel message in fresh and engaging ways. She contributes to HCF's outreach by developing visual content, stories, and creative expressions that connect with people on a deeper level.",
   },
