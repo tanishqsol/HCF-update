@@ -18,7 +18,6 @@ import { FacebookIcon, InstagramIcon, YouTubeIcon } from "@/components/SocialIco
 import AppShell from "@/components/AppShell"
 import { useHcfAuth } from "@/hooks/useHcfAuth"
 import { useThemeMode } from "@/hooks/useThemeMode"
-import { getFellowshipDateInfo } from "@/lib/fellowshipDate.cjs"
 
 const toTitleCase = (str = "") =>
   str
@@ -30,6 +29,21 @@ const toTitleCase = (str = "") =>
     .join(" ")
 
 const USER_NAME_STORAGE_KEY = "hcf_user_name"
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+]
+const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 const RSVP_URL = "https://forms.gle/WoDihu9uV5J94Lmr7"
 const RSVP_DISPLAY_URL = "https://forms.gle/WoDihu9uV5J94Lmr7"
 const FACEBOOK_URL = "https://www.facebook.com/share/1BiW5JdifG/"
@@ -38,6 +52,48 @@ const INSTAGRAM_URL = "https://www.instagram.com/hcfgreaterboston/"
 const ZELLE_URL =
   "https://enroll.zellepay.com/qr-codes?data=ewogICJuYW1lIiA6ICJISU5ESSBDSFJJU1RJQU4gRkVMTE9XU0hJUCBPRiBHUkVBVEVSIEJPIiwKICAiYWN0aW9uIiA6ICJwYXltZW50IiwKICAidG9rZW4iIDogIkJvc3RvbkhDRiIKfQ=="
 const FELLOWSHIP_LOCATION = ["Mt. Hope Christian Church", "51 Lexington Street", "Belmont, MA 02478"]
+
+const getOrdinalSuffix = (day) => {
+  if (day >= 11 && day <= 13) return "th"
+
+  switch (day % 10) {
+    case 1:
+      return "st"
+    case 2:
+      return "nd"
+    case 3:
+      return "rd"
+    default:
+      return "th"
+  }
+}
+
+const getThirdSaturday = (year, monthIndex) => {
+  const firstDay = new Date(year, monthIndex, 1)
+  const daysUntilSaturday = (6 - firstDay.getDay() + 7) % 7
+
+  return new Date(year, monthIndex, 1 + daysUntilSaturday + 14)
+}
+
+const getFellowshipDateInfo = (today = new Date()) => {
+  const currentYear = today.getFullYear()
+  const currentMonth = today.getMonth()
+  const currentThirdSaturday = getThirdSaturday(currentYear, currentMonth)
+  const dayAfterCurrentMeeting = new Date(
+    currentThirdSaturday.getFullYear(),
+    currentThirdSaturday.getMonth(),
+    currentThirdSaturday.getDate() + 1,
+  )
+  const date = today < dayAfterCurrentMeeting ? currentThirdSaturday : getThirdSaturday(currentYear, currentMonth + 1)
+  const weekday = WEEKDAY_NAMES[date.getDay()]
+  const month = MONTH_NAMES[date.getMonth()]
+  const day = date.getDate()
+
+  return {
+    title: `${month} ${day}`,
+    full: `${weekday}, ${day}${getOrdinalSuffix(day)} ${month}, ${date.getFullYear()}`,
+  }
+}
 
 export default function HomePage() {
   const router = useRouter()
@@ -247,10 +303,6 @@ export default function HomePage() {
 
           <div className="meeting-popup__eyebrow">Next meeting</div>
           <h2 className="meeting-popup__title">{fellowshipDate.title}</h2>
-          <p className="meeting-popup__copy">
-            <strong>Independence Day Special fellowship, prayer, and connection awaits.</strong>
-          </p>
-
           <div className="meeting-popup__details">
             <div className="meeting-popup__detail">
               <CalendarDays size={18} aria-hidden="true" />
