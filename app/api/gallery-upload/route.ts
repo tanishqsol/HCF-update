@@ -49,13 +49,16 @@ async function requireAdmin(request: Request): Promise<string | NextResponse> {
   }
 }
 
-// Vercel names the key BLOB_READ_WRITE_TOKEN, or <PREFIX>_BLOB_READ_WRITE_TOKEN if the store was
-// connected with a custom prefix. Accept either.
+// Blob stores authenticate in one of two ways:
+//  - newer stores: BLOB_STORE_ID + Vercel's built-in OIDC token (handled by @vercel/blob itself)
+//  - older stores: BLOB_READ_WRITE_TOKEN (or <PREFIX>_BLOB_READ_WRITE_TOKEN)
 const blobToken = () =>
   process.env.BLOB_READ_WRITE_TOKEN ||
   Object.entries(process.env).find(([key, value]) => key.endsWith("BLOB_READ_WRITE_TOKEN") && value)?.[1] ||
-  ""
-const blobReady = () => !!blobToken()
+  undefined
+const blobReady = () => !!(process.env.BLOB_STORE_ID || blobToken())
+// Only pass a token when there is one; otherwise let @vercel/blob use OIDC + BLOB_STORE_ID.
+const blobAuth = () => (blobToken() ? { token: blobToken() } : {})
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: corsHeaders })
@@ -83,12 +86,12 @@ export async function POST(request: Request) {
       access: "public",
       contentType: file.type,
       addRandomSuffix: true,
-      token: blobToken(),
+      ...blobAuth(),
     })
     return NextResponse.json({ url: blob.url, pathname: blob.pathname }, { headers: corsHeaders })
   } catch (error) {
     console.error("Gallery upload failed:", error)
-    return fail(500, "Upload failed. Please try again.")
+    return fail(500, `Upload failed: ${(error as Error)?.message || "please try again."}`)
   }
 }
 
@@ -108,7 +111,7 @@ export async function DELETE(request: Request) {
   if (!host.endsWith(".blob.vercel-storage.com")) return fail(400, "Not a gallery photo.")
 
   try {
-    await del(String(url), { token: blobToken() })
+    await del(String(url), blobAuth())
     return NextResponse.json({ ok: true }, { headers: corsHeaders })
   } catch (error) {
     console.error("Gallery delete failed:", error)
