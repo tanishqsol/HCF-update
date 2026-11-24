@@ -1,10 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
-import { galleryItems } from "@/lib/galleryItems"
+import GalleryAdminPanel from "@/components/GalleryAdminPanel"
+import { galleryItems as builtInItems } from "@/lib/galleryItems"
+import { deleteGalleryItem, useIsGalleryAdmin, useRemoteGallery } from "@/lib/remoteGallery"
 
 import "./GalleryPage.css"
+import "./GalleryAdmin.css"
 
 function GalleryImage({ item, className, priority = false }) {
   const [src, setSrc] = useState(item.src)
@@ -37,6 +40,32 @@ function GalleryImage({ item, className, priority = false }) {
 export default function GalleryPage({ onBack }) {
   const [isReady, setIsReady] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  // Uploaded photos/videos (shared live with the HCF app), newest first, then the built-in photos.
+  const { items: remoteItems } = useRemoteGallery()
+  const isAdmin = useIsGalleryAdmin()
+  const galleryItems = useMemo(() => [...remoteItems, ...builtInItems], [remoteItems])
+
+  // Keep the lightbox valid if an item is removed while it's open.
+  useEffect(() => {
+    if (selectedIndex !== null && selectedIndex >= galleryItems.length) {
+      setSelectedIndex(galleryItems.length ? galleryItems.length - 1 : null)
+    }
+  }, [galleryItems.length, selectedIndex])
+
+  const handleDelete = async (item) => {
+    if (!window.confirm("Remove this from the gallery? It will disappear from the website and the app.")) return
+    setIsDeleting(true)
+    try {
+      await deleteGalleryItem(item)
+      setSelectedIndex(null)
+    } catch (error) {
+      console.error("Gallery delete failed:", error)
+      window.alert("Couldn't remove it. Please try again.")
+    } finally {
+      setIsDeleting(false)
+    }
+  }
 
   useEffect(() => {
     setIsReady(true)
@@ -68,7 +97,7 @@ export default function GalleryPage({ onBack }) {
       document.body.style.overflow = previousOverflow
       window.removeEventListener("keydown", handleKeyDown)
     }
-  }, [selectedIndex])
+  }, [selectedIndex, galleryItems.length])
 
   const selectedItem = selectedIndex !== null ? galleryItems[selectedIndex] : null
 
@@ -106,6 +135,8 @@ export default function GalleryPage({ onBack }) {
           </div>
         </section>
 
+        {isAdmin && <GalleryAdminPanel />}
+
         <section className="gallery-mosaic" aria-label="Fellowship photo gallery">
           {galleryItems.map((item, index) => (
             <button
@@ -115,10 +146,17 @@ export default function GalleryPage({ onBack }) {
               }`}
               style={{ transitionDelay: `${index * 90}ms` }}
               onClick={() => setSelectedIndex(index)}
-              aria-label={`Open photo: ${item.title}`}
+              aria-label={`Open ${item.kind === "video" ? "video" : "photo"}: ${item.title || item.alt}`}
               type="button"
             >
               <GalleryImage item={item} className="gallery-card__image" priority={index < 2} />
+              {item.kind === "video" && (
+                <span className="gallery-card__play" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              )}
               <div className="gallery-card__veil" />
               <div className="gallery-card__content">
                 <span className="gallery-card__tag">{item.tag}</span>
@@ -146,7 +184,19 @@ export default function GalleryPage({ onBack }) {
             </button>
 
             <div className="gallery-lightbox__media">
-              <GalleryImage item={selectedItem} className="gallery-lightbox__image" priority />
+              {selectedItem.kind === "video" ? (
+                <video
+                  key={selectedItem.id}
+                  className="gallery-lightbox__video"
+                  src={selectedItem.videoSrc}
+                  poster={selectedItem.src}
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              ) : (
+                <GalleryImage item={selectedItem} className="gallery-lightbox__image" priority />
+              )}
             </div>
 
             <div className="gallery-lightbox__footer">
@@ -159,6 +209,16 @@ export default function GalleryPage({ onBack }) {
               </div>
 
               <div className="gallery-lightbox__actions">
+                {isAdmin && selectedItem.remote && (
+                  <button
+                    className="gallery-lightbox__delete"
+                    onClick={() => handleDelete(selectedItem)}
+                    disabled={isDeleting}
+                    type="button"
+                  >
+                    {isDeleting ? "Removing…" : "Remove"}
+                  </button>
+                )}
                 <button
                   className="gallery-lightbox__nav"
                   onClick={() => setSelectedIndex((selectedIndex - 1 + galleryItems.length) % galleryItems.length)}

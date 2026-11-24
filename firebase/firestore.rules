@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// Firestore rules for the HCF website + app (project "hcfprod").
+// Paste into Firebase console → Firestore Database → Rules.
+// If you already have rules there, MERGE: keep your existing blocks and add the
+// isGalleryAdmin() function and the /gallery block below.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // The only account allowed to add/remove gallery items.
+    function isGalleryAdmin() {
+      return signedIn() && request.auth.token.email == 'admin@hcfgreaterboston.com';
+    }
+
+    // Shared gallery: any signed-in member can view; only the admin can change it.
+    match /gallery/{itemId} {
+      allow read: if signedIn();
+      allow create: if isGalleryAdmin()
+        && request.resource.data.kind in ['image', 'video']
+        && request.resource.data.url is string
+        && request.resource.data.title is string
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.description is string
+        && request.resource.data.description.size() <= 2000;
+      allow update, delete: if isGalleryAdmin();
+    }
+
+    // Member profiles written by the website and the app at sign-up / sign-in.
+    // Each person can only read and write their own profile.
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+  }
+}
