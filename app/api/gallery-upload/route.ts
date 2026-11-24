@@ -49,7 +49,13 @@ async function requireAdmin(request: Request): Promise<string | NextResponse> {
   }
 }
 
-const blobReady = () => !!process.env.BLOB_READ_WRITE_TOKEN
+// Vercel names the key BLOB_READ_WRITE_TOKEN, or <PREFIX>_BLOB_READ_WRITE_TOKEN if the store was
+// connected with a custom prefix. Accept either.
+const blobToken = () =>
+  process.env.BLOB_READ_WRITE_TOKEN ||
+  Object.entries(process.env).find(([key, value]) => key.endsWith("BLOB_READ_WRITE_TOKEN") && value)?.[1] ||
+  ""
+const blobReady = () => !!blobToken()
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: corsHeaders })
@@ -58,7 +64,7 @@ export async function OPTIONS() {
 export async function POST(request: Request) {
   const admin = await requireAdmin(request)
   if (admin instanceof NextResponse) return admin
-  if (!blobReady()) return fail(500, "Photo storage isn't connected yet (Vercel → Storage → Blob).")
+  if (!blobReady()) return fail(500, "Photo storage isn't connected yet (Vercel → Storage → Blob, then redeploy).")
 
   let file: File | null = null
   try {
@@ -77,6 +83,7 @@ export async function POST(request: Request) {
       access: "public",
       contentType: file.type,
       addRandomSuffix: true,
+      token: blobToken(),
     })
     return NextResponse.json({ url: blob.url, pathname: blob.pathname }, { headers: corsHeaders })
   } catch (error) {
@@ -101,7 +108,7 @@ export async function DELETE(request: Request) {
   if (!host.endsWith(".blob.vercel-storage.com")) return fail(400, "Not a gallery photo.")
 
   try {
-    await del(String(url))
+    await del(String(url), { token: blobToken() })
     return NextResponse.json({ ok: true }, { headers: corsHeaders })
   } catch (error) {
     console.error("Gallery delete failed:", error)
