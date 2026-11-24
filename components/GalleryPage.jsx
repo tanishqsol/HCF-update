@@ -146,11 +146,11 @@ export default function GalleryPage({ onBack }) {
               }`}
               style={{ transitionDelay: `${index * 90}ms` }}
               onClick={() => setSelectedIndex(index)}
-              aria-label={`Open ${item.kind === "video" ? "video" : "photo"}: ${item.title || item.alt}`}
+              aria-label={`Open ${item.kind === "image" || !item.kind ? "photo" : "video"}: ${item.title || item.alt}`}
               type="button"
             >
               <GalleryImage item={item} className="gallery-card__image" priority={index < 2} />
-              {item.kind === "video" && (
+              {(item.kind === "video" || item.kind === "youtube") && (
                 <span className="gallery-card__play" aria-hidden="true">
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M8 5v14l11-7z" />
@@ -184,7 +184,16 @@ export default function GalleryPage({ onBack }) {
             </button>
 
             <div className="gallery-lightbox__media">
-              {selectedItem.kind === "video" ? (
+              {selectedItem.kind === "youtube" ? (
+                <iframe
+                  key={selectedItem.id}
+                  className="gallery-lightbox__video gallery-lightbox__video--youtube"
+                  src={`https://www.youtube-nocookie.com/embed/${selectedItem.youtubeId}?autoplay=1&rel=0`}
+                  title={selectedItem.title || "Fellowship video"}
+                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  allowFullScreen
+                />
+              ) : selectedItem.kind === "video" ? (
                 <video
                   key={selectedItem.id}
                   className="gallery-lightbox__video"

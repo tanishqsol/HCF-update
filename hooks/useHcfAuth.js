@@ -52,7 +52,7 @@ const firebaseConfig = {
 
 const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig)
 const auth = getAuth(firebaseApp)
-const db = getFirestore(firebaseApp)
+const db = getFirestore(firebaseApp, "hcflogins") // the project's only Firestore database
 
 const toTitleCase = (str = "") =>
   str

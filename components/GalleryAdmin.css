@@ -111,3 +111,10 @@
   cursor: pointer;
 }
 .gallery-lightbox__delete:disabled { opacity: 0.6; cursor: wait; }
+
+/* Photo / YouTube switch */
+.gallery-admin__modes { display: inline-flex; gap: 4px; margin-top: 14px; padding: 4px; border-radius: 999px; background: rgba(26, 54, 93, 0.08); }
+.dark-mode .gallery-admin__modes { background: rgba(255, 255, 255, 0.08); }
+.gallery-admin__modes button { font: inherit; font-weight: 700; border: 0; border-radius: 999px; padding: 8px 16px; background: transparent; color: inherit; cursor: pointer; }
+.gallery-admin__modes button.is-active { background: #ff9933; color: #fff; }
+.gallery-lightbox__video--youtube { aspect-ratio: 16 / 9; height: auto; border: 0; }
