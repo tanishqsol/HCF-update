@@ -65,7 +65,10 @@ export default function GalleryAdminPanel() {
       if (mode === "photo") await addGalleryPhoto(file, meta)
       else await addGalleryYouTube(link, meta)
       reset()
-      setStatus({ type: "success", text: "Added to the gallery. It's now live on the website and in the app." })
+      setStatus({
+        type: "success",
+        text: mode === "photo" ? "Added to the gallery. It's now live on the website and in the app." : "Added to Music Videos on the website and in the app.",
+      })
     } catch (error) {
       console.error("Gallery add failed:", error)
       setStatus({ type: "error", text: error?.message || "Something went wrong. Please try again." })
@@ -79,7 +82,7 @@ export default function GalleryAdminPanel() {
       <div className="gallery-admin__head">
         <span className="gallery-admin__badge">Admin</span>
         <h2 id="gallery-admin-title" className="gallery-admin__title">Add to the gallery</h2>
-        <p className="gallery-admin__hint">Photos and videos appear here and in the HCF app right away.</p>
+        <p className="gallery-admin__hint">Photos appear in this gallery; YouTube videos appear in Music Videos. Both show in the HCF app right away.</p>
         <div className="gallery-admin__modes" role="tablist" aria-label="What to add">
           <button type="button" role="tab" aria-selected={mode === "photo"} className={mode === "photo" ? "is-active" : ""} onClick={() => switchMode("photo")}>
             Photo
@@ -110,7 +113,7 @@ export default function GalleryAdminPanel() {
             ) : (
               <span className="gallery-admin__drop-text">
                 <strong>Paste a YouTube link</strong>
-                <span>Upload the video to the HCF YouTube channel first (Unlisted is fine).</span>
+                <span>Upload the video to the HCF YouTube channel first (Unlisted is fine). It will appear under Music Videos.</span>
               </span>
             )}
           </div>

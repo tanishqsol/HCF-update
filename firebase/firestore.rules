@@ -14,7 +14,7 @@ service cloud.firestore {
     // lib/galleryAdmins.js (website) and src/lib/config.ts (app).
     function isGalleryAdmin() {
       return signedIn() && request.auth.token.email in
-        ['admin@hcfofgreaterboston.com', 'tanishqsolanki7@gmail.com'];
+        ['tanishqsolanki7@gmail.com', 'sjatiani@gmail.com'];
     }
 
     // Shared gallery: any signed-in member can view; only admins can change it.

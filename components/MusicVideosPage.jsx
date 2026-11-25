@@ -1,7 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { deleteMusicVideo, useIsGalleryAdmin, useRemoteMusicVideos } from "@/lib/remoteGallery"
 import "./MusicVideosPage.css"
+import "./GalleryAdmin.css"
 
 export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMode }) {
   const normalizeTab = (tab) => (tab === "archives" ? "archives" : "music")
@@ -46,7 +48,20 @@ export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMo
       description: "2nd Service - 18 April, 2026",
     },
   ]
-  const activeVideos = activeTab === "music" ? videos : serviceArchives
+  // Music videos added by admins (from the app or the Gallery page) come first, live.
+  const addedVideos = useRemoteMusicVideos()
+  const isAdmin = useIsGalleryAdmin()
+  const activeVideos = activeTab === "music" ? [...addedVideos, ...videos] : serviceArchives
+
+  const removeVideo = async (video) => {
+    if (!window.confirm(`Remove "${video.title}" from Music Videos? (It stays on YouTube.)`)) return
+    try {
+      await deleteMusicVideo(video)
+    } catch (error) {
+      console.error("Remove failed:", error)
+      window.alert("Couldn't remove it. Please try again.")
+    }
+  }
 
   useEffect(() => {
     const urlTab =
@@ -92,7 +107,7 @@ export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMo
 
         <div className="music-videos-page__grid">
           {activeVideos.map((video, index) => (
-            <div key={`${activeTab}-${video.id}`} className="video-card" style={{ animationDelay: `${index * 0.2}s` }}>
+            <div key={`${activeTab}-${video.docId || video.id}`} className="video-card" style={{ animationDelay: `${index * 0.2}s` }}>
               <div className="video-card__embed">
                 {video.watchOnYoutube ? (
                   <a
@@ -118,6 +133,11 @@ export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMo
               <div className="video-card__content">
                 <h3 className="video-card__title">{video.title}</h3>
                 <p className="video-card__description">{video.description}</p>
+                {isAdmin && video.remote && (
+                  <button type="button" className="gallery-lightbox__delete" style={{ marginTop: 10 }} onClick={() => removeVideo(video)}>
+                    Remove
+                  </button>
+                )}
               </div>
             </div>
           ))}
