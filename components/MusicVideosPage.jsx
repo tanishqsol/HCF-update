@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { deleteMusicVideo, useIsGalleryAdmin, useRemoteMusicVideos } from "@/lib/remoteGallery"
+import VideoAdminPanel from "@/components/VideoAdminPanel"
+import { deleteAddedVideo, useIsGalleryAdmin, useRemoteVideos } from "@/lib/remoteGallery"
 import "./MusicVideosPage.css"
 import "./GalleryAdmin.css"
 
@@ -48,15 +49,16 @@ export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMo
       description: "2nd Service - 18 April, 2026",
     },
   ]
-  // Music videos added by admins (from the app or the Gallery page) come first, live.
-  const addedVideos = useRemoteMusicVideos()
+  // Videos added by admins (here or in the HCF app) come first in each tab, live.
+  const added = useRemoteVideos()
   const isAdmin = useIsGalleryAdmin()
-  const activeVideos = activeTab === "music" ? [...addedVideos, ...videos] : serviceArchives
+  const activeVideos = activeTab === "music" ? [...added.music, ...videos] : [...added.services, ...serviceArchives]
 
   const removeVideo = async (video) => {
-    if (!window.confirm(`Remove "${video.title}" from Music Videos? (It stays on YouTube.)`)) return
+    const tabName = activeTab === "music" ? "Music Videos" : "Our Services"
+    if (!window.confirm(`Remove "${video.title}" from ${tabName}? (It stays on YouTube.)`)) return
     try {
-      await deleteMusicVideo(video)
+      await deleteAddedVideo(video)
     } catch (error) {
       console.error("Remove failed:", error)
       window.alert("Couldn't remove it. Please try again.")
@@ -104,6 +106,8 @@ export default function MusicVideosPage({ onBack, initialTab = "music", isDarkMo
             </button>
           </div>
         </div>
+
+        {isAdmin && <VideoAdminPanel key={activeTab} section={activeTab === "music" ? "music" : "services"} />}
 
         <div className="music-videos-page__grid">
           {activeVideos.map((video, index) => (

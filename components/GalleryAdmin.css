@@ -118,3 +118,7 @@
 .gallery-admin__modes button { font: inherit; font-weight: 700; border: 0; border-radius: 999px; padding: 8px 16px; background: transparent; color: inherit; cursor: pointer; }
 .gallery-admin__modes button.is-active { background: #ff9933; color: #fff; }
 .gallery-lightbox__video--youtube { aspect-ratio: 16 / 9; height: auto; border: 0; }
+
+/* "Add YouTube link" button row on the Music Videos page */
+.video-admin__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin: 0 0 28px; }
+.video-admin__bar .gallery-admin__status { margin: 0; }

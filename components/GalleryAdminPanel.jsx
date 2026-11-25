@@ -2,50 +2,38 @@
 
 import { useRef, useState } from "react"
 
-import { addGalleryPhoto, addGalleryYouTube, parseYouTubeId } from "@/lib/remoteGallery"
+import { addGalleryPhoto } from "@/lib/remoteGallery"
 
 import "./GalleryAdmin.css"
 
 // Shown on the Gallery page only to the admin accounts in lib/galleryAdmins.js.
-// Photos go to Vercel Blob, videos are YouTube links. Both appear immediately here
-// and in the HCF mobile app.
+// Photos go to Vercel Blob and appear immediately here and in the HCF mobile app.
+// (YouTube videos are added on the Music Videos page instead.)
 export default function GalleryAdminPanel() {
   const inputRef = useRef(null)
-  const [mode, setMode] = useState("photo")
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState("")
-  const [link, setLink] = useState("")
   const [title, setTitle] = useState("")
   const [tag, setTag] = useState("")
   const [description, setDescription] = useState("")
   const [busy, setBusy] = useState(false)
   const [status, setStatus] = useState(null)
 
-  const youtubeId = mode === "video" ? parseYouTubeId(link) : null
-
   const reset = () => {
     if (preview) URL.revokeObjectURL(preview)
     setFile(null)
     setPreview("")
-    setLink("")
     setTitle("")
     setTag("")
     setDescription("")
     if (inputRef.current) inputRef.current.value = ""
   }
 
-  const switchMode = (next) => {
-    if (busy) return
-    reset()
-    setStatus(null)
-    setMode(next)
-  }
-
   const onPick = (event) => {
     const next = event.target.files?.[0]
     if (!next) return
     if (!next.type.startsWith("image/")) {
-      setStatus({ type: "error", text: "Please choose a photo. For videos, use the YouTube video option." })
+      setStatus({ type: "error", text: "Please choose a photo. YouTube videos are added on the Music Videos page." })
       return
     }
     if (preview) URL.revokeObjectURL(preview)
@@ -57,18 +45,12 @@ export default function GalleryAdminPanel() {
   const onSubmit = async (event) => {
     event.preventDefault()
     setStatus(null)
-    if (mode === "photo" && !file) return setStatus({ type: "error", text: "Choose a photo first." })
-    if (mode === "video" && !youtubeId) return setStatus({ type: "error", text: "Paste a YouTube link first." })
+    if (!file) return setStatus({ type: "error", text: "Choose a photo first." })
     setBusy(true)
     try {
-      const meta = { title, description, tag }
-      if (mode === "photo") await addGalleryPhoto(file, meta)
-      else await addGalleryYouTube(link, meta)
+      await addGalleryPhoto(file, { title, description, tag })
       reset()
-      setStatus({
-        type: "success",
-        text: mode === "photo" ? "Added to the gallery. It's now live on the website and in the app." : "Added to Music Videos on the website and in the app.",
-      })
+      setStatus({ type: "success", text: "Added to the gallery. It's now live on the website and in the app." })
     } catch (error) {
       console.error("Gallery add failed:", error)
       setStatus({ type: "error", text: error?.message || "Something went wrong. Please try again." })
@@ -81,51 +63,24 @@ export default function GalleryAdminPanel() {
     <section className="gallery-admin" aria-labelledby="gallery-admin-title">
       <div className="gallery-admin__head">
         <span className="gallery-admin__badge">Admin</span>
-        <h2 id="gallery-admin-title" className="gallery-admin__title">Add to the gallery</h2>
-        <p className="gallery-admin__hint">Photos appear in this gallery; YouTube videos appear in Music Videos. Both show in the HCF app right away.</p>
-        <div className="gallery-admin__modes" role="tablist" aria-label="What to add">
-          <button type="button" role="tab" aria-selected={mode === "photo"} className={mode === "photo" ? "is-active" : ""} onClick={() => switchMode("photo")}>
-            Photo
-          </button>
-          <button type="button" role="tab" aria-selected={mode === "video"} className={mode === "video" ? "is-active" : ""} onClick={() => switchMode("video")}>
-            YouTube video
-          </button>
-        </div>
+        <h2 id="gallery-admin-title" className="gallery-admin__title">Add a photo</h2>
+        <p className="gallery-admin__hint">Photos appear here and in the HCF app right away. To add YouTube videos, use the Music Videos page.</p>
       </div>
 
       <form className="gallery-admin__form" onSubmit={onSubmit}>
-        {mode === "photo" ? (
-          <label className={`gallery-admin__drop ${preview ? "gallery-admin__drop--filled" : ""}`}>
-            <input ref={inputRef} type="file" accept="image/*" onChange={onPick} disabled={busy} />
-            {preview ? (
-              <img src={preview} alt="Selected photo preview" className="gallery-admin__preview" />
-            ) : (
-              <span className="gallery-admin__drop-text">
-                <strong>Choose a photo</strong>
-                <span>JPG, PNG or WebP · resized automatically</span>
-              </span>
-            )}
-          </label>
-        ) : (
-          <div className={`gallery-admin__drop ${youtubeId ? "gallery-admin__drop--filled" : ""}`}>
-            {youtubeId ? (
-              <img src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`} alt="YouTube video preview" className="gallery-admin__preview" />
-            ) : (
-              <span className="gallery-admin__drop-text">
-                <strong>Paste a YouTube link</strong>
-                <span>Upload the video to the HCF YouTube channel first (Unlisted is fine). It will appear under Music Videos.</span>
-              </span>
-            )}
-          </div>
-        )}
+        <label className={`gallery-admin__drop ${preview ? "gallery-admin__drop--filled" : ""}`}>
+          <input ref={inputRef} type="file" accept="image/*" onChange={onPick} disabled={busy} />
+          {preview ? (
+            <img src={preview} alt="Selected photo preview" className="gallery-admin__preview" />
+          ) : (
+            <span className="gallery-admin__drop-text">
+              <strong>Choose a photo</strong>
+              <span>JPG, PNG or WebP · high quality, resized automatically</span>
+            </span>
+          )}
+        </label>
 
         <div className="gallery-admin__fields">
-          {mode === "video" && (
-            <label className="gallery-admin__field gallery-admin__field--wide">
-              <span>YouTube link</span>
-              <input value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://youtu.be/…" disabled={busy} inputMode="url" />
-            </label>
-          )}
           <label className="gallery-admin__field">
             <span>Title (optional)</span>
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Christmas Fellowship 2026" disabled={busy} />
@@ -142,13 +97,13 @@ export default function GalleryAdminPanel() {
           {status && <p className={`gallery-admin__status gallery-admin__status--${status.type}`}>{status.text}</p>}
 
           <div className="gallery-admin__actions">
-            {(file || link) && !busy && (
+            {file && !busy && (
               <button type="button" className="gallery-admin__ghost" onClick={reset}>
                 Clear
               </button>
             )}
-            <button type="submit" className="gallery-admin__submit" disabled={busy || (mode === "photo" ? !file : !youtubeId)}>
-              {busy ? "Adding…" : "Add to gallery"}
+            <button type="submit" className="gallery-admin__submit" disabled={busy || !file}>
+              {busy ? "Uploading…" : "Add to gallery"}
             </button>
           </div>
         </div>
